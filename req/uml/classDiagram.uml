@@ -1,0 +1,26 @@
+@startuml
+
+class SailingClub {
+  String Name
+  String shortName
+}
+
+class Skipper {
+  String firstName
+  String lastName
+  Date borthDate
+  enum Sex
+  SailingClub club  
+}
+
+class Regatta {
+   flightNumber : Integer
+   departureTime : Date
+}
+
+class Race {
+
+
+}
+
+@enduml
