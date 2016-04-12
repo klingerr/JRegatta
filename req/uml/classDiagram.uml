@@ -10,17 +10,36 @@ class Skipper {
   String lastName
   Date borthDate
   enum Sex
-  SailingClub club  
+  SailingClub club
+  Result[] results  
+  boolean catering
 }
 
 class Regatta {
-   flightNumber : Integer
-   departureTime : Date
+   String name
+   Date start
+   Date end
+   Race[] races
+   int penaltyPoints
 }
 
 class Race {
-
-
+  int number
+  Date start
+  Date end
 }
+
+class Result {
+  Race race
+  Skipper skipper
+  Placement placement
+}
+
+Skipper "*"-up-"1" SailingClub : hat Mitglieder
+Skipper "1"-left-"*" Regatta : meldet \n Teilnahme
+Skipper "*"--"1" Result : belegt
+Race "*"-"1" Result : hat
+Regatta "1" -- "1..N" Race : besteht aus
+
 
 @enduml
