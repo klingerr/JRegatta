@@ -1,7 +1,11 @@
 var jregattaServices = angular.module('jregattaServices', [ 'ngResource' ]);
 
-jregattaServices.factory('Regatta', function($resource) {
-	return $resource('/regattas/:regattaId', {
-		regatta : "@regatta"
+jregattaServices.factory('RegattaService', function($resource) {
+	return $resource('/regattas/:id', {
+		id : '@_id'
+	}, {
+		update : {
+			method : 'PUT'
+		}
 	});
 });

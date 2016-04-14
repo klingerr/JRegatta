@@ -1,6 +1,6 @@
 var jregattaControllers = angular.module('jregattaControllers', []);
 
-jregattaControllers.controller('RegattaListController', [ '$scope', 'Regatta', function($scope, Regatta) {
+jregattaControllers.controller('RegattaListController', [ '$scope', 'RegattaService', function($scope, RegattaService) {
 	$scope.gridOptions = {
 		enableFiltering : false,
 		enableCellEditOnFocus : true,
@@ -29,7 +29,22 @@ jregattaControllers.controller('RegattaListController', [ '$scope', 'Regatta', f
 		type : 'number'
 	} ];
 
-	// $scope.gridOptions.enableCellEditOnFocus = true;
 	$scope.gridOptions.data = 'regattas';
-	$scope.regattas = Regatta.query();
+	$scope.regattas = RegattaService.query();
+	
+	$scope.msg = {}; // Message Area for Debug Info
+	
+	$scope.gridOptions.onRegisterApi = function(gridApi) {
+		$scope.gridApi = gridApi;
+		gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
+			$scope.msg.lastCellEdited = 'Edited (#'
+					+ rowEntity.id + '), Column: ('
+					+ colDef.name + ') New Value: ('
+					+ newValue + ') Old Value: ('
+					+ oldValue + ")";
+			RegattaService.update({id : rowEntity.id}, rowEntity);
+			$scope.$apply();
+		});
+	};
+    
 } ]);
