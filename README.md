@@ -26,3 +26,11 @@ mvn package
 
 ### Frontend
 * AngularJS
+
+### Todos
+#### Frontend
+* Toastr for user feedback
+* using Angular Material as ui style
+
+#### All
+* create missing domain objects and repositories: sailingClub, skipper, race, result 

@@ -1,18 +1,30 @@
-"use strict";
+// "use strict";
 
-var jregatta = angular.module('jregatta', [ 'jregattaControllers',
-		'jregattaServices', 'ngResource', 'ngRoute', 'ui.bootstrap', 'ui.grid',
-		'ui.grid.selection', 'ui.grid.edit', 'ui.grid.cellNav',
-		'ui.grid.resizeColumns', 'ngToast' ]);
+angular.module('jregatta', [
+    // custom app modules
+//    'RegattaController',
+//    'RegattaService',
+    // rest services
+    'ngResource',
+    // app routing
+    'ngRoute',
+    // layout
+    'ui.bootstrap',
+    // table widget and its options
+    'ui.grid', 'ui.grid.selection', 'ui.grid.edit', 'ui.grid.cellNav',
+    'ui.grid.resizeColumns',
+    // user feedback
+    'ngToast'
+]);
 
-jregatta.config([ '$routeProvider', function($routeProvider) {
-	$routeProvider.when('/regattas', {
-		templateUrl : 'index.html',
-		controller : 'RegattaListController'
-	}).when('/regattas/:regattaId', {
-		templateUrl : 'index.html',
-		controller : 'RegattaDetailController'
-	}).otherwise({
-		redirectTo : '/regattas'
-	});
-} ]);
+angular
+    .module('jregatta')
+    .config(['$routeProvider',
+        function ($routeProvider) {
+            $routeProvider.when('/regattas', {
+                templateUrl: 'index.html',
+                controller: 'RegattaController'
+            }).otherwise({
+                redirectTo: '/regattas'
+            });
+        }]);
