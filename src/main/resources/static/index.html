@@ -1,9 +1,10 @@
-<html ng-app="jregatta">
+<html>
 <head>
 <meta charset="utf8" />
 <base href="/" />
 <title>JRegatta</title>
-<link rel="icon" type="image/png" href="img/adw.png" sizes="32x32">
+<!-- <link rel="icon" type="image/png" href="img/adw.png" sizes="32x32"> -->
+<link rel="shortcut icon" href="img/favicon.ico">
 
 <!-- spring boot changes properties notation from ${} to @@
      see: http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#using-boot-maven -->
@@ -11,6 +12,10 @@
 	href="webjars/bootstrap/@bootstrap.version@/css/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="webjars/ui-grid/@ui-grid.version@/ui-grid.min.css" />
+<!-- <link rel="stylesheet"
+	href="webjars/angular-toastr/@angular-toastr.version@/angular-toastr.min.css" /> -->
+<link rel="stylesheet"
+	href="webjars/ngtoast/@ngtoast.version@/dist/ngToast.min.css" />
 <link rel="stylesheet" href="css/jregatta.css" />
 
 <script type="text/javascript"
@@ -20,16 +25,26 @@
 <script type="text/javascript"
 	src="webjars/angularjs/@angularjs.version@/angular-resource.min.js"></script>
 <script type="text/javascript"
+	src="webjars/angularjs/@angularjs.version@/angular-animate.min.js"></script>
+<script type="text/javascript"
+	src="webjars/angularjs/@angularjs.version@/angular-sanitize.min.js"></script>
+<script type="text/javascript"
 	src="webjars/ui-grid/@ui-grid.version@/ui-grid.js"></script>
 <script type="text/javascript"
 	src="webjars/angular-ui-bootstrap/@angular.ui.bootstrap.version@/ui-bootstrap-tpls.js"></script>
+<!-- <script type="text/javascript"
+	src="webjars/angular-toastr/@angular-toastr.version@/angular-toastr.tpls.min.js"></script> -->
+<script type="text/javascript"
+	src="webjars/ngtoast/@ngtoast.version@/dist/ngToast.min.js"></script>
 <script type="text/javascript" src="app/jregatta.js"></script>
 <script type="text/javascript" src="app/jregattaControllers.js"></script>
 <script type="text/javascript" src="app/jregattaServices.js"></script>
 
 </head>
 
-<body>
+<body  ng-app="jregatta" ng-controller="RegattaListController">
+ <toast></toast>
+
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -43,10 +58,15 @@
 		</div>
 	</nav>
 
-	<div ng-controller="RegattaListController">
+
+	<button ng-click="newRegatta()" class="btn btn-primary">
+		<span class="glyphicon glyphicon-plus"></span> Regatta hinzufügen
+	</button>
+
+	<!-- <div ng-controller="RegattaListController"> -->
 		<div id="grid1" ui-grid="gridOptions" external-scopes="clickHandler"
 			class="grid" ui-grid-edit ui-grid-selection ui-grid-cellnav
 			ui-grid-resize-columns ui-grid-move-columns>
-		</div>
+			<!-- </div> -->
 </body>
 </html>

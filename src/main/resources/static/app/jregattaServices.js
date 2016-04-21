@@ -1,3 +1,5 @@
+"use strict";
+
 var jregattaServices = angular.module('jregattaServices', [ 'ngResource' ]);
 
 jregattaServices.factory('RegattaService', function($resource) {

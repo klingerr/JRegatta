@@ -1,7 +1,9 @@
+"use strict";
+
 var jregatta = angular.module('jregatta', [ 'jregattaControllers',
 		'jregattaServices', 'ngResource', 'ngRoute', 'ui.bootstrap', 'ui.grid',
 		'ui.grid.selection', 'ui.grid.edit', 'ui.grid.cellNav',
-		'ui.grid.resizeColumns' ]);
+		'ui.grid.resizeColumns', 'ngToast' ]);
 
 jregatta.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/regattas', {

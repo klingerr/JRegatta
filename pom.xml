@@ -23,6 +23,8 @@
 		<angular.ui.bootstrap.version>1.2.5</angular.ui.bootstrap.version>
 		<!-- <angular-ui-router.version>0.2.18</angular-ui-router.version> -->
 		<ui-grid.version>3.1.1</ui-grid.version>
+		<!-- <angular-toastr.version>1.5.0</angular-toastr.version> -->
+		<ngtoast.version>1.5.6</ngtoast.version>
 		<skip.export.sql>true</skip.export.sql>
 	</properties>
 
@@ -82,13 +84,24 @@
 			<version>${angular.ui.bootstrap.version}</version>
 		</dependency>
 
-<!-- <dependency> <groupId>org.webjars</groupId> <artifactId>angular-ui-router</artifactId> 
+		<!-- <dependency> <groupId>org.webjars</groupId> <artifactId>angular-ui-router</artifactId> 
 			<version>${angular-ui-router.version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>ui-grid</artifactId>
 			<version>${ui-grid.version}</version>
 		</dependency>
+<!-- 		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>angular-toastr</artifactId>
+			<version>${angular-toastr.version}</version>
+		</dependency>
+ -->		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>ngtoast</artifactId>
+			<version>${ngtoast.version}</version>
+		</dependency>
+
 
 	</dependencies>
 
