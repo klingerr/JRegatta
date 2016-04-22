@@ -3,19 +3,17 @@
         <meta charset="utf-8" />
         <base href="/" />
         <title>JRegatta</title>
-        <!-- <link rel="icon" type="image/png" href="img/adw.png" sizes="32x32"> -->
-        <link rel="shortcut icon" href="img/favicon.ico">
+        <link rel="icon" type="image/png" href="img/adw.png" sizes="32x32">
+        <!--        <link rel="shortcut icon" href="img/favicon.ico">-->
 
         <!-- spring boot changes properties notation from ${} to @@
              see: http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#using-boot-maven -->
         <link rel="stylesheet"
               href="webjars/bootstrap/@bootstrap.version@/css/bootstrap.min.css" />
         <link rel="stylesheet"
-              href="webjars/ui-grid/@ui-grid.version@/ui-grid.min.css" />
-        <!-- <link rel="stylesheet"
-                href="webjars/angular-toastr/@angular-toastr.version@/angular-toastr.min.css" /> -->
+              href="webjars/angular-material/@angular-material.version@/angular-material.min.css" />
         <link rel="stylesheet"
-              href="webjars/ngtoast/@ngtoast.version@/dist/ngToast.min.css" />
+              href="webjars/ui-grid/@ui-grid.version@/ui-grid.min.css" />
         <link rel="stylesheet" href="css/jregatta.css" />
 
         <script type="text/javascript"
@@ -29,23 +27,40 @@
         <script type="text/javascript"
         src="webjars/angularjs/@angularjs.version@/angular-sanitize.min.js"></script>
         <script type="text/javascript"
+        src="webjars/angularjs/@angularjs.version@/angular-aria.min.js"></script>
+        <script type="text/javascript"
+        src="webjars/angular-material/@angular-material.version@/angular-material.js"></script>
+        <script type="text/javascript"
         src="webjars/ui-grid/@ui-grid.version@/ui-grid.js"></script>
-        <script type="text/javascript"
-        src="webjars/angular-ui-bootstrap/@angular.ui.bootstrap.version@/ui-bootstrap-tpls.js"></script>
-        <!-- <script type="text/javascript"
-                src="webjars/angular-toastr/@angular-toastr.version@/angular-toastr.tpls.min.js"></script> -->
-        <script type="text/javascript"
-        src="webjars/ngtoast/@ngtoast.version@/dist/ngToast.min.js"></script>
+        <!--        <script type="text/javascript"
+                src="webjars/angular-ui-bootstrap/@angular.ui.bootstrap.version@/ui-bootstrap-tpls.js"></script>-->
         <script type="text/javascript" src="app/jregatta.js"></script>
         <script type="text/javascript" src="app/RegattaController.js"></script>
         <script type="text/javascript" src="app/RegattaService.js"></script>
 
     </head>
 
-    <body  ng-app="jregatta" ng-controller="RegattaController">
-    <toast></toast>
+    <body  ng-app="jregatta" ng-controller="RegattaController" layout="column">
 
-    <nav class="navbar navbar-default" role="navigation">
+        <!-- Container #1 (see wireframe) -->
+    <md-toolbar layout="row" >
+        <h2>Angular Material - Starter App v@version@</h2>
+    </md-toolbar>
+
+    <!-- BREADCRUMB -->
+    <div ng-controller="BreadcrumbsController">
+        <ol class="breadcrumb" ng-show="route.current.breadcrumbs">
+            <li 
+                ng-class="{active: $last}" 
+                ng-repeat="breadcrumb in route.current.breadcrumbs">
+                <a href="{{breadcrumb.href}}">
+                    {{breadcrumb.label}}
+                </a>
+            </li>
+        </ol>
+    </div>
+
+        <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" ui-sref="regattas">JRegatta</a>
@@ -59,14 +74,33 @@
     </nav>
 
 
-    <button ng-click="newRegatta()" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus"></span> Regatta hinzufügen
-    </button>
+<!--    <md-button ng-click="showSuccessToast('Show Simple')">
+        Show Simple
+    </md-button>-->
 
-    <!-- <div ng-controller="RegattaListController"> -->
-    <div id="grid1" ui-grid="gridOptions" external-scopes="clickHandler"
-         class="grid" ui-grid-edit ui-grid-selection ui-grid-cellnav
-         ui-grid-resize-columns ui-grid-move-columns>
-        <!-- </div> -->
-    </body>
+<!-- Container #2 -->
+    <div flex layout="row">
+
+        <!-- Container #3 -->
+        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
+            <md-button ng-click="newRegatta()" class="md-raised md-primary">
+                <md-icon md-font-icon="android" aria-label="android"></md-icon>
+                Regatta hinzufügen</md-button>
+        </md-sidenav>
+
+        <!-- Container #4 -->
+        <md-content flex id="content">
+            <span flex></span>
+            <md-switch ng-model="data.cb6" class="md-primary" md-no-ink aria-label="Switch 6" ng-change="showMoreColumns()">
+                Alle Spalten anzeigen
+            </md-switch>
+            
+            <div id="grid1" ui-grid="gridOptions" external-scopes="clickHandler"
+                 class="grid" ui-grid-edit ui-grid-selection ui-grid-cellnav
+                 ui-grid-resize-columns ui-grid-move-columns ></div>
+        </md-content>
+
+    </div>
+
+</body>
 </html>

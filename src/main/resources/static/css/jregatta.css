@@ -1,11 +1,20 @@
+md-toast.md-success-toast-theme .md-toast-content {
+    background-color: green;
+}
+
+md-toast.md-error-toast-theme .md-toast-content {
+    background-color: red;
+}
+
+
 .ui-grid-header {
-	height: 25px;
-	max-height: 25px;
+    height: 25px;
+    max-height: 25px;
 }
 
 .grid {
-  width: 500px;
-  height: 250px;
+  width: 90%;
+  height: 90%;
 }
 
 .ui-grid-cell-contents{

@@ -1,30 +1,46 @@
-// "use strict";
+"use strict";
 
 angular.module('jregatta', [
-    // custom app modules
-//    'RegattaController',
-//    'RegattaService',
     // rest services
     'ngResource',
     // app routing
     'ngRoute',
     // layout
-    'ui.bootstrap',
+    'ngMaterial',
+//    'ui.bootstrap',
     // table widget and its options
     'ui.grid', 'ui.grid.selection', 'ui.grid.edit', 'ui.grid.cellNav',
     'ui.grid.resizeColumns',
-    // user feedback
-    'ngToast'
 ]);
 
 angular
     .module('jregatta')
-    .config(['$routeProvider',
-        function ($routeProvider) {
+    .config(function ($mdThemingProvider) {
+//        $mdThemingProvider.theme('default')
+//            .primaryPalette('green')
+//            .accentPalette('orange');
+        $mdThemingProvider.theme("success-toast");
+        $mdThemingProvider.theme("error-toast");
+    })
+    .config(['$routeProvider', function ($routeProvider) {
             $routeProvider.when('/regattas', {
                 templateUrl: 'index.html',
-                controller: 'RegattaController'
+                controller: 'RegattaController',
+                breadcrumbs : [ home, page1 ]
             }).otherwise({
                 redirectTo: '/regattas'
             });
         }]);
+
+// static breadcrumb definition - routeProvider and constants have to be matching
+const home = { href : '#/', label : 'Home' };
+const page1 = { href : '#/page1', label : 'Page 1' };
+
+angular
+    .module('jregatta')
+    .controller('BreadcrumbsController', BreadcrumbsController);
+
+function BreadcrumbsController($scope, $route) {
+  $scope.route = $route;
+}
+

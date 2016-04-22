@@ -25,12 +25,19 @@ mvn package
   * Location des erzeugten create-Skriptes: "src/main/resources/db/migration/V0.0.1__create.sql"
 
 ### Frontend
-* AngularJS
+* AngularJS with:
+  * http://ui-grid.info/
+  * https://damienfremont.com/2015/11/05/javaee-angularjs-bootstrap-how-to-breadcrumb-and-navbar/
 
 ### Todos
 #### Frontend
-* Toastr for user feedback
-* using Angular Material as ui style
+ok * using Angular Material as ui style
+ok * Toastr (Angular Toast) for user feedback
+ok * menu bar / breadcrumb
+ok * hide of columns per ckeckbox / switch
+* print layout
+* CVS export of table content
+* autocomplete within grid
 
 #### All
 * create missing domain objects and repositories: sailingClub, skipper, race, result 
