@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>1.7</java.version>
         <start-class>de.klinger.adw.JRegatta</start-class>
         <h2db.version>1.4.183</h2db.version>
         <jquery.version>2.1.1</jquery.version>

@@ -44,7 +44,7 @@
 
         <!-- Container #1 (see wireframe) -->
     <md-toolbar layout="row" >
-        <h2>Angular Material - Starter App v@version@</h2>
+        <h2>JRegatta <sub>v@version@</sub></h2>
     </md-toolbar>
 
     <!-- BREADCRUMB -->
@@ -60,46 +60,21 @@
         </ol>
     </div>
 
-        <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" ui-sref="regattas">JRegatta</a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a ui-sref="regattas">Regatten</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Container #2 -->
+    <div flex layout="row" style="position:relative;">
+        <div id="grid1" ui-grid="gridOptions" external-scopes="clickHandler"
+             class="grid" ui-grid-edit ui-grid-selection ui-grid-cellnav
+             ui-grid-resize-columns ui-grid-move-columns></div>
+    </div>
 
-
-<!--    <md-button ng-click="showSuccessToast('Show Simple')">
-        Show Simple
-    </md-button>-->
-
-<!-- Container #2 -->
-    <div flex layout="row">
-
-        <!-- Container #3 -->
-        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
-            <md-button ng-click="newRegatta()" class="md-raised md-primary">
-                <md-icon md-font-icon="android" aria-label="android"></md-icon>
-                Regatta hinzufügen</md-button>
-        </md-sidenav>
-
-        <!-- Container #4 -->
-        <md-content flex id="content">
-            <span flex></span>
-            <md-switch ng-model="data.cb6" class="md-primary" md-no-ink aria-label="Switch 6" ng-change="showMoreColumns()">
-                Alle Spalten anzeigen
-            </md-switch>
-            
-            <div id="grid1" ui-grid="gridOptions" external-scopes="clickHandler"
-                 class="grid" ui-grid-edit ui-grid-selection ui-grid-cellnav
-                 ui-grid-resize-columns ui-grid-move-columns ></div>
-        </md-content>
-
+    <div layout="row" layout-align="center center">
+        <md-button ng-click="newRegatta()" class="md-raised md-primary">
+            <md-icon md-font-icon="android" aria-label="android"></md-icon>
+            Regatta hinzufügen</md-button>
+        <span flex></span>
+        <md-switch ng-model="data.cb6" class="md-primary" md-no-ink aria-label="Switch 6" ng-change="showMoreColumns()">
+            Alle Spalten anzeigen
+        </md-switch>
     </div>
 
 </body>
