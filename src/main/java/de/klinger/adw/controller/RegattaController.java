@@ -48,7 +48,6 @@ public class RegattaController {
 	    update.setEndDate(regatta.getEndDate());
 	    update.setFinished(regatta.isFinished());
 	    update.setBuoyages(regatta.getBuoyages());
-	    update.setSkippers(regatta.getSkippers());
 	    return regattaService.save(update);
 	  }
 	

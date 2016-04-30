@@ -5,6 +5,7 @@
 
 body {
     font-family: Schoolbell;
+    line-height: 1.1;
     color: #087B00;
     font-size: 45px;	
     width: 100%;
@@ -20,12 +21,12 @@ body {
         height: 100px;
         background-color: yellow; */
     /* Rotate div */
-    -ms-transform: rotate(-11deg); /* IE 9 */
-    -webkit-transform: rotate(-11deg); /* Chrome, Safari, Opera */
-    transform: rotate(-11deg);
+    -ms-transform: rotate(-5deg); /* IE 9 */
+    -webkit-transform: rotate(-5deg); /* Chrome, Safari, Opera */
+    transform: rotate(-5deg);
     position: absolute;
-    margin-top: 130px;
-    margin-left: 405px;
+    margin-top: 650px;
+    margin-left: 395px;
 }
 
 .center {

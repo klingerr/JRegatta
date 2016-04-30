@@ -4,7 +4,7 @@
 
     <groupId>de.klinger.adw</groupId>
     <artifactId>jregatta</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <description>Auswertungssoftware fuer die jaehrliche Kruemelregatta des AdW</description>
 
     <parent>

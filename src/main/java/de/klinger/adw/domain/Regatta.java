@@ -2,18 +2,19 @@ package de.klinger.adw.domain;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Regatta {
     
-//	public Regatta() {}
-	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "decimal(13,0)")
@@ -31,7 +32,13 @@ public class Regatta {
     @Column(name="end_date")
     private Date endDate;
     private int buoyages;
-    private int skippers;
+    
+//    @OneToMany(mappedBy="regatta", fetch=FetchType.LAZY)
+//    private List<Skipper> skippers;
+
+//    @OneToMany(mappedBy="regatta", fetch = FetchType.LAZY)
+//    private List<Race> races;
+
     private boolean finished;
     
 	public BigInteger getId() {
@@ -70,17 +77,23 @@ public class Regatta {
 	public void setBuoyages(int buoyages) {
 		this.buoyages = buoyages;
 	}
-	public int getSkippers() {
-		return skippers;
-	}
-	public void setSkippers(int skippers) {
-		this.skippers = skippers;
-	}
 	public boolean isFinished() {
 		return finished;
 	}
 	public void setFinished(boolean finished) {
 		this.finished = finished;
 	}
+//	public List<Skipper> getSkippers() {
+//		return skippers;
+//	}
+//	public void setSkippers(List<Skipper> skippers) {
+//		this.skippers = skippers;
+//	}
+//	public List<Race> getRaces() {
+//		return races;
+//	}
+//	public void setRaces(List<Race> races) {
+//		this.races = races;
+//	}
     
 }
