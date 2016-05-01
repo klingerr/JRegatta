@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,12 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-//@JsonAutoDetect
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Skipper {
     
     @Id
@@ -35,8 +34,11 @@ public class Skipper {
     private Date birthDate;
     
     @Column(name="age_group")
-    private String ageGroup;
-    private String sex;
+    @Enumerated(EnumType.STRING)
+    private AgeGroup ageGroup;
+
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
     
     @Column(name="sail_number")
     private String sailNumber;
@@ -104,16 +106,16 @@ public class Skipper {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public String getAgeGroup() {
+	public AgeGroup getAgeGroup() {
 		return ageGroup;
 	}
-	public void setAgeGroup(String ageGroup) {
+	public void setAgeGroup(AgeGroup ageGroup) {
 		this.ageGroup = ageGroup;
 	}
-	public String getSex() {
+	public Sex getSex() {
 		return sex;
 	}
-	public void setSex(String sex) {
+	public void setSex(Sex sex) {
 		this.sex = sex;
 	}
 	public String getSailNumber() {

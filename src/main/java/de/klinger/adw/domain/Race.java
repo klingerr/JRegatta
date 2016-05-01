@@ -10,7 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"regatta_id", "number"}))
 @Entity
 public class Race {
     
@@ -19,7 +22,7 @@ public class Race {
     @Column(columnDefinition = "decimal(13,0)")
     private BigInteger id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private int number;
 
     @Column(name="start_time")
@@ -28,7 +31,7 @@ public class Race {
     @Column(name="end_time")
     private String endTime;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="regatta_id")
     private Regatta regatta;
 

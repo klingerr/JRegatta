@@ -37,18 +37,27 @@
         <script type="text/javascript" src="app/jregatta.js"></script>
         <script type="text/javascript" src="app/RegattaController.js"></script>
         <script type="text/javascript" src="app/RegattaService.js"></script>
+        <script type="text/javascript" src="app/SkipperController.js"></script>
+        <script type="text/javascript" src="app/SkipperService.js"></script>
+        <script type="text/javascript" src="app/ClubController.js"></script>
+        <script type="text/javascript" src="app/ClubService.js"></script>
+        <script type="text/javascript" src="app/RaceController.js"></script>
+        <script type="text/javascript" src="app/RaceService.js"></script>
+        <script type="text/javascript" src="app/ResultController.js"></script>
+        <script type="text/javascript" src="app/ResultService.js"></script>
+        <script type="text/javascript" src="app/CertificateController.js"></script>
 
     </head>
 
-    <body  ng-app="jregatta" ng-controller="RegattaController" layout="column">
+    <body ng-app="jregatta" layout="column">
 
         <!-- Container #1 (see wireframe) -->
-    <md-toolbar layout="row" >
-        <h2>JRegatta <sub>v@version@</sub></h2>
+    <md-toolbar layout="row" class="no-print">
+        <img src="img/adw-logo.png" height="50" width="50"style="margin:5px"/> <h2> JRegatta <sub>v@version@</sub></h2>
     </md-toolbar>
 
     <!-- BREADCRUMB -->
-    <div ng-controller="BreadcrumbsController">
+    <div ng-controller="BreadcrumbsController" class="no-print">
         <ol class="breadcrumb" ng-show="route.current.breadcrumbs">
             <li 
                 ng-class="{active: $last}" 
@@ -60,22 +69,8 @@
         </ol>
     </div>
 
-    <!-- Container #2 -->
-    <div flex layout="row" style="position:relative;">
-        <div id="grid1" ui-grid="gridOptions" external-scopes="clickHandler"
-             class="grid" ui-grid-edit ui-grid-selection ui-grid-cellnav
-             ui-grid-resize-columns ui-grid-move-columns></div>
-    </div>
-
-    <div layout="row" layout-align="center center">
-        <md-button ng-click="newRegatta()" class="md-raised md-primary">
-            <md-icon md-font-icon="android" aria-label="android"></md-icon>
-            Regatta hinzufügen</md-button>
-        <span flex></span>
-        <md-switch ng-model="data.cb6" class="md-primary" md-no-ink aria-label="Switch 6" ng-change="showMoreColumns()">
-            Alle Spalten anzeigen
-        </md-switch>
-    </div>
+	<!-- dynamic content -->
+	<div ng-view></div>
 
 </body>
 </html>

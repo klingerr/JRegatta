@@ -23,11 +23,11 @@ public class Result {
     private String placement;
     private int points;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="skipper_id")
     private Skipper skipper;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="race_id")
     private Race race;
 

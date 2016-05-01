@@ -1,3 +1,99 @@
+/* exlcude div from print - use class="no-print" */
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
+/* certificate configuration */
+@font-face {
+    font-family: Schoolbell;
+    src: url("../font/Schoolbell.ttf")  format('truetype');
+}
+
+.rotate {
+    -ms-transform: rotate(-5deg); /* IE 9 */
+    -webkit-transform: rotate(-5deg); /* Chrome, Safari, Opera */
+    transform: rotate(-5deg);
+    position: absolute;
+    margin-top: 650px;
+    margin-left: 395px;
+}
+
+.center {
+    text-align: center;
+    margin-left: auto;
+    margin-top: 280px;
+    position: block;
+}
+
+
+/**************** A4 - Print *****************/
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.page {
+    font-family: Schoolbell;
+    line-height: 1.1;
+    color: #087B00;
+    font-size: 45px;	
+	width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 10mm auto;
+    border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    /*background: white;*/
+    background-image: url("../img/Urkunde2016-a4.jpg");
+    background-size: 790px 1111px;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.subpage {
+    padding: 1cm;
+    /*border: 5px red solid;*/
+    height: 257mm;
+    /*outline: 2cm #FFEAEA solid;*/
+}
+
+@page {
+    size: A4;
+    margin: 0;
+}
+
+
+@media print {
+   * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+   }
+	
+	html, body {
+        width: 210mm;
+        height: 297mm;        
+    }
+
+    .page {
+    	color: #087B00;
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+}
+
+
+/* toast colors */
 md-toast.md-success-toast-theme .md-toast-content {
     background-color: green;
 }
@@ -7,6 +103,7 @@ md-toast.md-error-toast-theme .md-toast-content {
 }
 
 
+/* workaround for header column height */
 .ui-grid-header {
     height: 25px;
     max-height: 25px;
