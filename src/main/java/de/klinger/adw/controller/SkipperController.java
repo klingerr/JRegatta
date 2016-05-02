@@ -24,10 +24,10 @@ public class SkipperController {
     @Autowired
     private ModelMapper mapper;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<SkipperDto> getAll() {
+    @RequestMapping(method = RequestMethod.GET, value = "{id}")
+    public List<SkipperDto> getAllSkippersByRegattaId(@PathVariable Long id) {
         List<SkipperDto> skipperDtos = new ArrayList<>();
-        for (Skipper skipper : skipperService.getAllSkippers()) {
+        for (Skipper skipper : skipperService.getAllSkippersByRegattaId(id)) {
             skipperDtos.add(mapper.map(skipper, SkipperDto.class));
         }
         return skipperDtos;

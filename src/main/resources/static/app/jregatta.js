@@ -28,12 +28,13 @@ angular
         $mdThemingProvider.theme("success-toast");
         $mdThemingProvider.theme("error-toast");
     })
-    .config(['$routeProvider', function ($routeProvider) {
+    .config(['$routeProvider', '$locationProvider', 
+        function ($routeProvider, $locationProvider) {
 	        $routeProvider.when('/regatta', {
 	            templateUrl: 'partials/regatta.html',
 	            controller: 'RegattaController',
 	            breadcrumbs : [ home, regatta ]
-	        }).when('/skipper', {
+	        }).when('/skipper/:regattaId', {
 	            templateUrl: 'partials/skipper.html',
 	            controller: 'SkipperController',
 	            breadcrumbs : [ home, skipper ]
@@ -54,8 +55,11 @@ angular
 	            controller: 'CertificateController',
 	            breadcrumbs : [ home, certificate ]
             }).otherwise({
-                redirectTo: '/regatta'
+                redirectTo: '/club'
             });
+            
+            // enable HTML5mode to disable hashbang urls
+//            $locationProvider.html5Mode(true);
         }]);
 
 // static breadcrumb definition - routeProvider and constants have to be matching

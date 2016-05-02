@@ -19,8 +19,8 @@ public class SkipperService {
 		return skipperRepository.save(skipper);
 	}
 	
-	public List<Skipper> getAllSkippers() {
-		return skipperRepository.findAll();
+	public List<Skipper> getAllSkippersByRegattaId(Long id) {
+		return skipperRepository.findAllByRegattaId(id);
 	}
 
 	public void delete(String id) {
