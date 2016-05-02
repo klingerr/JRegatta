@@ -14,7 +14,7 @@ public class RegattaService {
 	
 	@Autowired
 	private RegattaRepository regattaRepository;
-	
+        
 	public Regatta getRegattaByName(String name) {
 		return regattaRepository.findByName(name);
 	}

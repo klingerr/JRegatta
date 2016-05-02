@@ -8,10 +8,10 @@ class SailingClub {
 class Skipper {
   String firstName
   String lastName
-  Date borthDate
-  enum Sex
+  Date birthDate
+  enum sex
   SailingClub club
-  Result[] results  
+  List<Result> results  
   boolean catering
 }
 
@@ -19,12 +19,15 @@ class Regatta {
    String name
    Date start
    Date end
-   Race[] races
+   List<Skipper> registredSkippers
+   List<Race> races
    int penaltyPoints
 }
 
 class Race {
   int number
+  Regatta regatta
+  List<Result> results
   Date start
   Date end
 }

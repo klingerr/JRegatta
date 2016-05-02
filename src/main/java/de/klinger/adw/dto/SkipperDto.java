@@ -1,92 +1,60 @@
-package de.klinger.adw.domain;
+package de.klinger.adw.dto;
 
+import de.klinger.adw.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
-import javax.persistence.OneToMany;
+public class SkipperDto {
 
-@Entity
-public class Skipper {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "decimal(13,0)")
     private BigInteger id;
-
-    @Column(name = "first_name", nullable = false)
     private String firstName;
-
-    @Column(name = "last_name", nullable = false)
     private String lastName;
-
-    @Column(name = "birth_date")
     private Date birthDate;
-
-    @Column(name = "age_group")
-    @Enumerated(EnumType.STRING)
     private AgeGroup ageGroup;
-
-    @Enumerated(EnumType.STRING)
     private Sex sex;
-
-    @Column(name = "sail_number")
     private String sailNumber;
-
-    @Column(name = "late_registration")
     private boolean lateRegistration;
-
-    @Column(name = "entry_fee")
     private boolean entryFee;
     private boolean catering;
     private boolean lunch;
+    String clubShortName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "regatta_id")
-    private Regatta regatta;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "club_id")
-    private Club club;
-
-    @OneToMany(mappedBy = "skipper", fetch = FetchType.LAZY)
-    private List<Result> results;
-
-    public List<Result> getResults() {
-        return results;
+    public String getClubName() {
+        return clubShortName;
     }
 
-    public void setResults(List<Result> results) {
-        this.results = results;
+    public void setClubName(String clubShortName) {
+        this.clubShortName = clubShortName;
     }
 
-    public Regatta getRegatta() {
-        return regatta;
-    }
-
-    public void setRegatta(Regatta regatta) {
-        this.regatta = regatta;
-    }
-
-    public Club getClub() {
-        return club;
-    }
-
-    public void setClub(Club club) {
-        this.club = club;
-    }
+//    private Regatta regatta;
+//    private Club club;
+//    private List<Result> results;
+//
+//    public List<Result> getResults() {
+//        return results;
+//    }
+//
+//    public void setResults(List<Result> results) {
+//        this.results = results;
+//    }
+//
+//    public Regatta getRegatta() {
+//        return regatta;
+//    }
+//
+//    public void setRegatta(Regatta regatta) {
+//        this.regatta = regatta;
+//    }
+//
+//    public Club getClub() {
+//        return club;
+//    }
+//
+//    public void setClub(Club club) {
+//        this.club = club;
+//    }
 
     public BigInteger getId() {
         return id;
