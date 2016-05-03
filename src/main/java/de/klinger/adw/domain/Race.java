@@ -1,6 +1,6 @@
 package de.klinger.adw.domain;
 
-import java.math.BigInteger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -22,7 +22,7 @@ public class Race {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "decimal(13,0)")
-    private BigInteger id;
+    private Long id;
 
     @Column(nullable = false)
     private int number;
@@ -37,6 +37,7 @@ public class Race {
     @JoinColumn(name = "regatta_id")
     private Regatta regatta;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "race", fetch = FetchType.LAZY)
     private List<Result> results;
 
@@ -48,11 +49,11 @@ public class Race {
         this.results = results;
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

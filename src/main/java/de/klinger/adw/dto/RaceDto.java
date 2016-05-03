@@ -1,11 +1,10 @@
 package de.klinger.adw.dto;
 
 import de.klinger.adw.domain.*;
-import java.math.BigInteger;
 
 public class RaceDto {
 
-    private BigInteger id;
+    private Long id;
     private int number;
     private String startTime;
     private String endTime;
@@ -20,11 +19,11 @@ public class RaceDto {
 //        this.results = results;
 //    }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

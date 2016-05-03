@@ -13,15 +13,15 @@ import de.klinger.adw.domain.Result;
 import de.klinger.adw.service.impl.ResultService;
 
 @RestController
-@RequestMapping("/results")
+@RequestMapping("/regattas/{regattaId}/races/{raceId}/results")
 public class ResultController {
 	
 	@Autowired
 	private ResultService resultService;
 	
 	 @RequestMapping(method=RequestMethod.GET)
-	  public List<Result> getAll() {
-	    return resultService.getAllResults();
+	  public List<Result> getAllByRaceId(@PathVariable Long raceId) {
+	    return resultService.getAllByRaceId(raceId);
 	  }
 	  
 	  @RequestMapping(method=RequestMethod.POST)

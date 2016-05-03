@@ -16,23 +16,26 @@ import java.util.ArrayList;
 import org.dozer.Mapper;
 
 @RestController
-@RequestMapping("/races")
+@RequestMapping("/regattas/{regattaId}/races")
 public class RaceController {
 
     @Autowired
     private RaceService raceService;
 
-    @Autowired
-    private Mapper mapper;
+//    @Autowired
+//    private Mapper mapper;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<RaceDto> getAll() {
-        List<RaceDto> raceDtos = new ArrayList<>();
-        for (Race race : raceService.getAllRaces()) {
-            raceDtos.add(mapper.map(race, RaceDto.class));
-        }
-        return raceDtos;
+    public List<Race> getAllByRegattaId(@PathVariable Long regattaId) {
+        return raceService.getAllRacesByRegattaId(regattaId);
     }
+//    public List<RaceDto> getAll() {
+//        List<RaceDto> raceDtos = new ArrayList<>();
+//        for (Race race : raceService.getAllRaces()) {
+//            raceDtos.add(mapper.map(race, RaceDto.class));
+//        }
+//        return raceDtos;
+//    }
 
     @RequestMapping(method = RequestMethod.POST)
     public Race create(@RequestBody Race race) {

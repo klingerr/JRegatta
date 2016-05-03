@@ -1,6 +1,6 @@
 package de.klinger.adw.domain;
 
-import java.math.BigInteger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import javax.persistence.OneToMany;
 
@@ -24,7 +23,7 @@ public class Skipper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "decimal(13,0)")
-    private BigInteger id;
+    private Long id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -61,6 +60,7 @@ public class Skipper {
     @JoinColumn(name = "club_id")
     private Club club;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "skipper", fetch = FetchType.LAZY)
     private List<Result> results;
 
@@ -88,11 +88,11 @@ public class Skipper {
         this.club = club;
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

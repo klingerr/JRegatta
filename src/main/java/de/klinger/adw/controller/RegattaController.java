@@ -26,13 +26,16 @@ public class RegattaController {
     private Mapper mapper;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<RegattaDto> getAll() {
-        List<RegattaDto> regattaDtos = new ArrayList<>();
-        for (Regatta regatta : regattaService.getAllRegattas()) {
-            regattaDtos.add(mapper.map(regatta, RegattaDto.class));
-        }
-        return regattaDtos;
+    public List<Regatta> getAll() {
+        return regattaService.getAllRegattas();
     }
+//    public List<RegattaDto> getAll() {
+//        List<RegattaDto> regattaDtos = new ArrayList<>();
+//        for (Regatta regatta : regattaService.getAllRegattas()) {
+//            regattaDtos.add(mapper.map(regatta, RegattaDto.class));
+//        }
+//        return regattaDtos;
+//    }
 
 //    @RequestMapping("{id}/getResult")
 //    public RegattaResultDto getResult(@PathVariable Long id) {

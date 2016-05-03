@@ -1,11 +1,10 @@
 package de.klinger.adw.dto;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 public class RegattaDto {
     
-    private BigInteger id;
+    private Long id;
     private String name;
     private String shortName;
     private Date startDate;
@@ -18,10 +17,10 @@ public class RegattaDto {
 
     private boolean finished;
     
-	public BigInteger getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(BigInteger id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {

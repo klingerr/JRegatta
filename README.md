@@ -23,6 +23,7 @@ Software zur Auswertung der Krümelregatta des AdW Zeuthen
 * create schema via FlyDB
   * generate SQL-script from entity classes via "de.juplo:hibernate4-maven-plugin": mvn -Dskip.export.sql=false clean compile hibernate4:export
   * location of SQL-script: "src/main/resources/db/migration/V<version>__create.sql"
+* DtO-Mapping with http://modelmapper.org/user-manual/property-mapping/
 
 ### Frontend
 * AngularJS with:
