@@ -1,13 +1,12 @@
 package de.klinger.adw.repository;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
 import de.klinger.adw.domain.Skipper;
 
-public interface SkipperRepository extends CrudRepository<Skipper, BigInteger> {
+public interface SkipperRepository extends CrudRepository<Skipper, Long> {
 
     @Override
     List<Skipper> findAll();

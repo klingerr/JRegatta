@@ -1,6 +1,6 @@
 package de.klinger.adw.domain;
 
-import java.math.BigInteger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class Regatta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "decimal(13,0)")
-    private BigInteger id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -33,18 +33,20 @@ public class Regatta {
     private Date endDate;
     private int buoyages;
     
+    @JsonIgnore
     @OneToMany(mappedBy="regatta", fetch=FetchType.LAZY)
     private List<Skipper> skippers;
 
-//    @OneToMany(mappedBy="regatta", fetch = FetchType.LAZY)
-//    private List<Race> races;
+    @JsonIgnore
+    @OneToMany(mappedBy="regatta", fetch = FetchType.LAZY)
+    private List<Race> races;
 
     private boolean finished;
     
-	public BigInteger getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(BigInteger id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -89,11 +91,11 @@ public class Regatta {
 	public void setSkippers(List<Skipper> skippers) {
 		this.skippers = skippers;
 	}
-//	public List<Race> getRaces() {
-//		return races;
-//	}
-//	public void setRaces(List<Race> races) {
-//		this.races = races;
-//	}
+	public List<Race> getRaces() {
+		return races;
+	}
+	public void setRaces(List<Race> races) {
+		this.races = races;
+	}
     
 }

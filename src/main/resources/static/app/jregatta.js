@@ -30,23 +30,23 @@ angular
     })
     .config(['$routeProvider', '$locationProvider', 
         function ($routeProvider, $locationProvider) {
-	        $routeProvider.when('/regatta', {
+	        $routeProvider.when('/regattas', {
 	            templateUrl: 'partials/regatta.html',
 	            controller: 'RegattaController',
 	            breadcrumbs : [ home, regatta ]
-	        }).when('/skipper/:regattaId', {
+	        }).when('/regattas/:regattaId/skippers', {
 	            templateUrl: 'partials/skipper.html',
 	            controller: 'SkipperController',
 	            breadcrumbs : [ home, skipper ]
-	        }).when('/club', {
+	        }).when('/clubs', {
 	            templateUrl: 'partials/club.html',
 	            controller: 'ClubController',
 	            breadcrumbs : [ home, club ]
-	        }).when('/race', {
+	        }).when('/regattas/:regattaId/races', {
 	            templateUrl: 'partials/race.html',
 	            controller: 'RaceController',
 	            breadcrumbs : [ home, race ]
-	        }).when('/result', {
+	        }).when('/regattas/:regattaId/races/:raceId/results', {
 	            templateUrl: 'partials/result.html',
 	            controller: 'ResultController',
 	            breadcrumbs : [ home, result ]
@@ -55,7 +55,7 @@ angular
 	            controller: 'CertificateController',
 	            breadcrumbs : [ home, certificate ]
             }).otherwise({
-                redirectTo: '/club'
+                redirectTo: '/clubs'
             });
             
             // enable HTML5mode to disable hashbang urls

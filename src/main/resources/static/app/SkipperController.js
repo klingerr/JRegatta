@@ -54,7 +54,8 @@ function SkipperController($scope, $routeParams, SkipperService, $mdToast) {
         }];
 
     $scope.gridOptions.data = 'skipper';
-    $scope.skipper = SkipperService.query($routeParams.regattaId);
+    $scope.skipper = SkipperService.search({regattaId: $routeParams.regattaId});
+    console.log("$routeParams.regattaId: " + $routeParams.regattaId);
 
     $scope.msg = {}; // Message Area for Debug Info
 

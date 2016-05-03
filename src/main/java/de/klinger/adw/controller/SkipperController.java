@@ -10,28 +10,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.klinger.adw.domain.Skipper;
-import de.klinger.adw.dto.SkipperDto;
 import de.klinger.adw.service.impl.SkipperService;
-import java.util.ArrayList;
 import org.modelmapper.ModelMapper;
 
 @RestController
-@RequestMapping("/skippers")
+@RequestMapping("/regattas/{regattaId}/skippers")
 public class SkipperController {
 
     @Autowired
     private SkipperService skipperService;
-    @Autowired
-    private ModelMapper mapper;
+//    @Autowired
+//    private ModelMapper mapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "{id}")
-    public List<SkipperDto> getAllSkippersByRegattaId(@PathVariable Long id) {
-        List<SkipperDto> skipperDtos = new ArrayList<>();
-        for (Skipper skipper : skipperService.getAllSkippersByRegattaId(id)) {
-            skipperDtos.add(mapper.map(skipper, SkipperDto.class));
-        }
-        return skipperDtos;
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Skipper> getAllByRegattaId(@PathVariable Long regattaId) {
+        return skipperService.getAllSkippersByRegattaId(regattaId);
     }
+//    public List<SkipperDto> getAll() {
+//        List<SkipperDto> skipperDtos = new ArrayList<>();
+//        for (Skipper skipper : skipperService.getAllSkippers()) {
+//            skipperDtos.add(mapper.map(skipper, SkipperDto.class));
+//        }
+//        return skipperDtos;
+//    }
 
     @RequestMapping(method = RequestMethod.POST)
     public Skipper create(@RequestBody Skipper skipper) {

@@ -1,13 +1,12 @@
 package de.klinger.adw.repository;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
 import de.klinger.adw.domain.Regatta;
 
-public interface RegattaRepository extends CrudRepository<Regatta, BigInteger> {
+public interface RegattaRepository extends CrudRepository<Regatta, Long> {
 
     @Override
     List<Regatta> findAll();

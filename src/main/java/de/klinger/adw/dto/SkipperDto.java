@@ -1,13 +1,12 @@
 package de.klinger.adw.dto;
 
 import de.klinger.adw.domain.*;
-import java.math.BigInteger;
 import java.util.Date;
 
 
 public class SkipperDto {
 
-    private BigInteger id;
+    private Long id;
     private String firstName;
     private String lastName;
     private Date birthDate;
@@ -56,11 +55,11 @@ public class SkipperDto {
 //        this.club = club;
 //    }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

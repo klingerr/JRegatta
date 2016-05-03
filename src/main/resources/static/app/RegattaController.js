@@ -37,7 +37,7 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
     $scope.gridOptions.columnDefs = [{
             field: 'id',
 //		cellTemplate : '<div><button class="btn btn-primary" xng-click="getExternalScopes().onClick(row.entity.fullName)">Click Here</button></div>',
-            cellTemplate : '<md-button ng-click="grid.appScope.goSkipper(row.entity.id)" class="md-raised md-primary">Teilnehmer</md-button>',
+            cellTemplate : '<md-button ng-click="grid.appScope.goSkipper(row.entity.id)" class="md-raised">Teilnehmer</md-button>',
             enableCellEdit: false
         }, {
             field: 'name',
@@ -57,8 +57,9 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
     $scope.regattas = RegattaService.query();
 
     $scope.goSkipper = function(path) {
-        console.log("path: " + JSON.stringify(path));
-        $location.path("/skipper/" + path);
+        console.log("path: " + path);
+        $location.path("/regattas/"  + path + "/skippers");
+        console.log("url: " + "/regattas/"  + path + "/skippers");
     };
 
     $scope.msg = {}; // Message Area for Debug Info
