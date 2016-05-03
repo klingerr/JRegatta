@@ -11,8 +11,8 @@ public interface RegattaRepository extends CrudRepository<Regatta, Long> {
     @Override
     List<Regatta> findAll();
     
-    List<Regatta> findAllByOrderByNameAsc();
+    List<Regatta> findAllByOrderByStartDateDesc();
 
-	Regatta findByName(String name);
+    Regatta findByName(String name);
 
 }

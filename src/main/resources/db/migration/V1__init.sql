@@ -6,14 +6,14 @@ insert into Club (id, short_Name, name, adress)
 
 
 
-insert into Regatta (id, name, short_name, start_date, end_date, finished, buoyages)
-  values(1, '1. Krümel', 'Die 1. Krümelregatta', null, null, false, 4);
+insert into Regatta (id, short_name, name, start_date, end_date, finished, buoyages)
+  values(1, '1. Krümel', 'Die 1. Krümelregatta', '2014-05-01', '2014-05-02', false, 4);
  
 insert into Regatta (id, name, short_name, start_date, end_date, finished, buoyages)
-  values(2, '2. Krümel', 'Die 2. Krümelregatta', null, null, true, 5);
+  values(2, '2. Krümel', 'Die 2. Krümelregatta', '2015-05-04', '2015-05-04', true, 5);
   
 insert into Regatta (id, name, short_name, start_date, end_date, finished, buoyages)
-  values(3, '3. Krümel', 'Die 3. Krümelregatta', null, null, false, 6);
+  values(3, '3. Krümel', 'Die 3. Krümelregatta', '2016-05-05', '2016-05-06', false, 6);
 
   
 -- 1. regatta  

@@ -5,8 +5,9 @@ angular
     .factory('RaceService', RaceService);
 
 function RaceService($resource) {
-    return $resource('/races/:id', {
-        id: '@_id'
+    return $resource('/regattas/:regattaId/races/:raceId', {
+        regattaId: '@regattaId',
+        raceId: '@raceId'
     }, {
         update: {
             method: 'PUT'

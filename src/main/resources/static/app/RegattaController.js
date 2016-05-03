@@ -34,44 +34,73 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
         rowHeight: 45
     };
 
-    $scope.gridOptions.columnDefs = [{
-            field: 'id',
-//		cellTemplate : '<div><button class="btn btn-primary" xng-click="getExternalScopes().onClick(row.entity.fullName)">Click Here</button></div>',
-            cellTemplate : '<md-button ng-click="grid.appScope.goSkipper(row.entity.id)" class="md-raised">Teilnehmer</md-button>',
-            enableCellEdit: false
-        }, {
+    $scope.gridOptions.columnDefs = [
+        {
             field: 'name',
             enableCellEdit: true
+        }, 
+//        {
+//            field: 'shortName',
+//            displayName: 'Kurzname',
+//            enableCellEdit: true
+//        }, 
+        {
+            field: 'startDate',
+            displayName: 'Von',
+            enableCellEdit: true,
+            type: 'date',
+            cellFilter: 'date:\'dd.MM.yyyy\''
         }, {
-            field: 'shortName',
-            displayName: 'Kurzname',
-            enableCellEdit: true
+            field: 'endDate',
+            displayName: 'Bis',
+            enableCellEdit: true,
+            type: 'date',
+            cellFilter: 'date:\'dd.MM.yyyy\''
         }, {
             field: 'buoyages',
             displayName: 'Bojen',
             enableCellEdit: true,
-            type: 'number'
-        }];
+            type: 'number',
+            with: '3%'
+        }, {
+            field: 'id',
+            displayName: '',
+            cellTemplate : '<div id="row.entity.id">'
+                        + '<md-button ng-click="grid.appScope.goSkippers(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Teilnehmer</md-button>'
+                        + '<md-button ng-click="grid.appScope.goRaces(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Wettfahrten</md-button>'
+                        + '<md-button ng-click="grid.appScope.goResults(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Ergebnis</md-button>'
+                        + '</div>',
+            enableCellEdit: false,
+            width: '**'
+        }
+    ];
 
     $scope.gridOptions.data = 'regattas';
     $scope.regattas = RegattaService.query();
 
-    $scope.goSkipper = function(path) {
-        console.log("path: " + path);
+    $scope.goSkippers = function(path) {
         $location.path("/regattas/"  + path + "/skippers");
         console.log("url: " + "/regattas/"  + path + "/skippers");
     };
 
-    $scope.msg = {}; // Message Area for Debug Info
+    $scope.goRaces = function(path) {
+        $location.path("/regattas/"  + path + "/races");
+        console.log("url: " + "/regattas/"  + path + "/races");
+    };
+
+    $scope.goResults = function(path) {
+        $location.path("/regattas/"  + path + "/results");
+        console.log("url: " + "/regattas/"  + path + "/results");
+    };
 
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
         gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
-            $scope.msg.lastCellEdited = 'Edited (#'
+            console.log('Edited (#'
                 + rowEntity.id + '), Column: ('
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
-                + oldValue + ")";
+                + oldValue + ")");
             RegattaService.update({id: rowEntity.id}, rowEntity);
             $scope.$apply();
         });

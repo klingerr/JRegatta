@@ -23,7 +23,7 @@ public class RegattaService {
     }
 
     public List<Regatta> getAllRegattas() {
-        return regattaRepository.findAllByOrderByNameAsc();
+        return regattaRepository.findAllByOrderByStartDateDesc();
     }
 
     public void delete(String id) {

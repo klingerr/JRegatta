@@ -30,7 +30,11 @@ angular
     })
     .config(['$routeProvider', '$locationProvider', 
         function ($routeProvider, $locationProvider) {
-	        $routeProvider.when('/regattas', {
+	        $routeProvider.when('/clubs', {
+	            templateUrl: 'partials/club.html',
+	            controller: 'ClubController',
+	            breadcrumbs : [ home, club ]
+	        }).when('/regattas', {
 	            templateUrl: 'partials/regatta.html',
 	            controller: 'RegattaController',
 	            breadcrumbs : [ home, regatta ]
@@ -38,14 +42,14 @@ angular
 	            templateUrl: 'partials/skipper.html',
 	            controller: 'SkipperController',
 	            breadcrumbs : [ home, skipper ]
-	        }).when('/clubs', {
-	            templateUrl: 'partials/club.html',
-	            controller: 'ClubController',
-	            breadcrumbs : [ home, club ]
 	        }).when('/regattas/:regattaId/races', {
 	            templateUrl: 'partials/race.html',
 	            controller: 'RaceController',
 	            breadcrumbs : [ home, race ]
+	        }).when('/regattas/:regattaId/races/:raceId/finish', {
+	            templateUrl: 'partials/finish.html',
+	            controller: 'FinishController',
+	            breadcrumbs : [ home, finish ]
 	        }).when('/regattas/:regattaId/races/:raceId/results', {
 	            templateUrl: 'partials/result.html',
 	            controller: 'ResultController',
@@ -64,10 +68,11 @@ angular
 
 // static breadcrumb definition - routeProvider and constants have to be matching
 const home = { href : '#/', label : 'Home' };
+const club = { href : '#/club', label : 'Verein' };
 const regatta = { href : '#/regatta', label : 'Regatten' };
 const skipper = { href : '#/skipper', label : 'Teilnehmer' };
-const club = { href : '#/club', label : 'Verein' };
 const race = { href : '#/race', label : 'Wettfahrt' };
+const finish = { href : '#/finish', label : 'Zieldurchgang' };
 const result = { href : '#/result', label : 'Ergebnis' };
 const certificate = { href : '#/certificate', label : 'Urkunde' };
 

@@ -1,12 +1,12 @@
 "use strict";
 
-var resultCounter = 0;
+var finishCounter = 0;
 
 angular
     .module('jregatta')
-    .controller('ResultController', ResultController);
+    .controller('FinishController', FinishController);
 
-function ResultController($scope, $routeParams, uiGridConstants, ResultService, $mdToast) {
+function FinishController($scope, $routeParams, uiGridConstants, ResultService, $mdToast) {
     const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
@@ -36,47 +36,22 @@ function ResultController($scope, $routeParams, uiGridConstants, ResultService, 
 
     $scope.gridOptions.columnDefs = [
         {
-            field: 'skipper.ageGroup',
-            displayName: 'Altersklasse',
-            enableCellEdit: false,
+            field: 'placement',
+            displayName: 'Platz',
+            enableCellEdit: true,
             sort: {
-                direction: uiGridConstants.DESC,
+                direction: uiGridConstants.ASC,
                 ignoreSort: true,
                 priority: 0
             }
         }, {
-            field: 'placement',
-            displayName: 'Platz',
-            enableCellEdit: false,
-            sort: {
-                direction: uiGridConstants.ASC,
-                ignoreSort: true,
-                priority: 1
-            }
-        }, {
-            field: 'points',
-            displayName: 'Punkte',
-            enableCellEdit: true
-        }, {
             field: 'skipper.sailNumber',
-            displayName: 'Vorname',
-            enableCellEdit: false
-        }, {
-            field: 'skipper.firstName',
-            displayName: 'Vorname',
-            enableCellEdit: false
-        }, {
-            field: 'skipper.lastName',
-            displayName: 'Nachname',
-            enableCellEdit: false
-        }, {
-            field: 'skipper.club.shortName',
-            displayName: 'Verein',
-            enableCellEdit: false
+            displayName: 'Segelnummer',
+            enableCellEdit: true,
         }];
 
-    $scope.gridOptions.data = 'results';
-    $scope.results = ResultService.query({regattaId: $routeParams.regattaId}, {raceId: $routeParams.raceId});
+    $scope.gridOptions.data = 'finishs';
+    $scope.finishs = ResultService.query({regattaId: $routeParams.regattaId}, {raceId: $routeParams.raceId});
 
     $scope.msg = {}; // Message Area for Debug Info
 
@@ -88,7 +63,7 @@ function ResultController($scope, $routeParams, uiGridConstants, ResultService, 
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
                 + oldValue + ")";
-            ResultService.update({id: rowEntity.id}, rowEntity);
+            FinishService.update({id: rowEntity.id}, rowEntity);
             $scope.$apply();
         });
     };

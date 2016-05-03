@@ -6,7 +6,7 @@ angular
     .module('jregatta')
     .controller('RaceController', RaceController);
 
-function RaceController($scope, RaceService, $mdToast) {
+function RaceController($scope, $location, $routeParams, RaceService, $mdToast) {
     const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
@@ -34,11 +34,8 @@ function RaceController($scope, RaceService, $mdToast) {
         rowHeight: 45
     };
 
-    $scope.gridOptions.columnDefs = [{
-            field: 'id',
-//		cellTemplate : '<div><button class="btn btn-primary" xng-click="getExternalScopes().onClick(row.entity.fullName)">Click Here</button></div>',
-            enableCellEdit: false
-        }, {
+    $scope.gridOptions.columnDefs = [
+        {
             field: 'number',
             enableCellEdit: true,
             type: 'number'
@@ -50,21 +47,36 @@ function RaceController($scope, RaceService, $mdToast) {
             field: 'endTime',
             displayName: 'Ende',
             enableCellEdit: true,
+        }, {
+            field: 'id',
+            displayName: '',
+            cellTemplate : '<md-button ng-click="grid.appScope.goFinish(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Zieldurchgang</md-button>'
+                        + '<md-button ng-click="grid.appScope.goResults(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Ergebnis</md-button>',
+            enableCellEdit: false,
+            width: '**'
         }];
 
     $scope.gridOptions.data = 'races';
-    $scope.races = RaceService.query();
+    $scope.races = RaceService.query({regattaId: $routeParams.regattaId});
 
-    $scope.msg = {}; // Message Area for Debug Info
+    $scope.goFinish = function(raceId) {
+        $location.path("/regattas/" + $routeParams.regattaId + "/races/" + raceId + "/finish");
+        console.log("url: " + "/regattas/"  + $routeParams.regattaId + "/races/"+ raceId + "/finish");
+    };
 
+    $scope.goResults = function(raceId) {
+        $location.path("/regattas/" + $routeParams.regattaId + "/races/" + raceId + "/results");
+        console.log("url: " + "/regattas/"  + $routeParams.regattaId + "/races/"+ raceId + "/results");
+    };
+    
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
         gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
-            $scope.msg.lastCellEdited = 'Edited (#'
+            console.log('Edited (#'
                 + rowEntity.id + '), Column: ('
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
-                + oldValue + ")";
+                + oldValue + ")");
             RaceService.update({id: rowEntity.id}, rowEntity);
             $scope.$apply();
         });
