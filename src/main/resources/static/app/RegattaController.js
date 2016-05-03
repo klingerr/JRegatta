@@ -6,7 +6,7 @@ angular
     .module('jregatta')
     .controller('RegattaController', RegattaController);
 
-function RegattaController($scope, RegattaService, $mdToast) {
+function RegattaController($scope, $location, RegattaService, $mdToast) {
     const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
@@ -37,6 +37,7 @@ function RegattaController($scope, RegattaService, $mdToast) {
     $scope.gridOptions.columnDefs = [{
             field: 'id',
 //		cellTemplate : '<div><button class="btn btn-primary" xng-click="getExternalScopes().onClick(row.entity.fullName)">Click Here</button></div>',
+            cellTemplate : '<md-button ng-click="grid.appScope.goSkipper(row.entity.id)" class="md-raised">Teilnehmer</md-button>',
             enableCellEdit: false
         }, {
             field: 'name',
@@ -54,6 +55,12 @@ function RegattaController($scope, RegattaService, $mdToast) {
 
     $scope.gridOptions.data = 'regattas';
     $scope.regattas = RegattaService.query();
+
+    $scope.goSkipper = function(path) {
+        console.log("path: " + path);
+        $location.path("/regattas/"  + path + "/skippers");
+        console.log("url: " + "/regattas/"  + path + "/skippers");
+    };
 
     $scope.msg = {}; // Message Area for Debug Info
 

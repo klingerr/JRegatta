@@ -32,23 +32,25 @@ Software zur Auswertung der Krümelregatta des AdW Zeuthen
   * https://damienfremont.com/2015/11/05/javaee-angularjs-bootstrap-how-to-breadcrumb-and-navbar/
 
 ## Todos
-* finalize UX (add button and switch below table, table size)
+* navigation
 * autocomplete within grid, i.e. sailingClub at skippers
-* print layout:
-  * for tables incl. header and footer
-  * for certificates
-* create missing domain objects, repositories and GUIs: sailingClub, skipper, race, result 
-  * incl. breadcrumb navigation
+* print layout for tables incl. header and footer
+* improve/dynamize breadcrumb navigation
 * result calculation
   * incl. conflict resolution strategies (last race wins, skip one place)
+* print placement only for first three
 
 ## Done
 * using Angular Material as ui style
 * Toastr (Angular Toast) for user feedback
 * menu bar / breadcrumb
 * hide of columns per ckeckbox / switch
+* theme of AdW (green and logo)
+* Maintenance GUI for SailingClub (currently only via H2 console)
+* finalize UX (add button and switch below table, table size)
+* create missing domain objects, repositories and GUIs: sailingClub, skipper, race, result 
+* print layout for certificates
 
 ## Future features
-* theme of AdW (green and logo)
 * CVS export of table content
-* Maintenance GUI for SailingClub (currently only via H2 console)
+* statistic information

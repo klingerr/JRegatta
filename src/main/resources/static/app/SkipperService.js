@@ -5,11 +5,18 @@ angular
     .factory('SkipperService', SkipperService);
 
 function SkipperService($resource) {
-    return $resource('/skippers/:id', {
-        id: '@_id'
+    return $resource('/regattas/:regattaId/skippers/:id', {
+        regattaId: '@regattaId',
+        skipperId: '@skipperId'
     }, {
         update: {
             method: 'PUT'
+        },
+        search: {
+            method: 'GET', isArray:true,
+            params: {
+                regattaId: '@regattaId'
+            }
         }
     });
 };

@@ -1,3 +1,7 @@
+.md-button {    
+    text-transform: none !important;/*For Lower case use lowercase*/
+}
+
 /* exlcude div from print - use class="no-print" */
 @media print
 {    
@@ -95,10 +99,10 @@
 
 /* toast colors */
 md-toast.md-success-toast-theme .md-toast-content {
-    background-color: green;
+    background-color: lightblue;
 }
 
-md-toast.md-error-toast-theme .md-toast-content {
+md-toast.md-error-toast-theme .m    d-toast-content {
     background-color: red;
 }
 

@@ -6,7 +6,7 @@ angular
     .module('jregatta')
     .controller('SkipperController', SkipperController);
 
-function SkipperController($scope, SkipperService, $mdToast) {
+function SkipperController($scope, $routeParams, SkipperService, $mdToast) {
     const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
@@ -54,7 +54,8 @@ function SkipperController($scope, SkipperService, $mdToast) {
         }];
 
     $scope.gridOptions.data = 'skipper';
-    $scope.skipper = SkipperService.query();
+    $scope.skipper = SkipperService.search({regattaId: $routeParams.regattaId});
+    console.log("$routeParams.regattaId: " + $routeParams.regattaId);
 
     $scope.msg = {}; // Message Area for Debug Info
 

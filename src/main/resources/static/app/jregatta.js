@@ -28,24 +28,25 @@ angular
         $mdThemingProvider.theme("success-toast");
         $mdThemingProvider.theme("error-toast");
     })
-    .config(['$routeProvider', function ($routeProvider) {
-	        $routeProvider.when('/regatta', {
+    .config(['$routeProvider', '$locationProvider', 
+        function ($routeProvider, $locationProvider) {
+	        $routeProvider.when('/regattas', {
 	            templateUrl: 'partials/regatta.html',
 	            controller: 'RegattaController',
 	            breadcrumbs : [ home, regatta ]
-	        }).when('/skipper', {
+	        }).when('/regattas/:regattaId/skippers', {
 	            templateUrl: 'partials/skipper.html',
 	            controller: 'SkipperController',
 	            breadcrumbs : [ home, skipper ]
-	        }).when('/club', {
+	        }).when('/clubs', {
 	            templateUrl: 'partials/club.html',
 	            controller: 'ClubController',
 	            breadcrumbs : [ home, club ]
-	        }).when('/race', {
+	        }).when('/regattas/:regattaId/races', {
 	            templateUrl: 'partials/race.html',
 	            controller: 'RaceController',
 	            breadcrumbs : [ home, race ]
-	        }).when('/result', {
+	        }).when('/regattas/:regattaId/races/:raceId/results', {
 	            templateUrl: 'partials/result.html',
 	            controller: 'ResultController',
 	            breadcrumbs : [ home, result ]
@@ -54,8 +55,11 @@ angular
 	            controller: 'CertificateController',
 	            breadcrumbs : [ home, certificate ]
             }).otherwise({
-                redirectTo: '/regatta'
+                redirectTo: '/clubs'
             });
+            
+            // enable HTML5mode to disable hashbang urls
+//            $locationProvider.html5Mode(true);
         }]);
 
 // static breadcrumb definition - routeProvider and constants have to be matching
