@@ -31,15 +31,15 @@ public class Skipper {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "birth_date")
-    private Date birthDate;
+    @Column(name = "birth_day")
+    private Date birthDay;
 
     @Column(name = "age_group")
     @Enumerated(EnumType.STRING)
     private AgeGroup ageGroup;
 
     @Enumerated(EnumType.STRING)
-    private Sex sex;
+    private Gender gender;
 
     @Column(name = "sail_number")
     private String sailNumber;
@@ -112,12 +112,12 @@ public class Skipper {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public Date getBirthDay() {
+        return birthDay;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
     }
 
     public AgeGroup getAgeGroup() {
@@ -128,12 +128,12 @@ public class Skipper {
         this.ageGroup = ageGroup;
     }
 
-    public Sex getSex() {
-        return sex;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public String getSailNumber() {

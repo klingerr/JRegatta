@@ -61,7 +61,7 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
             displayName: 'Bojen',
             enableCellEdit: true,
             type: 'number',
-            with: '3%'
+            with: 40
         }, {
             field: 'id',
             displayName: '',
@@ -71,7 +71,8 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
                         + '<md-button ng-click="grid.appScope.goResults(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Ergebnis</md-button>'
                         + '</div>',
             enableCellEdit: false,
-            width: '**'
+			minWidth: 300
+//            width: '**'
         }
     ];
 
@@ -109,7 +110,8 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
     $scope.newRegatta = function () {
         console.log("newRegatta()");
         RegattaService.save(
-            {name: "Regatta-" + ++regattaCounter, shortName: "R" + regattaCounter},
+            {name: "Regatta-" + ++regattaCounter, 
+            shortName: "R" + regattaCounter},
             function (savedRegatta, headers) {
                 //success callback
                 console.log("success: " + JSON.stringify(savedRegatta, null, 4));

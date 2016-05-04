@@ -10,7 +10,7 @@ angular.module('jregatta', [
 //    'ui.bootstrap',
     // table widget and its options
     'ui.grid', 'ui.grid.selection', 'ui.grid.edit', 'ui.grid.cellNav',
-    'ui.grid.resizeColumns',
+    'ui.grid.resizeColumns'
 ]);
 
 angular
@@ -59,7 +59,7 @@ angular
 	            controller: 'CertificateController',
 	            breadcrumbs : [ home, certificate ]
             }).otherwise({
-                redirectTo: '/clubs'
+                redirectTo: '/regattas'
             });
             
             // enable HTML5mode to disable hashbang urls

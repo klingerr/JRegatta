@@ -54,8 +54,8 @@ public class SkipperController {
         Skipper update = skipperService.findOne(id);
         update.setLastName(skipper.getLastName());
         update.setFirstName(skipper.getFirstName());
-        update.setSex(skipper.getSex());
-        update.setBirthDate(skipper.getBirthDate());
+        update.setGender(skipper.getGender());
+        update.setBirthDay(skipper.getBirthDay());
         update.setAgeGroup(skipper.getAgeGroup());
         update.setSailNumber(skipper.getSailNumber());
         update.setClub(skipper.getClub());

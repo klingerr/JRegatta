@@ -17,14 +17,14 @@ insert into Regatta (id, name, short_name, start_date, end_date, finished, buoya
 
   
 -- 1. regatta  
-insert into Skipper (id, sail_Number, first_Name, last_Name, birth_Date, sex, age_Group, catering, entry_Fee, late_Registration, lunch, regatta_id, Club_id)
+insert into Skipper (id, sail_Number, first_Name, last_Name, birth_Day, gender, age_Group, catering, entry_Fee, late_Registration, lunch, regatta_id, Club_id)
   values(1, '4711', 'Ralf', 'Klinger', '1969-07-02', 'M', 'AK10', true, true, false, true, 1, 1);
   
-insert into Skipper (id, sail_Number, first_Name, last_Name, birth_Date, sex, age_Group, catering, entry_Fee, late_Registration, lunch, regatta_id, Club_id)
+insert into Skipper (id, sail_Number, first_Name, last_Name, birth_Day, gender, age_Group, catering, entry_Fee, late_Registration, lunch, regatta_id, Club_id)
   values(2, '0815', 'Maggie', 'Germer', '1967-01-03', 'W', 'AK9', true, true, false, true, 1, 2);
   
 -- 2. regatta  
-insert into Skipper (id, sail_Number, first_Name, last_Name, birth_Date, sex, age_Group, catering, entry_Fee, late_Registration, lunch, regatta_id, Club_id)
+insert into Skipper (id, sail_Number, first_Name, last_Name, birth_Day, gender, age_Group, catering, entry_Fee, late_Registration, lunch, regatta_id, Club_id)
   values(3, '123456', 'Klaus', 'Brause', '1981-08-12', 'M', 'AK10', true, true, false, true, 2, 1);
   
   

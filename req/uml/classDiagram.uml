@@ -8,8 +8,8 @@ class SailingClub {
 class Skipper {
   String firstName
   String lastName
-  Date birthDate
-  enum sex
+  Date birthDay
+  enum gender
   SailingClub club
   List<Result> results  
   boolean catering

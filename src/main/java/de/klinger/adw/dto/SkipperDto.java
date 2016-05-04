@@ -3,15 +3,14 @@ package de.klinger.adw.dto;
 import de.klinger.adw.domain.*;
 import java.util.Date;
 
-
 public class SkipperDto {
 
     private Long id;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    private Date birthDay;
     private AgeGroup ageGroup;
-    private Sex sex;
+    private Gender gender;
     private String sailNumber;
     private boolean lateRegistration;
     private boolean entryFee;
@@ -54,7 +53,6 @@ public class SkipperDto {
 //    public void setClub(Club club) {
 //        this.club = club;
 //    }
-
     public Long getId() {
         return id;
     }
@@ -79,12 +77,12 @@ public class SkipperDto {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public Date getBirthDay() {
+        return birthDay;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
     }
 
     public AgeGroup getAgeGroup() {
@@ -95,12 +93,12 @@ public class SkipperDto {
         this.ageGroup = ageGroup;
     }
 
-    public Sex getSex() {
-        return sex;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public String getSailNumber() {

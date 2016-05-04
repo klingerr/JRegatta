@@ -4,9 +4,23 @@ var skipperCounter = 0;
 
 angular
     .module('jregatta')
-    .controller('SkipperController', SkipperController);
+    .controller('SkipperController', SkipperController)
+    .filter('mapGender', function () {
+        var genderHash = {
+            'M': 'männlich',
+            'W': 'weiblich'
+        };
 
-function SkipperController($scope, $routeParams, SkipperService, $mdToast) {
+        return function (input) {
+            if (!input) {
+                return '';
+            } else {
+                return genderHash[input];
+            }
+        };
+    });
+
+function SkipperController($q, $scope, $routeParams, $location, uiGridConstants, SkipperService, ClubService, $mdToast) {
     const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
@@ -35,47 +49,99 @@ function SkipperController($scope, $routeParams, SkipperService, $mdToast) {
     };
 
     $scope.gridOptions.columnDefs = [{
-            field: 'id',
-//		cellTemplate : '<div><button class="btn btn-primary" xng-click="getExternalScopes().onClick(row.entity.fullName)">Click Here</button></div>',
-            enableCellEdit: false
-	    }, {
-	        field: 'firstName',
-	        displayName: 'Vorname',
-	        enableCellEdit: true
+            field: 'club.name',
+            displayName: 'Verein',
+            enableCellEdit: true,
+            editableCellTemplate: 'ui-grid/dropdownEditor',
+//            cellFilter: 'mapGender',
+            editDropdownValueLabel: 'name', 
+            editDropdownOptionsArray: [{id:1, name:'Test'}, {id:1, name:'Bla'}],
+            sort: {
+                direction: uiGridConstants.ASC,
+                ignoreSort: true,
+                priority: 0
+            }
+        }, {
+            field: 'sailNumber',
+            displayName: 'Segelnummer',
+            enableCellEdit: false,
+            sort: {
+                direction: uiGridConstants.ASC,
+                ignoreSort: true,
+                priority: 1
+            }
+        }, {
+            field: 'firstName',
+            displayName: 'Vorname',
+            enableCellEdit: true
         }, {
             field: 'lastName',
             displayName: 'Nachname',
             enableCellEdit: true
         }, {
-            field: 'birthday',
+            name: 'gender',
+            displayName: 'Geschlecht',
+            editableCellTemplate: 'ui-grid/dropdownEditor',
+//            cellFilter: 'mapGender',
+//            editDropdownValueLabel: 'gender',
+            editDropdownOptionsArray: [{
+                    id: 'M',
+                    gender: 'Male'
+                }, {
+                    id: 'W',
+                    gender: 'Female'
+                }]
+        }, {
+            field: 'birthDay',
             displayName: 'Geburtstag',
             enableCellEdit: true,
-            type: 'date'
+            type: 'date',
+            cellFilter: 'date:\'dd.MM.yyyy\''
+        }, {
+            field: 'ageGroup',
+            displayName: 'Altersgruppe',
+            enableCellEdit: false
         }];
 
     $scope.gridOptions.data = 'skipper';
-    $scope.skipper = SkipperService.search({regattaId: $routeParams.regattaId});
+    $scope.skipper = SkipperService.query({regattaId: $routeParams.regattaId});
+//    $scope.clubs = ClubService.query();
+//    $scope.clubs = [{id:1, name:'Test'}, {id:1, name:'Bla'}];
     console.log("$routeParams.regattaId: " + $routeParams.regattaId);
 
-    $scope.msg = {}; // Message Area for Debug Info
+//    $q.all([
+//        $scope.clubs.$promise
+//    ]).then(function () {
+//        //CODE AFTER RESOURCES ARE LOADED 
+//        console.log("$scope.clubs: " + JSON.stringify($scope.clubs, null, 4));
+//    });
+    console.log("$scope.skipper: " + JSON.stringify($scope.skipper, null, 4));
 
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
         gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
-            $scope.msg.lastCellEdited = 'Edited (#'
+            console.log('Edited (#'
                 + rowEntity.id + '), Column: ('
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
-                + oldValue + ")";
-            SkipperService.update({id: rowEntity.id}, rowEntity);
+                + oldValue + ")");
+            SkipperService.update({skipperId: rowEntity.id, regattaId: $routeParams.regattaId}, rowEntity);
             $scope.$apply();
         });
     };
 
+    $scope.goClubs = function() {
+        $location.path("/clubs");
+        console.log("url: " + "/clubs");
+    }
+
     $scope.newSkipper = function () {
-        console.log("newSkipper()");
+        console.log("newSkipper(): " + $routeParams.regattaId);
         SkipperService.save(
-            {lastName: "N-" + ++skipperCounter, firstName: "V-" + skipperCounter},
+            {lastName: "N-" + ++skipperCounter,
+                firstName: "V-" + skipperCounter,
+                regattaId: $routeParams.regattaId,
+                regatta: {id: $routeParams.regattaId}},
             function (savedSkipper, headers) {
                 //success callback
                 console.log("success: " + JSON.stringify(savedSkipper, null, 4));
@@ -106,4 +172,5 @@ function SkipperController($scope, $routeParams, SkipperService, $mdToast) {
             $scope.gridOptions.columnDefs.splice(GRID_DEFAULT_COLUMN_COUNT, deleteColumnCount);
         }
     }
+    
 }
