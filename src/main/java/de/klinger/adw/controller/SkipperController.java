@@ -1,5 +1,6 @@
 package de.klinger.adw.controller;
 
+import de.klinger.adw.domain.AgeGroup;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.klinger.adw.domain.Skipper;
+import de.klinger.adw.service.impl.ClubService;
 import de.klinger.adw.service.impl.SkipperService;
-import org.modelmapper.ModelMapper;
 
 @RestController
 @RequestMapping("/regattas/{regattaId}/skippers")
@@ -19,20 +20,13 @@ public class SkipperController {
 
     @Autowired
     private SkipperService skipperService;
-//    @Autowired
-//    private ModelMapper mapper;
+    @Autowired
+    private ClubService clubService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Skipper> getAllByRegattaId(@PathVariable Long regattaId) {
         return skipperService.getAllSkippersByRegattaId(regattaId);
     }
-//    public List<SkipperDto> getAll() {
-//        List<SkipperDto> skipperDtos = new ArrayList<>();
-//        for (Skipper skipper : skipperService.getAllSkippers()) {
-//            skipperDtos.add(mapper.map(skipper, SkipperDto.class));
-//        }
-//        return skipperDtos;
-//    }
 
     @RequestMapping(method = RequestMethod.POST)
     public Skipper create(@RequestBody Skipper skipper) {
@@ -56,9 +50,9 @@ public class SkipperController {
         update.setFirstName(skipper.getFirstName());
         update.setGender(skipper.getGender());
         update.setBirthDay(skipper.getBirthDay());
-        update.setAgeGroup(skipper.getAgeGroup());
+        update.setAgeGroup(AgeGroup.getAgeGroupByBirthday(skipper.getBirthDay()));
         update.setSailNumber(skipper.getSailNumber());
-        update.setClub(skipper.getClub());
+        update.setClub(clubService.findOneByShortName(skipper.getClub().getShortName()));
         update.setLateRegistration(skipper.isLateRegistration());
         update.setLunch(skipper.isLunch());
         update.setEntryFee(skipper.isEntryFee());

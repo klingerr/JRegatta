@@ -13,4 +13,6 @@ public interface SkipperRepository extends CrudRepository<Skipper, Long> {
     
     List<Skipper> findAllByRegattaId(Long id);
 
+    Skipper findOneBySailNumberAndRegattaId(String sailNumber, long regattaId);
+
 }

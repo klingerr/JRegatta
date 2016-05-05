@@ -4,24 +4,9 @@ var skipperCounter = 0;
 
 angular
     .module('jregatta')
-    .controller('SkipperController', SkipperController)
-    .filter('mapGender', function () {
-        var genderHash = {
-            'M': 'männlich',
-            'W': 'weiblich'
-        };
-
-        return function (input) {
-            if (!input) {
-                return '';
-            } else {
-                return genderHash[input];
-            }
-        };
-    });
+    .controller('SkipperController', SkipperController);
 
 function SkipperController($q, $scope, $routeParams, $location, uiGridConstants, SkipperService, ClubService, $mdToast) {
-    const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
         $mdToast.show($mdToast.simple()
@@ -37,6 +22,18 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
             .theme("error-toast"));
     };
 
+// get dropdown content before creating the grid
+    $scope.clubs = ClubService.query();
+    $q.all([
+        $scope.clubs.$promise
+    ]).then(function () {
+        //CODE AFTER RESOURCES ARE LOADED 
+        console.log("$scope.clubs: " + JSON.stringify($scope.clubs, null, 4));
+    });
+    
+    $scope.gender = [{id: 'M', gender: 'männlich'}, 
+                     {id: 'W', gender: 'weiblich'}]
+
     $scope.gridOptions = {
         enableFiltering: false,
         enableCellEditOnFocus: true,
@@ -45,17 +42,42 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
         enableRowSelection: true,
         enableRowHeaderSelection: false,
         enableColumnResizing: false,
-        rowHeight: 45
+        rowHeight: 45,
+        enableGridMenu: true,
+        enableSelectAll: true,
+        exporterCsvFilename: 'teilnehmer.csv',
+        exporterMenuPdf: true,
+        exporterPdfDefaultStyle: {fontSize: 9},
+        exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+        exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+        exporterPdfHeader: {text: "Teilnehmer", style: 'headerStyle'},
+        exporterPdfFooter: function (currentPage, pageCount) {
+            return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
+        },
+        exporterPdfCustomFormatter: function (docDefinition) {
+            docDefinition.styles.headerStyle = {fontSize: 22, bold: true};
+            docDefinition.styles.footerStyle = {fontSize: 10, bold: true};
+            return docDefinition;
+        },
+        exporterPdfOrientation: 'landscape',
+        exporterPdfPageSize: 'A4',
+        exporterPdfMaxGridWidth: 500,
+        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        }
     };
 
     $scope.gridOptions.columnDefs = [{
-            field: 'club.name',
+            field: 'club.shortName',
             displayName: 'Verein',
             enableCellEdit: true,
             editableCellTemplate: 'ui-grid/dropdownEditor',
-//            cellFilter: 'mapGender',
-            editDropdownValueLabel: 'name', 
-            editDropdownOptionsArray: [{id:1, name:'Test'}, {id:1, name:'Bla'}],
+            editDropdownIdLabel: 'shortName',
+            editDropdownValueLabel: 'shortName',
+            editDropdownOptionsArray: $scope.clubs,
+            cellFilter: 'griddropdown:this',
+            sortCellFiltered: true,
             sort: {
                 direction: uiGridConstants.ASC,
                 ignoreSort: true,
@@ -64,7 +86,7 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
         }, {
             field: 'sailNumber',
             displayName: 'Segelnummer',
-            enableCellEdit: false,
+            enableCellEdit: true,
             sort: {
                 direction: uiGridConstants.ASC,
                 ignoreSort: true,
@@ -82,15 +104,11 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
             name: 'gender',
             displayName: 'Geschlecht',
             editableCellTemplate: 'ui-grid/dropdownEditor',
-//            cellFilter: 'mapGender',
-//            editDropdownValueLabel: 'gender',
-            editDropdownOptionsArray: [{
-                    id: 'M',
-                    gender: 'Male'
-                }, {
-                    id: 'W',
-                    gender: 'Female'
-                }]
+            editDropdownIdLabel: 'id',
+            editDropdownValueLabel: 'gender',
+            cellFilter: 'griddropdown:this',
+            sortCellFiltered: true,
+            editDropdownOptionsArray: $scope.gender
         }, {
             field: 'birthDay',
             displayName: 'Geburtstag',
@@ -101,21 +119,58 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
             field: 'ageGroup',
             displayName: 'Altersgruppe',
             enableCellEdit: false
+        }, {
+            field: 'lateRegistration',
+            displayName: 'Nachmeldung',
+            enableCellEdit: true,
+            type: 'boolean',
+            visible: false,
+//            cellTemplate: '<input type="checkbox" ng-model="row.entity.lateRegistration">'
+            cellTemplate: "<div class='ui-grid-cell-contents ng-binding ng-scope' ng-bind='grid.appScope.mapLateRegistration(row)'></div>"
+        }, {
+            field: 'entryFee',
+            displayName: 'Startgeld',
+            enableCellEdit: true,
+            type: 'boolean',
+            visible: false,
+//            cellTemplate: '<input type="checkbox" ng-model="row.entity.entryFee">'
+            cellTemplate: "<div class='ui-grid-cell-contents ng-binding ng-scope' ng-bind='grid.appScope.mapEntryFee(row)'></div>"
+        }, {
+            field: 'catering',
+            displayName: 'Kaltverpflegung',
+            enableCellEdit: true,
+            type: 'boolean',
+            visible: false,
+//            cellTemplate: '<input type="checkbox" ng-model="row.entity.catering" ng-click="grid.appScope.updateRow(row);" ng-true-value="\'TRUE\'" ng-false-value="\'FALSE\'">'
+            cellTemplate: "<div class='ui-grid-cell-contents ng-binding ng-scope' ng-bind='grid.appScope.mapCatering(row)'></div>"
+        }, {
+            field: 'lunch',
+            displayName: 'Mittag',
+            enableCellEdit: true,
+            type: 'boolean',
+            visible: false,
+//            cellTemplate: '<input type="checkbox" ng-model="row.entity.lunch">'
+            cellTemplate: "<div class='ui-grid-cell-contents ng-binding ng-scope' ng-bind='grid.appScope.mapLunch(row)'></div>"
         }];
 
     $scope.gridOptions.data = 'skipper';
     $scope.skipper = SkipperService.query({regattaId: $routeParams.regattaId});
-//    $scope.clubs = ClubService.query();
-//    $scope.clubs = [{id:1, name:'Test'}, {id:1, name:'Bla'}];
     console.log("$routeParams.regattaId: " + $routeParams.regattaId);
 
-//    $q.all([
-//        $scope.clubs.$promise
-//    ]).then(function () {
-//        //CODE AFTER RESOURCES ARE LOADED 
-//        console.log("$scope.clubs: " + JSON.stringify($scope.clubs, null, 4));
-//    });
-    console.log("$scope.skipper: " + JSON.stringify($scope.skipper, null, 4));
+    // translate Booleans
+    $scope.mapLateRegistration = function(row) {
+      return row.entity.lateRegistration ? 'Ja' : 'Nein';
+    };
+    $scope.mapEntryFee = function(row) {
+      return row.entity.entryFee ? 'Ja' : 'Nein';
+    };
+    $scope.mapCatering = function(row) {
+      return row.entity.catering ? 'Ja' : 'Nein';
+    };
+    $scope.mapLunch = function(row) {
+      return row.entity.lunch ? 'Ja' : 'Nein';
+    };
+
 
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
@@ -125,7 +180,18 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
                 + oldValue + ")");
-            SkipperService.update({skipperId: rowEntity.id, regattaId: $routeParams.regattaId}, rowEntity);
+//            if (colDef.name.indexOf("club") > -1) {
+//                console.log("filtered clubs: " + JSON.stringify($filter('filter')($scope.clubs, {club: {id: newValue}}), null, 4));
+//                SkipperService.update({
+//                    skipperId: rowEntity.id, 
+//                    regattaId: $routeParams.regattaId, 
+////                    club: $filter('filter')($scope.clubs, {club: {id: newValue}})}
+//                    club: {id: newValue, shortName: oldValue}}
+//                , rowEntity);
+//            } else {
+                console.log("skipperId: " + rowEntity.id + " regattaId: " + $routeParams.regattaId);
+                SkipperService.update({skipperId: rowEntity.id, regattaId: $routeParams.regattaId}, rowEntity);
+//            }
             $scope.$apply();
         });
     };
@@ -156,21 +222,19 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
     };
 
 
-    $scope.showMoreColumns = function() {
-        console.log("$scope.gridOptions.columnDefs.length: " + $scope.gridOptions.columnDefs.length);
-
-        if ($scope.gridOptions.columnDefs.length == GRID_DEFAULT_COLUMN_COUNT) {
-            $scope.gridOptions.columnDefs.push({
-                field: 'startDate',
-                enableCellEdit: true,
-                type: 'date',
-                cellFilter: 'date:\'dd.MM.yyyy\''
-            })
+    var isRegistrationVisible = false;
+        
+    $scope.toggleRegistration = function() {
+        if (isRegistrationVisible) {
+            isRegistrationVisible = false;
         } else {
-            var deleteColumnCount = $scope.gridOptions.columnDefs.length - GRID_DEFAULT_COLUMN_COUNT;
-            console.log("Trying to delete columns: " + deleteColumnCount);
-            $scope.gridOptions.columnDefs.splice(GRID_DEFAULT_COLUMN_COUNT, deleteColumnCount);
+            isRegistrationVisible = true;            
         }
+        $scope.gridOptions.columnDefs[7].visible = isRegistrationVisible;
+        $scope.gridOptions.columnDefs[8].visible = isRegistrationVisible;
+        $scope.gridOptions.columnDefs[9].visible = isRegistrationVisible;
+        $scope.gridOptions.columnDefs[10].visible = isRegistrationVisible;
+        $scope.gridApi.core.refresh();
     }
     
 }

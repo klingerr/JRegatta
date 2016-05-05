@@ -30,6 +30,10 @@ public class ClubService {
         return clubRepository.findOne(new Long(id));
     }
 
+    public Club findOneByShortName(String shortName) {
+        return clubRepository.findOneByShortName(shortName);
+    }
+
     public Club save(Club club) {
         return clubRepository.save(club);
     }

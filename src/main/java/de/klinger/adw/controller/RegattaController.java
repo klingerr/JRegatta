@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.klinger.adw.domain.Regatta;
-import de.klinger.adw.dto.RegattaDto;
 import de.klinger.adw.service.impl.RegattaService;
-import java.util.ArrayList;
-import org.dozer.Mapper;
 
 @RestController
 @RequestMapping("/regattas")
@@ -22,8 +19,8 @@ public class RegattaController {
     @Autowired
     private RegattaService regattaService;
 
-    @Autowired
-    private Mapper mapper;
+//    @Autowired
+//    private Mapper mapper;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Regatta> getAll() {

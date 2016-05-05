@@ -18,14 +18,15 @@
         <start-class>de.klinger.adw.JRegatta</start-class>
         <h2db.version>1.4.183</h2db.version>
         <jquery.version>2.1.1</jquery.version>
-        <angularjs.version>1.5.4</angularjs.version>
+        <angularjs.version>1.5.5</angularjs.version>
         <bootstrap.version>3.2.0</bootstrap.version>
         <angular.ui.bootstrap.version>1.2.5</angular.ui.bootstrap.version>
         <!-- <angular-ui-router.version>0.2.18</angular-ui-router.version> -->
         <ui-grid.version>3.1.1</ui-grid.version>
         <angular-material.version>1.0.7</angular-material.version>
-        <dozer.version>5.5.1</dozer.version>
-        <modelmapper.version>0.7.5</modelmapper.version>
+<!--        <dozer.version>5.5.1</dozer.version>
+        <modelmapper.version>0.7.5</modelmapper.version>-->
+        <pdfmake.version>0.1.20</pdfmake.version>
         <skip.export.sql>true</skip.export.sql>
     </properties>
 
@@ -97,7 +98,7 @@
             <artifactId>angular-material</artifactId>
             <version>${angular-material.version}</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
             <version>${dozer.version}</version>
@@ -106,7 +107,13 @@
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>${modelmapper.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>pdfmake</artifactId>
+            <version>${pdfmake.version}</version>
         </dependency>
+
 
     </dependencies>
 

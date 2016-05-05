@@ -4,10 +4,9 @@ var resultCounter = 0;
 
 angular
     .module('jregatta')
-    .controller('ResultController', ResultController);
+    .controller('RaceResultController', RaceResultController);
 
-function ResultController($scope, $routeParams, $location, uiGridConstants, ResultService, $mdToast) {
-    const GRID_DEFAULT_COLUMN_COUNT = 4;
+function RaceResultController($scope, $routeParams, $location, uiGridConstants, RaceResultService, $mdToast) {
 
     $scope.showSuccessToast = function (message) {
         $mdToast.show($mdToast.simple()
@@ -34,13 +33,12 @@ function ResultController($scope, $routeParams, $location, uiGridConstants, Resu
         rowHeight: 45
     };
 
-    $scope.gridOptions.columnDefs = [
-        {
+    $scope.gridOptions.columnDefs = [{
             field: 'skipper.ageGroup',
             displayName: 'Altersklasse',
             enableCellEdit: false,
             sort: {
-                direction: uiGridConstants.DESC,
+                direction: uiGridConstants.ASC,
                 ignoreSort: true,
                 priority: 0
             }
@@ -61,20 +59,8 @@ function ResultController($scope, $routeParams, $location, uiGridConstants, Resu
             displayName: 'Verein',
             enableCellEdit: false
         }, {
-            field: 'racePoints.1',
-            displayName: '1. Wettfahrt',
-            enableCellEdit: false
-        }, {
-            field: 'racePoints.2',
-            displayName: '2. Wettfahrt',
-            enableCellEdit: false
-        }, {
-            field: 'racePoints.3',
-            displayName: '3. Wettfahrt',
-            enableCellEdit: false
-        }, {
-            field: 'finalPoints',
-            displayName: 'Gesamtpunktzahl',
+            field: 'placement',
+            displayName: 'Zieleinlauf',
             enableCellEdit: true,
             sort: {
                 direction: uiGridConstants.ASC,
@@ -82,13 +68,19 @@ function ResultController($scope, $routeParams, $location, uiGridConstants, Resu
                 priority: 1
             }
         }, {
-            field: 'finalPlacement',
+            field: 'points',
+            displayName: 'Punkte',
+            type: 'number',
+            enableCellEdit: true
+        }, {
+            field: 'result',
             displayName: 'Platz',
+            type: 'number',
             enableCellEdit: false
         }];
 
-    $scope.gridOptions.data = 'results';
-    $scope.results = ResultService.query({regattaId: $routeParams.regattaId});
+    $scope.gridOptions.data = 'raceResults';
+    $scope.raceResults = RaceResultService.query({regattaId: $routeParams.regattaId}, {raceId: $routeParams.raceId});
 
     $scope.goCertificates = function() {
         $location.path("/regattas/" + $routeParams.regattaId + "/certificates");
@@ -103,25 +95,12 @@ function ResultController($scope, $routeParams, $location, uiGridConstants, Resu
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
                 + oldValue + ")");
-            ResultService.update({id: rowEntity.id}, rowEntity);
+            RaceResultService.update({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId, resultId: rowEntity.id}, rowEntity);
             $scope.$apply();
         });
     };
 
     $scope.showMoreColumns = function() {
         console.log("$scope.gridOptions.columnDefs.length: " + $scope.gridOptions.columnDefs.length);
-
-        if ($scope.gridOptions.columnDefs.length == GRID_DEFAULT_COLUMN_COUNT) {
-            $scope.gridOptions.columnDefs.push({
-                field: 'startDate',
-                enableCellEdit: true,
-                type: 'date',
-                cellFilter: 'date:\'dd.MM.yyyy\''
-            })
-        } else {
-            var deleteColumnCount = $scope.gridOptions.columnDefs.length - GRID_DEFAULT_COLUMN_COUNT;
-            console.log("Trying to delete columns: " + deleteColumnCount);
-            $scope.gridOptions.columnDefs.splice(GRID_DEFAULT_COLUMN_COUNT, deleteColumnCount);
-        }
-    }
+    };
 }

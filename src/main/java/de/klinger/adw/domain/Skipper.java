@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import java.util.List;
+import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -56,7 +58,7 @@ public class Skipper {
     @JoinColumn(name = "regatta_id")
     private Regatta regatta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "club_id")
     private Club club;
 
@@ -174,6 +176,28 @@ public class Skipper {
 
     public void setLunch(boolean lunch) {
         this.lunch = lunch;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 31 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Skipper other = (Skipper) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -38,13 +38,7 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
         {
             field: 'name',
             enableCellEdit: true
-        }, 
-//        {
-//            field: 'shortName',
-//            displayName: 'Kurzname',
-//            enableCellEdit: true
-//        }, 
-        {
+        }, {
             field: 'startDate',
             displayName: 'Von',
             enableCellEdit: true,
@@ -60,8 +54,7 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
             field: 'buoyages',
             displayName: 'Bojen',
             enableCellEdit: true,
-            type: 'number',
-            with: 40
+            type: 'number'
         }, {
             field: 'id',
             displayName: '',
@@ -71,8 +64,7 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
                         + '<md-button ng-click="grid.appScope.goResults(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Ergebnis</md-button>'
                         + '</div>',
             enableCellEdit: false,
-			minWidth: 300
-//            width: '**'
+            minWidth: 350
         }
     ];
 

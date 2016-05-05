@@ -7,11 +7,16 @@ angular
 function RaceService($resource) {
     return $resource('/regattas/:regattaId/races/:raceId', {
         regattaId: '@regattaId',
-        raceId: '@raceId'
+        skipperId: '@raceId'
     }, {
         update: {
-            method: 'PUT'
+            method: 'PUT',
+            params: {regattaId: '@regattaId'}
+        }
+    }, {
+        save: {
+            method: 'POST',
+            params: {regattaId: '@regattaId'}
         }
     });
 };
-

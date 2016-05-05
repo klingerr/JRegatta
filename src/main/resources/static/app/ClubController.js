@@ -6,7 +6,7 @@ angular
     .module('jregatta')
     .controller('ClubController', ClubController);
 
-function ClubController($scope, ClubService, $mdToast) {
+function ClubController($scope, ClubService, uiGridConstants, $mdToast) {
     const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
@@ -34,16 +34,18 @@ function ClubController($scope, ClubService, $mdToast) {
         rowHeight: 45
     };
 
-    $scope.gridOptions.columnDefs = [{
-            field: 'id',
-//		cellTemplate : '<div><button class="btn btn-primary" xng-click="getExternalScopes().onClick(row.entity.fullName)">Click Here</button></div>',
-            enableCellEdit: false
-        }, {
-            field: 'name',
-            enableCellEdit: true
-        }, {
+    $scope.gridOptions.columnDefs = [
+        {
             field: 'shortName',
             displayName: 'Kurzname',
+            enableCellEdit: true,
+            sort: {
+                direction: uiGridConstants.ASC,
+                ignoreSort: true,
+                priority: 0
+            }
+        }, {
+            field: 'name',
             enableCellEdit: true
         }, {
             field: 'address',
@@ -54,16 +56,14 @@ function ClubController($scope, ClubService, $mdToast) {
     $scope.gridOptions.data = 'clubs';
     $scope.clubs = ClubService.query();
 
-    $scope.msg = {}; // Message Area for Debug Info
-
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
         gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
-            $scope.msg.lastCellEdited = 'Edited (#'
+            console.log('Edited (#'
                 + rowEntity.id + '), Column: ('
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
-                + oldValue + ")";
+                + oldValue + ")");
             ClubService.update({id: rowEntity.id}, rowEntity);
             $scope.$apply();
         });

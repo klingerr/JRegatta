@@ -54,3 +54,11 @@ Software zur Auswertung der Krümelregatta des AdW Zeuthen
 ## Future features
 * CVS export of table content
 * statistic information
+* delete of entities
+* reduce list of sail numbers by already selected numbers
+
+# Tests
+
+* identical final points
+  * use of last race result
+  * set same place and skip the next one

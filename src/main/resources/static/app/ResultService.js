@@ -1,17 +1,17 @@
 "use strict";
 
 angular
-    .module('jregatta')
-    .factory('ResultService', ResultService);
+        .module('jregatta')
+        .factory('ResultService', ResultService);
 
 function ResultService($resource) {
-    return $resource('/regattas/:regattaId/races/:raceId/results', {
+    return $resource('/regattas/:regattaId/results/:resultId', {
         regattaId: '@regattaId',
-        raceId: '@raceId'
+        resultId: '@resultId'
     }, {
         update: {
-            method: 'PUT'
+            method: 'PUT',
+            params: {regattaId: '@regattaId'}
         }
     });
-};
-
+}

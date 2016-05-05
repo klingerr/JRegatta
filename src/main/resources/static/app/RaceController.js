@@ -51,7 +51,7 @@ function RaceController($scope, $location, $routeParams, RaceService, $mdToast) 
             field: 'id',
             displayName: '',
             cellTemplate : '<md-button ng-click="grid.appScope.goFinish(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Zieldurchgang</md-button>'
-                        + '<md-button ng-click="grid.appScope.goResults(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Ergebnis</md-button>',
+                        + '<md-button ng-click="grid.appScope.goRaceResults(row.entity.id)" class="md-primary" style="margin:0px, padding:0px">Ergebnis</md-button>',
             enableCellEdit: false,
             width: '**'
         }];
@@ -64,7 +64,7 @@ function RaceController($scope, $location, $routeParams, RaceService, $mdToast) 
         console.log("url: " + "/regattas/"  + $routeParams.regattaId + "/races/"+ raceId + "/finish");
     };
 
-    $scope.goResults = function(raceId) {
+    $scope.goRaceResults = function(raceId) {
         $location.path("/regattas/" + $routeParams.regattaId + "/races/" + raceId + "/results");
         console.log("url: " + "/regattas/"  + $routeParams.regattaId + "/races/"+ raceId + "/results");
     };
@@ -77,7 +77,7 @@ function RaceController($scope, $location, $routeParams, RaceService, $mdToast) 
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
                 + oldValue + ")");
-            RaceService.update({id: rowEntity.id}, rowEntity);
+            RaceService.update({raceId: rowEntity.id, regattaId: $routeParams.regattaId}, rowEntity);
             $scope.$apply();
         });
     };
@@ -85,7 +85,9 @@ function RaceController($scope, $location, $routeParams, RaceService, $mdToast) 
     $scope.newRace = function () {
         console.log("newRace()");
         RaceService.save(
-            {number: ++raceCounter},
+            {number: ++raceCounter,
+             regattaId: $routeParams.regattaId,
+             regatta: {id: $routeParams.regattaId}},
             function (savedRace, headers) {
                 //success callback
                 console.log("success: " + JSON.stringify(savedRace, null, 4));

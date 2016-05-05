@@ -1,5 +1,47 @@
 "use strict";
 
+
+angular.module('gridFilters', [])
+.filter('griddropdown', function() {
+  return function (input, context) {
+    
+    try {
+        //For some reason the text "this" is occasionally directly being
+        //passed here
+        if (typeof context === 'undefined' || context === 'this')
+          return 0;
+
+        //Workaround for bug in ui-grid
+        if (typeof context.col === 'undefined') {
+          var sortCols = context.grid.getColumnSorting();
+          if (sortCols.length <= 0)
+            return 0;
+
+          context = { col: sortCols[0], row: context };
+        }
+      
+        var map = context.col.colDef.editDropdownOptionsArray;
+        var idField = context.col.colDef.editDropdownIdLabel;
+        var valueField = context.col.colDef.editDropdownValueLabel;
+        var initial = context.row.entity[context.col.field];
+        if (typeof map !== "undefined") {
+          for (var i = 0; i < map.length; i++) {
+            if (map[i][idField] == input) {
+              return map[i][valueField];
+            }
+          }
+        } else if (initial) {
+          return initial;
+        }
+        return input;
+      
+  } catch (e) {
+    context.grid.appScope.log("Error: " + e);
+  };
+};
+});
+
+
 angular.module('jregatta', [
     // rest services
     'ngResource',
@@ -9,8 +51,9 @@ angular.module('jregatta', [
     'ngMaterial',
 //    'ui.bootstrap',
     // table widget and its options
-    'ui.grid', 'ui.grid.selection', 'ui.grid.edit', 'ui.grid.cellNav',
-    'ui.grid.resizeColumns'
+    'ngAnimate',
+    'ui.grid', 'ui.grid.selection', 'ui.grid.exporter', 'ui.grid.edit', 'ui.grid.cellNav',
+    'ui.grid.resizeColumns', 'gridFilters'
 ]);
 
 angular
@@ -51,10 +94,14 @@ angular
 	            controller: 'FinishController',
 	            breadcrumbs : [ home, finish ]
 	        }).when('/regattas/:regattaId/races/:raceId/results', {
+	            templateUrl: 'partials/raceResult.html',
+	            controller: 'RaceResultController',
+	            breadcrumbs : [ home, raceResult ]
+	        }).when('/regattas/:regattaId/results', {
 	            templateUrl: 'partials/result.html',
 	            controller: 'ResultController',
 	            breadcrumbs : [ home, result ]
-	        }).when('/certificate', {
+	        }).when('/regattas/:regattaId/certificates', {
 	            templateUrl: 'partials/certificate.html',
 	            controller: 'CertificateController',
 	            breadcrumbs : [ home, certificate ]
@@ -73,7 +120,8 @@ const regatta = { href : '#/regatta', label : 'Regatten' };
 const skipper = { href : '#/skipper', label : 'Teilnehmer' };
 const race = { href : '#/race', label : 'Wettfahrt' };
 const finish = { href : '#/finish', label : 'Zieldurchgang' };
-const result = { href : '#/result', label : 'Ergebnis' };
+const raceResult = { href : '#/result', label : 'Wettfahrtergebnis' };
+const result = { href : '#/result', label : 'Gesamtergebnis' };
 const certificate = { href : '#/certificate', label : 'Urkunde' };
 
 angular

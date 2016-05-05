@@ -30,6 +30,10 @@ public class SkipperService {
         return skipperRepository.findOne(new Long(id));
     }
 
+    public Skipper findOneBySailNumberAndRegattaId(String sailNumber, long regattaId) {
+        return skipperRepository.findOneBySailNumberAndRegattaId(sailNumber, regattaId);
+    }
+
     public Skipper save(Skipper skipper) {
         return skipperRepository.save(skipper);
     }

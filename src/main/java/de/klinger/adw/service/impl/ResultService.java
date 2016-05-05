@@ -18,8 +18,12 @@ public class ResultService {
         return resultRepository.save(result);
     }
 
-    public List<Result> getAllByRaceId(Long raceId) {
-        return resultRepository.findAllByRaceIdOrderByPlacement(raceId);
+    public List<Result> getAllByRaceIdOrderByAgeGroupAndPlacement(Long raceId) {
+        return resultRepository.findAllByRaceIdOrderBySkipperAgeGroupAscPlacementAsc(raceId);
+    }
+
+    public List<Result> getAllByRaceRegattaIdOrderBySkipper(Long regattaId) {
+        return resultRepository.findAllByRaceRegattaIdOrderBySkipper(regattaId);
     }
 
     public void delete(String id) {

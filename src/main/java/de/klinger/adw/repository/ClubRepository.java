@@ -10,5 +10,7 @@ public interface ClubRepository extends CrudRepository<Club, Long> {
 
     @Override
     List<Club> findAll();
+
+    public Club findOneByShortName(String shortName);
     
 }

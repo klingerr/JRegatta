@@ -4,8 +4,8 @@ angular
     .module('jregatta')
     .controller('CertificateController', CertificateController);
 
-function CertificateController($scope, ResultService) {
+function CertificateController($scope, $routeParams, ResultService) {
 
-    $scope.certificates = ResultService.query();
+    $scope.certificates = ResultService.query({regattaId: $routeParams.regattaId});
 
 }

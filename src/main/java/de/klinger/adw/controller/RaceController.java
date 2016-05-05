@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.klinger.adw.domain.Race;
-import de.klinger.adw.dto.RaceDto;
 import de.klinger.adw.service.impl.RaceService;
-import java.util.ArrayList;
-import org.dozer.Mapper;
 
 @RestController
 @RequestMapping("/regattas/{regattaId}/races")
@@ -27,7 +24,7 @@ public class RaceController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Race> getAllByRegattaId(@PathVariable Long regattaId) {
-        return raceService.getAllRacesByRegattaId(regattaId);
+        return raceService.getAllRacesByRegattaIdOrderByNumberAsc(regattaId);
     }
 //    public List<RaceDto> getAll() {
 //        List<RaceDto> raceDtos = new ArrayList<>();

@@ -7,3 +7,6 @@
 /nbactions.xml
 /jregatta.trace.db
 /jregatta.log
+/nbactions*.xml
+/nb-configuration.xml
+/~./jregatta.mv.db

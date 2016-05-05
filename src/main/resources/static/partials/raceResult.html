@@ -1,5 +1,7 @@
-<div layout="row" layout-align="start center">
-    <md-button ng-click="goCertificates()" class="md-raised md-primary">Urkunden drucken</md-button>
+<div layout="row" layout-align="end center">
+    <md-switch ng-model="data.cb6" class="md-primary" md-no-ink
+               aria-label="Switch 6" ng-change="showMoreColumns()">
+        offizielle Ergebnisse </md-switch>
 </div>
 
 <div flex layout="row" style="position: relative;">

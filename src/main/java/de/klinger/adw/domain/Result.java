@@ -9,10 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"race_id", "placement"}))
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"race_id", "placement"}),
+    @UniqueConstraint(columnNames = {"race_id", "skipper_id"})
+})
 public class Result {
 
     @Id
@@ -31,7 +35,18 @@ public class Result {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "race_id")
     private Race race;
+    
+    @Transient
+    private int result;
 
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+    
     public Long getId() {
         return id;
     }

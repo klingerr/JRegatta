@@ -18,7 +18,7 @@ public class RaceService {
         return raceRepository.save(race);
     }
 
-    public List<Race> getAllRacesByRegattaId(Long regattaId) {
+    public List<Race> getAllRacesByRegattaIdOrderByNumberAsc(Long regattaId) {
         return raceRepository.findAllByRegattaIdOrderByNumberAsc(regattaId);
     }
 
