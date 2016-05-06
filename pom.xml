@@ -24,9 +24,12 @@
         <!-- <angular-ui-router.version>0.2.18</angular-ui-router.version> -->
         <ui-grid.version>3.1.1</ui-grid.version>
         <angular-material.version>1.0.7</angular-material.version>
-<!--        <dozer.version>5.5.1</dozer.version>
+        <!--        <dozer.version>5.5.1</dozer.version>
         <modelmapper.version>0.7.5</modelmapper.version>-->
         <pdfmake.version>0.1.20</pdfmake.version>
+        <csv-js.version>1.1.1</csv-js.version>
+        <moment.version>2.10.6</moment.version>
+        <angular-moment.version>0.10.3</angular-moment.version>        
         <skip.export.sql>true</skip.export.sql>
     </properties>
 
@@ -98,7 +101,7 @@
             <artifactId>angular-material</artifactId>
             <version>${angular-material.version}</version>
         </dependency>
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
             <version>${dozer.version}</version>
@@ -113,6 +116,23 @@
             <artifactId>pdfmake</artifactId>
             <version>${pdfmake.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>csv-js</artifactId>
+            <version>${csv-js.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>moment</artifactId>
+            <version>${moment.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>angular-moment</artifactId>
+            <version>${angular-moment.version}</version>
+        </dependency>
+
+
 
 
     </dependencies>

@@ -6,8 +6,7 @@ angular
     .module('jregatta')
     .controller('ResultController', ResultController);
 
-function ResultController($scope, $routeParams, $location, uiGridConstants, ResultService, $mdToast) {
-    const GRID_DEFAULT_COLUMN_COUNT = 4;
+function ResultController($q, $scope, $routeParams, $location, uiGridConstants, ResultService, RegattaService, $mdToast) {
 
     $scope.showSuccessToast = function (message) {
         $mdToast.show($mdToast.simple()
@@ -23,6 +22,24 @@ function ResultController($scope, $routeParams, $location, uiGridConstants, Resu
             .theme("error-toast"));
     };
 
+// get dropdown content before creating the grid
+    $scope.regatta = RegattaService.get({id: $routeParams.regattaId});
+    $q.all([
+        $scope.regatta.$promise
+    ]).then(function () {
+        //CODE AFTER RESOURCES ARE LOADED 
+//        $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + ". - Gesamtergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'};
+        console.log("$scope.regatta: " + JSON.stringify($scope.regatta, null, 4));
+    });
+
+    $scope.setHeaderText = function(isOffiziell) {
+        if (isOffiziell) {
+            $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + ". - Gesamtergebnis", style: 'headerStyle', alignment: 'center'};
+        } else {
+            $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + ". - Gesamtergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'};
+        }
+    };
+
     $scope.gridOptions = {
         enableFiltering: false,
         enableCellEditOnFocus: true,
@@ -31,7 +48,35 @@ function ResultController($scope, $routeParams, $location, uiGridConstants, Resu
         enableRowSelection: true,
         enableRowHeaderSelection: false,
         enableColumnResizing: false,
-        rowHeight: 45
+        rowHeight: 45,
+        enableGridMenu: true,
+        enableSelectAll: true,
+        exporterCsvFilename: 'gesamtergebnis.csv',
+        exporterMenuPdf: true,
+        exporterMenuCsv: true,
+        exporterMenuAllData: false,
+        expandableRowHeaderWidth: 60,
+        exporterPdfDefaultStyle: {fontSize: 9},
+        exporterPdfTableStyle: {margin: [0, 60, 0, 0]},
+        exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+        exporterPdfHeader: {text: $scope.regatta.name + ". - Gesamtergebnis", style: 'headerStyle', alignment: 'center'},
+        exporterPdfFooter: function (currentPage, pageCount) {
+//            return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
+            return {text: 'Org.Büro: _____________________      Wettfahrtleiter: _____________________      Schiedsrichter: _____________________\r\n\r\n' 
+                        + $scope.regatta.name + ' - ' +  moment(new Date()).format('DD.MM.YYYY HH:mm'), style: 'footerStyle'};
+        },
+        exporterPdfCustomFormatter: function (docDefinition) {
+            docDefinition.styles.headerStyle = {fontSize: 22, bold: true, margin: [0, 14, 0, 0]};
+            docDefinition.styles.footerStyle = {fontSize: 10, bold: true, alignment: 'center'};
+            return docDefinition;
+        },
+        exporterPdfOrientation: 'landscape',
+        exporterPdfPageSize: 'A4',
+        exporterPdfMaxGridWidth: 675,
+        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        }
     };
 
     $scope.gridOptions.columnDefs = [
@@ -108,20 +153,7 @@ function ResultController($scope, $routeParams, $location, uiGridConstants, Resu
         });
     };
 
-    $scope.showMoreColumns = function() {
-        console.log("$scope.gridOptions.columnDefs.length: " + $scope.gridOptions.columnDefs.length);
-
-        if ($scope.gridOptions.columnDefs.length == GRID_DEFAULT_COLUMN_COUNT) {
-            $scope.gridOptions.columnDefs.push({
-                field: 'startDate',
-                enableCellEdit: true,
-                type: 'date',
-                cellFilter: 'date:\'dd.MM.yyyy\''
-            })
-        } else {
-            var deleteColumnCount = $scope.gridOptions.columnDefs.length - GRID_DEFAULT_COLUMN_COUNT;
-            console.log("Trying to delete columns: " + deleteColumnCount);
-            $scope.gridOptions.columnDefs.splice(GRID_DEFAULT_COLUMN_COUNT, deleteColumnCount);
-        }
-    }
+    $scope.toggleOfficially = function(data) {
+        $scope.setHeaderText(data);
+    };
 }

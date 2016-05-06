@@ -1,3 +1,4 @@
+
     drop table Club if exists;
 
     drop table Race if exists;
@@ -44,7 +45,8 @@
         race_id decimal(13,0),
         skipper_id decimal(13,0),
         primary key (id),
-        unique (race_id, placement)
+        unique (race_id, placement),
+        unique (race_id, skipper_id)
     );
 
     create table Skipper (
@@ -54,11 +56,11 @@
         catering boolean not null,
         entry_fee boolean,
         first_name varchar(255) not null,
+        gender varchar(255),
         last_name varchar(255) not null,
         late_registration boolean,
         lunch boolean not null,
         sail_number varchar(255),
-        gender varchar(255),
         club_id decimal(13,0),
         regatta_id decimal(13,0),
         primary key (id)

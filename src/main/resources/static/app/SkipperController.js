@@ -6,7 +6,7 @@ angular
     .module('jregatta')
     .controller('SkipperController', SkipperController);
 
-function SkipperController($q, $scope, $routeParams, $location, uiGridConstants, SkipperService, ClubService, $mdToast) {
+function SkipperController($q, $scope, $routeParams, $location, moment, uiGridConstants, SkipperService, ClubService, RegattaService, $mdToast) {
 
     $scope.showSuccessToast = function (message) {
         $mdToast.show($mdToast.simple()
@@ -21,14 +21,26 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
             .position('top right')
             .theme("error-toast"));
     };
+    
+    $scope.setHeaderText = function(isMeldeliste) {
+        if (isMeldeliste) {
+            $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + " - Meldeliste", style: 'headerStyle', alignment: 'center'};
+        } else {
+            $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + " - Starterliste", style: 'headerStyle', alignment: 'center'};
+        }
+    };
 
 // get dropdown content before creating the grid
     $scope.clubs = ClubService.query();
+    $scope.regatta = RegattaService.get({id: $routeParams.regattaId});
     $q.all([
-        $scope.clubs.$promise
+        $scope.clubs.$promise,
+        $scope.regatta.$promise
     ]).then(function () {
         //CODE AFTER RESOURCES ARE LOADED 
+        $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + " - Starterliste", style: 'headerStyle', alignment: 'center'};
         console.log("$scope.clubs: " + JSON.stringify($scope.clubs, null, 4));
+        console.log("$scope.regatta: " + JSON.stringify($scope.regatta, null, 4));
     });
     
     $scope.gender = [{id: 'M', gender: 'männlich'}, 
@@ -47,24 +59,65 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
         enableSelectAll: true,
         exporterCsvFilename: 'teilnehmer.csv',
         exporterMenuPdf: true,
+        exporterMenuCsv: false,
+        exporterMenuAllData: false,
+        expandableRowHeaderWidth: 60,
         exporterPdfDefaultStyle: {fontSize: 9},
-        exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+        exporterPdfTableStyle: {margin: [0, 60, 0, 0]},
         exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-        exporterPdfHeader: {text: "Teilnehmer", style: 'headerStyle'},
+        exporterPdfHeader: {text: $scope.regatta.name + " - Starterliste", style: 'headerStyle', alignment: 'center'},
         exporterPdfFooter: function (currentPage, pageCount) {
-            return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
+//            return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
+            return {text: 'Org.Büro: _____________________      Wettfahrtleiter: _____________________      Schiedsrichter: _____________________      \r\n\r\n' 
+                       +  moment(new Date()).format('DD.MM.YYYY HH:mm'), style: 'footerStyle'};
         },
         exporterPdfCustomFormatter: function (docDefinition) {
-            docDefinition.styles.headerStyle = {fontSize: 22, bold: true};
-            docDefinition.styles.footerStyle = {fontSize: 10, bold: true};
+            docDefinition.styles.headerStyle = {fontSize: 22, bold: true, margin: [0, 14, 0, 0]};
+            docDefinition.styles.footerStyle = {fontSize: 10, bold: true, alignment: 'center'};
             return docDefinition;
         },
         exporterPdfOrientation: 'landscape',
         exporterPdfPageSize: 'A4',
-        exporterPdfMaxGridWidth: 500,
+        exporterPdfMaxGridWidth: 675,
         exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
+        },
+        exporterFieldCallback: function (grid, row, col, input) {
+
+            if (col.name == 'birthDay') {
+                return moment(input).format('DD.MM.YYYY');
+            }
+
+            if (col.name == 'gender') {
+                switch (input) {
+                    case "M":
+                        return 'männlich';
+                        break;
+                    case "W":
+                        return 'weiblich';
+                        break;
+                    default:
+                        return 'unbekannt';
+                        break;
+                }
+            }
+
+            if (col.name === 'entryFee' || col.name === 'lateRegistration' || col.name === 'catering' || col.name === 'lunch') {
+                switch (input) {
+                    case true:
+                        return 'Ja';
+                        break;
+                    case false:
+                        return 'Nein';
+                        break;
+                    default:
+                        return 'unbekannt';
+                        break;
+                }
+            } else {
+                return input;
+            }
         }
     };
 
@@ -180,26 +233,16 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
                 + oldValue + ")");
-//            if (colDef.name.indexOf("club") > -1) {
-//                console.log("filtered clubs: " + JSON.stringify($filter('filter')($scope.clubs, {club: {id: newValue}}), null, 4));
-//                SkipperService.update({
-//                    skipperId: rowEntity.id, 
-//                    regattaId: $routeParams.regattaId, 
-////                    club: $filter('filter')($scope.clubs, {club: {id: newValue}})}
-//                    club: {id: newValue, shortName: oldValue}}
-//                , rowEntity);
-//            } else {
                 console.log("skipperId: " + rowEntity.id + " regattaId: " + $routeParams.regattaId);
                 SkipperService.update({skipperId: rowEntity.id, regattaId: $routeParams.regattaId}, rowEntity);
-//            }
             $scope.$apply();
         });
     };
 
     $scope.goClubs = function() {
         $location.path("/clubs");
-        console.log("url: " + "/clubs");
-    }
+//        console.log("url: " + "/clubs");
+    };
 
     $scope.newSkipper = function () {
         console.log("newSkipper(): " + $routeParams.regattaId);
@@ -224,7 +267,10 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
 
     var isRegistrationVisible = false;
         
-    $scope.toggleRegistration = function() {
+    $scope.toggleRegistration = function(data) {
+        console.log("data.cb6: " + JSON.stringify(data, null, 4));
+        $scope.setHeaderText(data);
+        
         if (isRegistrationVisible) {
             isRegistrationVisible = false;
         } else {
@@ -235,6 +281,6 @@ function SkipperController($q, $scope, $routeParams, $location, uiGridConstants,
         $scope.gridOptions.columnDefs[9].visible = isRegistrationVisible;
         $scope.gridOptions.columnDefs[10].visible = isRegistrationVisible;
         $scope.gridApi.core.refresh();
-    }
+    };
     
 }

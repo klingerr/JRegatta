@@ -53,7 +53,7 @@ angular.module('jregatta', [
     // table widget and its options
     'ngAnimate',
     'ui.grid', 'ui.grid.selection', 'ui.grid.exporter', 'ui.grid.edit', 'ui.grid.cellNav',
-    'ui.grid.resizeColumns', 'gridFilters'
+    'ui.grid.resizeColumns', 'gridFilters', 'angularMoment', 'ui.grid.grouping' 
 ]);
 
 angular

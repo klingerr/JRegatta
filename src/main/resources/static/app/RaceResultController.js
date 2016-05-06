@@ -6,7 +6,7 @@ angular
     .module('jregatta')
     .controller('RaceResultController', RaceResultController);
 
-function RaceResultController($scope, $routeParams, $location, uiGridConstants, RaceResultService, $mdToast) {
+function RaceResultController($q, $scope, $routeParams, $location, uiGridConstants, RaceService, RaceResultService, SkipperService, RegattaService, $mdToast) {
 
     $scope.showSuccessToast = function (message) {
         $mdToast.show($mdToast.simple()
@@ -22,6 +22,31 @@ function RaceResultController($scope, $routeParams, $location, uiGridConstants, 
             .theme("error-toast"));
     };
 
+// get dropdown content before creating the grid
+    $scope.skippers = SkipperService.query({regattaId: $routeParams.regattaId});
+    $scope.regatta = RegattaService.get({id: $routeParams.regattaId});
+    $scope.race = RaceService.get({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId});
+    $q.all([
+        $scope.skippers.$promise,
+        $scope.regatta.$promise,
+        $scope.race.$promise
+    ]).then(function () {
+        //CODE AFTER RESOURCES ARE LOADED 
+        $scope.gridOptions.exporterPdfHeader = {text: $scope.race.number + ". Wettfahrt - Ergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'};
+        console.log("$scope.skippers: " + JSON.stringify($scope.skippers, null, 4));
+        console.log("$scope.regatta: " + JSON.stringify($scope.regatta, null, 4));
+        console.log("$scope.race: " + JSON.stringify($scope.race, null, 4));
+
+    });
+
+    $scope.setHeaderText = function(isOffiziell) {
+        if (isOffiziell) {
+            $scope.gridOptions.exporterPdfHeader = {text: $scope.race.number + ". Wettfahrt - Ergebnis", style: 'headerStyle', alignment: 'center'};
+        } else {
+            $scope.gridOptions.exporterPdfHeader = {text: $scope.race.number + ". Wettfahrt - Ergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'};
+        }
+    };
+
     $scope.gridOptions = {
         enableFiltering: false,
         enableCellEditOnFocus: true,
@@ -30,7 +55,35 @@ function RaceResultController($scope, $routeParams, $location, uiGridConstants, 
         enableRowSelection: true,
         enableRowHeaderSelection: false,
         enableColumnResizing: false,
-        rowHeight: 45
+        rowHeight: 45,
+        enableGridMenu: true,
+        enableSelectAll: true,
+        exporterCsvFilename: 'teilnehmer.csv',
+        exporterMenuPdf: true,
+        exporterMenuCsv: false,
+        exporterMenuAllData: false,
+        expandableRowHeaderWidth: 60,
+        exporterPdfDefaultStyle: {fontSize: 9},
+        exporterPdfTableStyle: {margin: [50, 60, 0, 0]},
+        exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+        exporterPdfHeader: {text: $scope.race.number + ". Wettfahrt - Ergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'},
+        exporterPdfFooter: function (currentPage, pageCount) {
+//            return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
+            return {text: 'Org.Büro: _____________________      Wettfahrtleiter: _____________________      Schiedsrichter: _____________________\r\n\r\n' 
+                        + $scope.regatta.name + ' - ' +  moment(new Date()).format('DD.MM.YYYY HH:mm'), style: 'footerStyle'};
+        },
+        exporterPdfCustomFormatter: function (docDefinition) {
+            docDefinition.styles.headerStyle = {fontSize: 22, bold: true, margin: [0, 14, 0, 0]};
+            docDefinition.styles.footerStyle = {fontSize: 10, bold: true, alignment: 'center'};
+            return docDefinition;
+        },
+        exporterPdfOrientation: 'landscape',
+        exporterPdfPageSize: 'A4',
+        exporterPdfMaxGridWidth: 600,
+        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        }
     };
 
     $scope.gridOptions.columnDefs = [{
@@ -100,7 +153,7 @@ function RaceResultController($scope, $routeParams, $location, uiGridConstants, 
         });
     };
 
-    $scope.showMoreColumns = function() {
-        console.log("$scope.gridOptions.columnDefs.length: " + $scope.gridOptions.columnDefs.length);
+    $scope.toggleOfficially = function(data) {
+        $scope.setHeaderText(data);
     };
 }
