@@ -14,12 +14,13 @@ import de.klinger.adw.domain.Result;
 import de.klinger.adw.domain.Skipper;
 import de.klinger.adw.service.impl.ResultService;
 import de.klinger.adw.service.impl.SkipperService;
+import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/regattas/{regattaId}/races/{raceId}/results")
-public class RaceResultController {
+@RequestMapping("/regattas/{regattaId}/races/{raceId}/finishs")
+public class FinishController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -29,18 +30,8 @@ public class RaceResultController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Result> getAllByRaceId(@PathVariable Long raceId) {
-        List<Result> raceResults = resultService.getAllByRaceIdOrderByAgeGroupAndPoints(raceId);
-        log.info("raceResults: " + raceResults);
-        
-        int result=0;
-        AgeGroup oldAgeGroup = null;
-        for (Result raceResult : raceResults) {
-            if (!raceResult.getSkipper().getAgeGroup().equals(oldAgeGroup)) {
-                oldAgeGroup = raceResult.getSkipper().getAgeGroup();
-                result = 0;
-            }
-            raceResult.setResult(++result);
-        }
+        List<Result> raceResults = resultService.findAllByRaceIdOrderByPlacementAsc(raceId);
+        Collections.sort(raceResults);
         return raceResults;
     }
 

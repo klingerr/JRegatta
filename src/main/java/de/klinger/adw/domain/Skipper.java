@@ -200,4 +200,10 @@ public class Skipper {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Skipper{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", sailNumber=" + sailNumber + '}';
+    }
+
+    
 }

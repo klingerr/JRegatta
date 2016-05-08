@@ -56,9 +56,21 @@ Software zur Auswertung der Krümelregatta des AdW Zeuthen
 * statistic information
 * delete of entities
 * reduce list of sail numbers by already selected numbers
+* variants of age group calculation
+  * due date
+    * dynamically age groups
+  * current date
 
 # Tests
-
 * identical final points
   * use of last race result
   * set same place and skip the next one
+
+# Bugs
+* Regatta nicht gefunden bei Speichern/Update Zieleinlauf
+* Sortierung:
+  * fixed: der Zieleinläufe bei DNF/DNS
+  * der Ergebnisse
+  * fixed: der Segelnummern im Popup bei Zieleinläufe
+* fixed (bei Zieldurchgang): Neue Nummer beim Neuerstellen immer mit höchster vorhandener Nummer beginnen
+* fixed: missing linebreak in sailnumber

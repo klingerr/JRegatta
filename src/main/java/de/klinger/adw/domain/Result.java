@@ -14,10 +14,9 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"race_id", "placement"}),
     @UniqueConstraint(columnNames = {"race_id", "skipper_id"})
 })
-public class Result {
+public class Result implements Comparable<Result> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,4 +86,26 @@ public class Result {
         this.race = race;
     }
 
+    @Override
+    public String toString() {
+        return "Result{" + "id=" + id + ", placement=" + placement + ", points=" + points + ", skipper=" + skipper + ", race=" + race + ", result=" + result + '}';
+    }
+
+    @Override
+    public int compareTo(Result o) {
+        Integer oIntPlacement = null;
+        try {
+            oIntPlacement = Integer.valueOf(o.getPlacement());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+        Integer thisIntPlacement = null;
+        try {
+            thisIntPlacement = Integer.valueOf(this.getPlacement());
+        } catch (NumberFormatException e) {
+            return 1;
+        }
+        return thisIntPlacement.compareTo(oIntPlacement);
+    }
+    
 }

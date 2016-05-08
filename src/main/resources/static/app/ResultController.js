@@ -28,7 +28,7 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
         $scope.regatta.$promise
     ]).then(function () {
         //CODE AFTER RESOURCES ARE LOADED 
-//        $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + ". - Gesamtergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'};
+        $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + ". - Gesamtergebnis", style: 'headerStyle', alignment: 'center'};
         console.log("$scope.regatta: " + JSON.stringify($scope.regatta, null, 4));
     });
 
@@ -57,9 +57,9 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
         exporterMenuAllData: false,
         expandableRowHeaderWidth: 60,
         exporterPdfDefaultStyle: {fontSize: 9},
-        exporterPdfTableStyle: {margin: [0, 60, 0, 0]},
+        exporterPdfTableStyle: {margin: [0, 30, 0, 0]},
         exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-        exporterPdfHeader: {text: $scope.regatta.name + ". - Gesamtergebnis", style: 'headerStyle', alignment: 'center'},
+        exporterPdfHeader: {text: $scope.regatta.name + " - Gesamtergebnis", style: 'headerStyle', alignment: 'center'},
         exporterPdfFooter: function (currentPage, pageCount) {
 //            return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
             return {text: 'Org.Büro: _____________________      Wettfahrtleiter: _____________________      Schiedsrichter: _____________________\r\n\r\n' 
@@ -104,23 +104,28 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
         }, {
             field: 'skipper.club.shortName',
             displayName: 'Verein',
-            enableCellEdit: false
+            enableCellEdit: false,
+            type: 'number'
         }, {
             field: 'racePoints.1',
             displayName: '1. Wettfahrt',
-            enableCellEdit: false
+            enableCellEdit: false,
+            type: 'number'
         }, {
             field: 'racePoints.2',
             displayName: '2. Wettfahrt',
-            enableCellEdit: false
+            enableCellEdit: false,
+            type: 'number'
         }, {
             field: 'racePoints.3',
             displayName: '3. Wettfahrt',
-            enableCellEdit: false
+            enableCellEdit: false,
+            type: 'number'
         }, {
             field: 'finalPoints',
             displayName: 'Gesamtpunktzahl',
             enableCellEdit: true,
+            type: 'number',
             sort: {
                 direction: uiGridConstants.ASC,
                 ignoreSort: true,
@@ -129,7 +134,8 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
         }, {
             field: 'finalPlacement',
             displayName: 'Platz',
-            enableCellEdit: false
+            enableCellEdit: false,
+            type: 'number'
         }];
 
     $scope.gridOptions.data = 'results';

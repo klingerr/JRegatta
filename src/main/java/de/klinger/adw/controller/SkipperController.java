@@ -25,7 +25,7 @@ public class SkipperController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Skipper> getAllByRegattaId(@PathVariable Long regattaId) {
-        return skipperService.getAllSkippersByRegattaId(regattaId);
+        return skipperService.getAllSkippersByRegattaIdOrderBySailNumberAsc(regattaId);
     }
 
     @RequestMapping(method = RequestMethod.POST)

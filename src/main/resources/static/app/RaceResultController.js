@@ -115,6 +115,7 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
             field: 'placement',
             displayName: 'Zieleinlauf',
             enableCellEdit: true,
+            type: 'number',
             sort: {
                 direction: uiGridConstants.ASC,
                 ignoreSort: true,
@@ -129,7 +130,7 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
             field: 'result',
             displayName: 'Platz',
             type: 'number',
-            enableCellEdit: false
+            enableCellEdit: true
         }];
 
     $scope.gridOptions.data = 'raceResults';

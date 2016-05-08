@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegattaResultDto implements Comparable<RegattaResultDto> {
-    private static final int LAST_RACE_NUMBER = 3;
+    private static final int VOTE_RACE_NUMBER = 1;
 
     
     private Skipper skipper;
@@ -55,7 +55,7 @@ public class RegattaResultDto implements Comparable<RegattaResultDto> {
             int finalPointsCompare = this.getFinalPoints().compareTo(o.getFinalPoints());
             if (finalPointsCompare == 0) {
                 try {
-                    return this.getRacePoints().get(LAST_RACE_NUMBER).compareTo(o.getRacePoints().get(LAST_RACE_NUMBER));
+                    return this.getRacePoints().get(VOTE_RACE_NUMBER).compareTo(o.getRacePoints().get(VOTE_RACE_NUMBER));
                 } catch(Exception e) {
                     return finalPointsCompare;
                 }

@@ -34,12 +34,38 @@
 }
 
 
+.datum {
+    text-align: center;
+    margin-left: 265px;
+    position: absolute;
+    margin-top: 520px;
+    font-size: 20px;
+}
+
+.wettfahrtleiter {
+    position: absolute;
+    margin-top: 530px;
+    margin-left: 70px;
+    font-size: 16px;
+}
+
+.regattaleiter {
+    position: absolute;
+    margin-top: 530px;
+    margin-left: 460px;
+    font-size: 16px;
+}
+
 /**************** A4 - Print *****************/
 
 * {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
+
+/* bootstrap sets fontcolor in print mode to black
+@media print{*{text-shadow:none !important;color:#000 !important;background:transparent !important;box-shadow:none !important;}
+*/
 
 .page {
     font-family: Schoolbell;

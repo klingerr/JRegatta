@@ -18,8 +18,8 @@ public class SkipperService {
         return skipperRepository.save(skipper);
     }
 
-    public List<Skipper> getAllSkippersByRegattaId(Long regattaId) {
-        return skipperRepository.findAllByRegattaId(regattaId);
+    public List<Skipper> getAllSkippersByRegattaIdOrderBySailNumberAsc(Long regattaId) {
+        return skipperRepository.findAllByRegattaIdOrderBySailNumberAsc(regattaId);
     }
 
     public void delete(String id) {

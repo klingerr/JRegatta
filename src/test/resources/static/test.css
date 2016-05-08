@@ -39,6 +39,31 @@ body {
         padding: 10px;*/
 }
 
+.datum {
+	text-align: center;
+    margin-left: 245px;
+    position: absolute;
+    margin-top: 515px;
+	font-size: 20px;
+}
+
+.wettfahrtleiter {
+    position: absolute;
+    margin-top: 520px;
+    margin-left: 60px;
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+}
+
+.regattaleiter {
+    position: absolute;
+    margin-top: 520px;
+    margin-left: 430px;
+    font-size: 16px;
+}
+
 
 /**************** A4 - Print *****************/
 * {

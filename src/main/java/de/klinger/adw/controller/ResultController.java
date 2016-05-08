@@ -61,12 +61,12 @@ public class ResultController {
                 placement = 0;
             }
             
-            if (result.getFinalPoints().equals(lastFinalPoints)) {
-                result.setFinalPlacement(placement);
-                placement = placement + 2;
-            } else {
+//            if (result.getFinalPoints().equals(lastFinalPoints)) {
+//                result.setFinalPlacement(placement);
+//                placement = placement + 2;
+//            } else {
                 result.setFinalPlacement(++placement);
-            }
+//            }
             
             lastFinalPoints = result.getFinalPoints();
         }

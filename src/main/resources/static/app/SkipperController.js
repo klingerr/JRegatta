@@ -130,21 +130,11 @@ function SkipperController($q, $scope, $routeParams, $location, moment, uiGridCo
             editDropdownValueLabel: 'shortName',
             editDropdownOptionsArray: $scope.clubs,
             cellFilter: 'griddropdown:this',
-            sortCellFiltered: true,
-            sort: {
-                direction: uiGridConstants.ASC,
-                ignoreSort: true,
-                priority: 0
-            }
+            sortCellFiltered: true
         }, {
             field: 'sailNumber',
             displayName: 'Segelnummer',
-            enableCellEdit: true,
-            sort: {
-                direction: uiGridConstants.ASC,
-                ignoreSort: true,
-                priority: 1
-            }
+            enableCellEdit: true
         }, {
             field: 'firstName',
             displayName: 'Vorname',
@@ -152,7 +142,12 @@ function SkipperController($q, $scope, $routeParams, $location, moment, uiGridCo
         }, {
             field: 'lastName',
             displayName: 'Nachname',
-            enableCellEdit: true
+            enableCellEdit: true,
+            sort: {
+                direction: uiGridConstants.ASC,
+                ignoreSort: true,
+                priority: 1
+            }
         }, {
             name: 'gender',
             displayName: 'Geschlecht',
@@ -171,7 +166,12 @@ function SkipperController($q, $scope, $routeParams, $location, moment, uiGridCo
         }, {
             field: 'ageGroup',
             displayName: 'Altersgruppe',
-            enableCellEdit: false
+            enableCellEdit: false,
+            sort: {
+                direction: uiGridConstants.ASC,
+                ignoreSort: true,
+                priority: 0
+            }
         }, {
             field: 'lateRegistration',
             displayName: 'Nachmeldung',

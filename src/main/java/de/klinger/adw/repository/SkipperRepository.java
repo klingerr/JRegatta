@@ -11,7 +11,7 @@ public interface SkipperRepository extends CrudRepository<Skipper, Long> {
     @Override
     List<Skipper> findAll();
     
-    List<Skipper> findAllByRegattaId(Long id);
+    List<Skipper> findAllByRegattaIdOrderBySailNumberAsc(Long id);
 
     Skipper findOneBySailNumberAndRegattaId(String sailNumber, long regattaId);
 

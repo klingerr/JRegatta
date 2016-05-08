@@ -7,7 +7,6 @@ angular
     .controller('RegattaController', RegattaController);
 
 function RegattaController($scope, $location, RegattaService, $mdToast) {
-    const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
         $mdToast.show($mdToast.simple()
@@ -117,21 +116,4 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
             });
     };
 
-
-    $scope.showMoreColumns = function() {
-        console.log("$scope.gridOptions.columnDefs.length: " + $scope.gridOptions.columnDefs.length);
-
-        if ($scope.gridOptions.columnDefs.length == GRID_DEFAULT_COLUMN_COUNT) {
-            $scope.gridOptions.columnDefs.push({
-                field: 'startDate',
-                enableCellEdit: true,
-                type: 'date',
-                cellFilter: 'date:\'dd.MM.yyyy\''
-            })
-        } else {
-            var deleteColumnCount = $scope.gridOptions.columnDefs.length - GRID_DEFAULT_COLUMN_COUNT;
-            console.log("Trying to delete columns: " + deleteColumnCount);
-            $scope.gridOptions.columnDefs.splice(GRID_DEFAULT_COLUMN_COUNT, deleteColumnCount);
-        }
-    }
 }

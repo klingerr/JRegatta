@@ -1,12 +1,10 @@
 "use strict";
 
-var finishCounter = 0;
-
 angular
     .module('jregatta')
     .controller('FinishController', FinishController);
 
-function FinishController($q, $scope, $routeParams, uiGridConstants, RaceService, RaceResultService, SkipperService, RegattaService, $mdToast) {
+function FinishController($q, $scope, $routeParams, RaceService, FinishService, SkipperService, RegattaService, $mdToast) {
 
     $scope.showSuccessToast = function (message) {
         $mdToast.show($mdToast.simple()
@@ -86,16 +84,26 @@ function FinishController($q, $scope, $routeParams, uiGridConstants, RaceService
         }
     };
 
+
+//    $scope.mySort = function(a,b){
+//        if (a == b) return 0;
+//        if (a < b) return -1;
+//        return srirachaSauce;
+//    };
+    
     $scope.gridOptions.columnDefs = [
         {
             field: 'placement',
-            displayName: 'Platz',
-            enableCellEdit: true,
-            sort: {
-                direction: uiGridConstants.ASC,
-                ignoreSort: true,
-                priority: 0
-            }
+            displayName: 'Zieleinlauf',
+            enableCellEdit: true
+//            type: 'number'
+//            enableSorting: false,
+//            sortingAlgorithm: mySort
+//            sort: {
+//                direction: uiGridConstants.ASC,
+//                ignoreSort: true,
+//                priority: 0
+//            }
         }, {
             field: 'skipper.sailNumber',
             displayName: 'Segelnummer',
@@ -104,11 +112,11 @@ function FinishController($q, $scope, $routeParams, uiGridConstants, RaceService
             editDropdownIdLabel: 'sailNumber',
             editDropdownValueLabel: 'sailNumber',
             editDropdownOptionsArray: $scope.skippers,
-            cellFilter: 'griddropdown:this',
+            cellFilter: 'griddropdown:this'
         }];
 
     $scope.gridOptions.data = 'finishs';
-    $scope.finishs = RaceResultService.query({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId}, {raceId: $routeParams.raceId});
+    $scope.finishs = FinishService.query({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId}, {raceId: $routeParams.raceId});
 
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
@@ -118,15 +126,17 @@ function FinishController($q, $scope, $routeParams, uiGridConstants, RaceService
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
                 + oldValue + ")");
-            RaceResultService.update({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId, resultId: rowEntity.id}, rowEntity);
+            FinishService.update({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId, resultId: rowEntity.id}, rowEntity);
             $scope.$apply();
         });
     };
 
+//    $scope.finishCounter = $scope.gridApi.core.getVisibleRows().length;;
+
     $scope.newFinish = function () {
         console.log("newFinish(): " + $routeParams.regattaId);
-        RaceResultService.save(
-            {placement: "" + ++finishCounter,
+        FinishService.save(
+            {placement: "" + ($scope.gridApi.core.getVisibleRows().length + 1),
             regattaId: $routeParams.regattaId,
             raceId: $routeParams.raceId, 
             race: {id: $routeParams.raceId}},
@@ -138,6 +148,7 @@ function FinishController($q, $scope, $routeParams, uiGridConstants, RaceService
             },
             function (err) {
                 // error callback
+                console.log("$scope.finishCounter: " + ($scope.gridApi.core.getVisibleRows().length + 1));
                 console.log("error: " + JSON.stringify(err, null, 4));
                 $scope.showErrorToast('Fehler: Es konnte kein neuer Zieleinlauf hinzugefügt werden!');
             });

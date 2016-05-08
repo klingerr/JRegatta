@@ -89,4 +89,10 @@ public class Race {
         this.regatta = regatta;
     }
 
+    @Override
+    public String toString() {
+        return "Race{" + "id=" + id + ", number=" + number + ", regatta=" + regatta + '}';
+    }
+
+    
 }

@@ -8,4 +8,7 @@ function CertificateController($scope, $routeParams, ResultService) {
 
     $scope.certificates = ResultService.query({regattaId: $routeParams.regattaId});
 
+    $scope.formatSailnumber = function(sailNumber){
+      return sailNumber.replace(' ', '\n');
+    };
 }
