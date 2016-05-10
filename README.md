@@ -32,15 +32,15 @@ Software zur Auswertung der Krümelregatta des AdW Zeuthen
   * https://damienfremont.com/2015/11/05/javaee-angularjs-bootstrap-how-to-breadcrumb-and-navbar/
 
 ## Todos
-* navigation
-* autocomplete within grid, i.e. sailingClub at skippers
-* print layout for tables incl. header and footer
-* improve/dynamize breadcrumb navigation
-* result calculation
-  * incl. conflict resolution strategies (last race wins, skip one place)
-* print placement only for first three
-
+* navigation/menu
+  * improve/dynamize breadcrumb navigation
+* unit and  BDD tests
+  
 ## Done
+* print placement only for first three
+* result calculation
+* print layout for tables incl. header and footer
+* autocomplete within grid, i.e. sailingClub at skippers
 * using Angular Material as ui style
 * Toastr (Angular Toast) for user feedback
 * menu bar / breadcrumb
@@ -53,15 +53,19 @@ Software zur Auswertung der Krümelregatta des AdW Zeuthen
 * CVS export of table content
 
 ## Future features
-* dynamically get correct next value for new entity, i.e. new race
 * delete of entities
+* dynamically get correct next value for new entity, i.e. new race
 * reduce list of sail numbers by already selected numbers
+* conflict resolution strategy (best placement)
 * statistic information, i.e. number of skippers per age group, start and end of race
 * variants of age group calculation
   * due date
     * dynamically age groups (more than two age groups)
   * current date
 * export/import regatta to/from XML or JSON
+* add certificates per regatta via GUI:
+  * background image
+  * css definition
 
 # Tests
 * identical final points
