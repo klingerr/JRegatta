@@ -50,16 +50,18 @@ Software zur Auswertung der Krümelregatta des AdW Zeuthen
 * finalize UX (add button and switch below table, table size)
 * create missing domain objects, repositories and GUIs: sailingClub, skipper, race, result 
 * print layout for certificates
+* CVS export of table content
 
 ## Future features
-* CVS export of table content
-* statistic information
+* dynamically get correct next value for new entity, i.e. new race
 * delete of entities
 * reduce list of sail numbers by already selected numbers
+* statistic information, i.e. number of skippers per age group, start and end of race
 * variants of age group calculation
   * due date
-    * dynamically age groups
+    * dynamically age groups (more than two age groups)
   * current date
+* export/import regatta to/from XML or JSON
 
 # Tests
 * identical final points
