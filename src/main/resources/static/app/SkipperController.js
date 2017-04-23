@@ -1,7 +1,5 @@
 "use strict";
 
-var skipperCounter = 0;
-
 angular
     .module('jregatta')
     .controller('SkipperController', SkipperController);
@@ -130,24 +128,34 @@ function SkipperController($q, $scope, $routeParams, $location, moment, uiGridCo
             editDropdownValueLabel: 'shortName',
             editDropdownOptionsArray: $scope.clubs,
             cellFilter: 'griddropdown:this',
-            sortCellFiltered: true
+            sortCellFiltered: true,
+            sort: {
+                direction: uiGridConstants.ASC,
+                ignoreSort: true,
+                priority: 0
+            }
         }, {
-            field: 'sailNumber',
-            displayName: 'Segelnummer',
-            enableCellEdit: true
+        	field: 'lastName',
+        	displayName: 'Nachname',
+        	enableCellEdit: true,
+        	sort: {
+        		direction: uiGridConstants.ASC,
+        		ignoreSort: true,
+        		priority: 1
+        	}
         }, {
             field: 'firstName',
             displayName: 'Vorname',
-            enableCellEdit: true
-        }, {
-            field: 'lastName',
-            displayName: 'Nachname',
             enableCellEdit: true,
             sort: {
                 direction: uiGridConstants.ASC,
                 ignoreSort: true,
-                priority: 1
+                priority: 2
             }
+        }, {
+        	field: 'sailNumber',
+        	displayName: 'Segelnummer',
+        	enableCellEdit: true
         }, {
             name: 'gender',
             displayName: 'Geschlecht',
@@ -166,12 +174,7 @@ function SkipperController($q, $scope, $routeParams, $location, moment, uiGridCo
         }, {
             field: 'ageGroup',
             displayName: 'Altersgruppe',
-            enableCellEdit: false,
-            sort: {
-                direction: uiGridConstants.ASC,
-                ignoreSort: true,
-                priority: 0
-            }
+            enableCellEdit: false
         }, {
             field: 'lateRegistration',
             displayName: 'Nachmeldung',
@@ -241,14 +244,17 @@ function SkipperController($q, $scope, $routeParams, $location, moment, uiGridCo
 
     $scope.goClubs = function() {
         $location.path("/clubs");
-//        console.log("url: " + "/clubs");
     };
 
+    $scope.goRaces = function() {
+    	$location.path("/regattas/" + $routeParams.regattaId + "/races");
+    };
+    
     $scope.newSkipper = function () {
         console.log("newSkipper(): " + $routeParams.regattaId);
         SkipperService.save(
-            {lastName: "N-" + ++skipperCounter,
-                firstName: "V-" + skipperCounter,
+            {lastName: "N-" + ($scope.gridApi.core.getVisibleRows().length + 1),
+                firstName: "V-" + ($scope.gridApi.core.getVisibleRows().length + 1),
                 regattaId: $routeParams.regattaId,
                 regatta: {id: $routeParams.regattaId}},
             function (savedSkipper, headers) {

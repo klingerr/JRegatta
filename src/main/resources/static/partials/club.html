@@ -1,6 +1,12 @@
-
-<div layout="row" layout-align="start center">
+<div layout="row" style="background-color: rgba(224, 224, 224, 0.96);" layout-align="center center">
+	<h2 style="margin: 5px; color: rgb(8,123,0)">Vereinsliste</h2>
+</div>
+<div layout="row" layout-align="center center">
+	<md-button href="#/regatta" class="groupX left"><< Regatten</md-button>
+    <md-button ng-click="goSkippers()" md-no-ink class="groupX right md-primary">< Teilnehmer</md-button>
+	<span flex></span>
 	<md-button ng-click="newClub()" class="md-raised md-primary">Verein hinzufügen</md-button>
+	<span flex></span>
 </div>
 
 <div flex layout="row" style="position: relative;">

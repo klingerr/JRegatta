@@ -1,8 +1,10 @@
 package de.klinger.adw.controller;
 
-import de.klinger.adw.domain.AgeGroup;
+import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,9 +16,6 @@ import de.klinger.adw.domain.Result;
 import de.klinger.adw.domain.Skipper;
 import de.klinger.adw.service.impl.ResultService;
 import de.klinger.adw.service.impl.SkipperService;
-import java.util.Collections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/regattas/{regattaId}/races/{raceId}/finishs")
@@ -58,7 +57,7 @@ public class FinishController {
         
         if (result.getSkipper() != null) {
             log.info("result.getSkipper().getSailNumber(): " + result.getSkipper().getSailNumber());
-            Skipper skipper = skipperService.findOneBySailNumberAndRegattaId(result.getSkipper().getSailNumber(), 3);
+            Skipper skipper = skipperService.findOneBySailNumberAndRegattaId(result.getSkipper().getSailNumber(), result.getSkipper().getRegatta().getId());
             update.setSkipper(skipper);
         }
         

@@ -1,7 +1,5 @@
 "use strict";
 
-var regattaCounter = 0;
-
 angular
     .module('jregatta')
     .controller('RegattaController', RegattaController);
@@ -51,7 +49,7 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
             cellFilter: 'date:\'dd.MM.yyyy\''
         }, {
             field: 'buoyages',
-            displayName: 'Bojen',
+            displayName: 'Wettfahrten',
             enableCellEdit: true,
             type: 'number'
         }, {
@@ -101,8 +99,8 @@ function RegattaController($scope, $location, RegattaService, $mdToast) {
     $scope.newRegatta = function () {
         console.log("newRegatta()");
         RegattaService.save(
-            {name: "Regatta-" + ++regattaCounter, 
-            shortName: "R" + regattaCounter},
+            {name: "Regatta-" + ($scope.gridApi.core.getVisibleRows().length + 1), 
+            shortName: "R" + ($scope.gridApi.core.getVisibleRows().length + 1)},
             function (savedRegatta, headers) {
                 //success callback
                 console.log("success: " + JSON.stringify(savedRegatta, null, 4));

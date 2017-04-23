@@ -4,7 +4,7 @@
 
     <groupId>de.klinger.adw</groupId>
     <artifactId>jregatta</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <description>Auswertungssoftware fuer die jaehrliche Kruemelregatta des AdW</description>
 
     <parent>
@@ -132,7 +132,10 @@
             <version>${angular-moment.version}</version>
         </dependency>
 
-
+		<dependency>
+		  <groupId>joda-time</groupId>
+		  <artifactId>joda-time</artifactId>
+		</dependency>
 
 
     </dependencies>

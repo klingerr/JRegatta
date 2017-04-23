@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.klinger.adw.domain.AgeGroup;
 import de.klinger.adw.domain.Skipper;
 import de.klinger.adw.repository.SkipperRepository;
 
@@ -19,9 +20,17 @@ public class SkipperService {
     }
 
     public List<Skipper> getAllSkippersByRegattaIdOrderBySailNumberAsc(Long regattaId) {
-        return skipperRepository.findAllByRegattaIdOrderBySailNumberAsc(regattaId);
+        return skipperRepository.findAllByRegattaIdOrderByClubAscLastNameAscFirstNameAsc(regattaId);
     }
 
+    public List<Skipper> getAvailableByRaceIdOrderBySailNumberAsc(Long regattaId, Long raceId) {
+    	return skipperRepository.findAvailableByRaceIdOrderBySailNumberAsc(regattaId, raceId);
+    }
+    
+    public Integer countByRegattaIdAndAgeGroup(Long regattaId, AgeGroup ageGroup) {
+    	return skipperRepository.countByRegattaIdAndAgeGroup(regattaId, ageGroup);
+    }
+    
     public void delete(String id) {
         skipperRepository.delete(new Long(id));
     }

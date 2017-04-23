@@ -22,6 +22,17 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
             .theme("error-toast"));
     };
 
+    var getHeaderText = function(isOffiziell) {
+    	var text = $scope.race.number + ". Wettfahrt - Ergebnis (vorläufig)";
+    	
+    	if (isOffiziell) {
+    		text = $scope.race.number + ". Wettfahrt - Ergebnis";
+    	}
+    	
+//    	return text + " (Start: " + $scope.race.startTime + " Ende: " + $scope.race.endTime + ")";
+    	return text;
+    }
+    
 // get dropdown content before creating the grid
     $scope.skippers = SkipperService.query({regattaId: $routeParams.regattaId});
     $scope.regatta = RegattaService.get({id: $routeParams.regattaId});
@@ -32,20 +43,12 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
         $scope.race.$promise
     ]).then(function () {
         //CODE AFTER RESOURCES ARE LOADED 
-        $scope.gridOptions.exporterPdfHeader = {text: $scope.race.number + ". Wettfahrt - Ergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'};
+        $scope.gridOptions.exporterPdfHeader = {text: getHeaderText(false), style: 'headerStyle', alignment: 'center'};
         console.log("$scope.skippers: " + JSON.stringify($scope.skippers, null, 4));
         console.log("$scope.regatta: " + JSON.stringify($scope.regatta, null, 4));
         console.log("$scope.race: " + JSON.stringify($scope.race, null, 4));
 
     });
-
-    $scope.setHeaderText = function(isOffiziell) {
-        if (isOffiziell) {
-            $scope.gridOptions.exporterPdfHeader = {text: $scope.race.number + ". Wettfahrt - Ergebnis", style: 'headerStyle', alignment: 'center'};
-        } else {
-            $scope.gridOptions.exporterPdfHeader = {text: $scope.race.number + ". Wettfahrt - Ergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'};
-        }
-    };
 
     $scope.gridOptions = {
         enableFiltering: false,
@@ -66,7 +69,7 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
         exporterPdfDefaultStyle: {fontSize: 9},
         exporterPdfTableStyle: {margin: [50, 60, 0, 0]},
         exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-        exporterPdfHeader: {text: $scope.race.number + ". Wettfahrt - Ergebnis (vorläufig)", style: 'headerStyle', alignment: 'center'},
+        exporterPdfHeader: {text: getHeaderText(false), style: 'headerStyle', alignment: 'center'},
         exporterPdfFooter: function (currentPage, pageCount) {
 //            return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
             return {text: 'Org.Büro: _____________________      Wettfahrtleiter: _____________________      Schiedsrichter: _____________________\r\n\r\n' 
@@ -114,7 +117,7 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
         }, {
             field: 'placement',
             displayName: 'Zieleinlauf',
-            enableCellEdit: true,
+            enableCellEdit: false,
             type: 'number',
             sort: {
                 direction: uiGridConstants.ASC,
@@ -130,7 +133,7 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
             field: 'result',
             displayName: 'Platz',
             type: 'number',
-            enableCellEdit: true
+            enableCellEdit: false
         }];
 
     $scope.gridOptions.data = 'raceResults';
@@ -141,6 +144,14 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
         console.log("url: " + "/regattas/" + $routeParams.regattaId + "/certificates");
     };
 
+    $scope.goRaces = function() {
+    	$location.path("/regattas/" + $routeParams.regattaId + "/races");
+    };
+    
+    $scope.goFinish = function() {
+    	$location.path("/regattas/" + $routeParams.regattaId + "/races/" + $routeParams.raceId + "/finish");
+    };
+    
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
         gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
@@ -157,4 +168,9 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
     $scope.toggleOfficially = function(data) {
         $scope.setHeaderText(data);
     };
+    
+    $scope.setHeaderText = function(isOffiziell) {
+    	$scope.gridOptions.exporterPdfHeader = {text: getHeaderText(isOffiziell), style: 'headerStyle', alignment: 'center'};
+    };
+
 }

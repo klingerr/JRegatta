@@ -54,21 +54,13 @@ public class ResultController {
         Collections.sort(regattaResultDtos);
         AgeGroup oldAgeGroup = null;
         int placement = 0;
-        int lastFinalPoints = 0;
         for (RegattaResultDto result : regattaResultDtos) {
             if (!result.getSkipper().getAgeGroup().equals(oldAgeGroup)) {
                 oldAgeGroup = result.getSkipper().getAgeGroup();
                 placement = 0;
             }
             
-//            if (result.getFinalPoints().equals(lastFinalPoints)) {
-//                result.setFinalPlacement(placement);
-//                placement = placement + 2;
-//            } else {
-                result.setFinalPlacement(++placement);
-//            }
-            
-            lastFinalPoints = result.getFinalPoints();
+            result.setFinalPlacement(++placement);
         }
     }
 

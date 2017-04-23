@@ -200,10 +200,40 @@ public class Skipper {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Skipper{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", sailNumber=" + sailNumber + '}';
-    }
+	@Override
+	public String toString() {
+		final int maxLen = 3;
+		StringBuilder builder = new StringBuilder();
+		builder.append("Skipper [id=");
+		builder.append(id);
+		builder.append(", firstName=");
+		builder.append(firstName);
+		builder.append(", lastName=");
+		builder.append(lastName);
+		builder.append(", birthDay=");
+		builder.append(birthDay);
+		builder.append(", ageGroup=");
+		builder.append(ageGroup);
+		builder.append(", gender=");
+		builder.append(gender);
+		builder.append(", sailNumber=");
+		builder.append(sailNumber);
+		builder.append(", lateRegistration=");
+		builder.append(lateRegistration);
+		builder.append(", entryFee=");
+		builder.append(entryFee);
+		builder.append(", catering=");
+		builder.append(catering);
+		builder.append(", lunch=");
+		builder.append(lunch);
+		builder.append(", regatta=");
+		builder.append(regatta);
+		builder.append(", club=");
+		builder.append(club);
+		builder.append(", results=");
+		builder.append(results != null ? results.subList(0, Math.min(results.size(), maxLen)) : null);
+		builder.append("]");
+		return builder.toString();
+	}
 
-    
 }

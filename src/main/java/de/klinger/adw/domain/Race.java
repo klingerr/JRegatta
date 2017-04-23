@@ -90,9 +90,23 @@ public class Race {
     }
 
     @Override
-    public String toString() {
-        return "Race{" + "id=" + id + ", number=" + number + ", regatta=" + regatta + '}';
-    }
+	public String toString() {
+		final int maxLen = 3;
+		StringBuilder builder = new StringBuilder();
+		builder.append("Race [id=");
+		builder.append(id);
+		builder.append(", number=");
+		builder.append(number);
+		builder.append(", startTime=");
+		builder.append(startTime);
+		builder.append(", endTime=");
+		builder.append(endTime);
+		builder.append(", regatta=");
+		builder.append(regatta);
+		builder.append(", results=");
+		builder.append(results != null ? results.subList(0, Math.min(results.size(), maxLen)) : null);
+		builder.append("]");
+		return builder.toString();
+	}
 
-    
 }

@@ -55,28 +55,19 @@ Software zur Auswertung der Krümelregatta des AdW Zeuthen
 ## Future features
 * delete of entities
 * dynamically get correct next value for new entity, i.e. new race
-* reduce list of sail numbers by already selected numbers
 * conflict resolution strategy (best placement)
 * statistic information, i.e. number of skippers per age group, start and end of race
 * variants of age group calculation
   * due date
     * dynamically age groups (more than two age groups)
-  * current date
+  * done: current date
 * export/import regatta to/from XML or JSON
 * add certificates per regatta via GUI:
   * background image
   * css definition
 
 # Tests
-* identical final points
-  * use of last race result
-  * set same place and skip the next one
+* Todo
 
 # Bugs
-* Regatta nicht gefunden bei Speichern/Update Zieleinlauf
-* Sortierung:
-  * fixed: der Zieleinläufe bei DNF/DNS
-  * der Ergebnisse
-  * fixed: der Segelnummern im Popup bei Zieleinläufe
-* fixed (bei Zieldurchgang): Neue Nummer beim Neuerstellen immer mit höchster vorhandener Nummer beginnen
-* fixed: missing linebreak in sailnumber
+* race needs a date

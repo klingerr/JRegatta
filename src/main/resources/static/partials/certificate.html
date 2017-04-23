@@ -8,7 +8,7 @@
             <b>{{certificate.skipper.firstName}} {{certificate.skipper.lastName}}</b><br />
             <span style="font-size: 35px">{{certificate.skipper.club.shortName}}</span>
         </div>
-        <div class="datum">7./8. Mai 2016</div>
+        <div class="datum">{{certificate.skipper.regatta.startDate| date:'dd.'}}/{{certificate.skipper.regatta.endDate| date:'dd. MMM yyyy'}}</div>
         <div class="wettfahrtleiter">Wettfahrtleiter</div>
         <div class="regattaleiter">Regattaleiter</div>    </div>
 </div>

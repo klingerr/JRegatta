@@ -11,6 +11,8 @@ public interface ResultRepository extends CrudRepository<Result, Long> {
     List<Result> findAllByRaceRegattaIdOrderBySkipper(Long regattaId);
 
     List<Result> findAllByRaceIdOrderBySkipperAgeGroupAscPointsAsc(Long raceId);
+    List<Result> findAllByRaceIdOrderBySkipperAgeGroupDescPlacementAsc(Long raceId);
+    List<Result> findAllByRaceId(Long raceId);
 
     List<Result> findAllByRaceIdOrderByPlacementAsc(Long raceId);
 

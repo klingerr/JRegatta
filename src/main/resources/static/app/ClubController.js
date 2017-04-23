@@ -1,12 +1,10 @@
 "use strict";
 
-var clubCounter = 0;
-
 angular
     .module('jregatta')
     .controller('ClubController', ClubController);
 
-function ClubController($scope, ClubService, uiGridConstants, $mdToast) {
+function ClubController($scope, ClubService, uiGridConstants, $mdToast, $window) {
     const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
@@ -23,6 +21,10 @@ function ClubController($scope, ClubService, uiGridConstants, $mdToast) {
             .theme("error-toast"));
     };
 
+    $scope.goSkippers = function() {
+    	$window.history.back();
+    };
+    
     $scope.gridOptions = {
         enableFiltering: false,
         enableCellEditOnFocus: true,
@@ -48,7 +50,7 @@ function ClubController($scope, ClubService, uiGridConstants, $mdToast) {
             field: 'name',
             enableCellEdit: true
         }, {
-            field: 'address',
+            field: 'adress',
             displayName: 'Adresse',
             enableCellEdit: true
         }];
@@ -72,7 +74,7 @@ function ClubController($scope, ClubService, uiGridConstants, $mdToast) {
     $scope.newClub = function () {
         console.log("newClub()");
         ClubService.save(
-            {name: "Club-" + ++clubCounter, shortName: "R" + clubCounter},
+            {name: "Club-" + ($scope.gridApi.core.getVisibleRows().length + 1), shortName: "R" + ($scope.gridApi.core.getVisibleRows().length + 1)},
             function (savedClub, headers) {
                 //success callback
                 console.log("success: " + JSON.stringify(savedClub, null, 4));

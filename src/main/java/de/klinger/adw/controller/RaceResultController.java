@@ -1,21 +1,22 @@
 package de.klinger.adw.controller;
 
-import de.klinger.adw.domain.AgeGroup;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.klinger.adw.domain.AgeGroup;
 import de.klinger.adw.domain.Result;
-import de.klinger.adw.domain.Skipper;
 import de.klinger.adw.service.impl.ResultService;
 import de.klinger.adw.service.impl.SkipperService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 @RestController
 @RequestMapping("/regattas/{regattaId}/races/{raceId}/results")
@@ -27,19 +28,43 @@ public class RaceResultController {
     @Autowired
     private SkipperService skipperService;
 
+    @Value("${result.penaltyPoints}")
+    private Integer penaltyPoints = 1;
+    
     @RequestMapping(method = RequestMethod.GET)
     public List<Result> getAllByRaceId(@PathVariable Long raceId) {
-        List<Result> raceResults = resultService.getAllByRaceIdOrderByAgeGroupAndPoints(raceId);
+        List<Result> raceResults = resultService.getAllByRaceIdOrderByAgeGroupAndPlacement(raceId);
         log.info("raceResults: " + raceResults);
         
         int result=0;
+        int points=0;
         AgeGroup oldAgeGroup = null;
+        boolean saveResults = false;
         for (Result raceResult : raceResults) {
+        	System.out.println("raceResult.getSkipper(): " + raceResult.getSkipper());
+        	System.out.println("raceResult.getSkipper().getAgeGroup(): " + raceResult.getSkipper().getAgeGroup());
             if (!raceResult.getSkipper().getAgeGroup().equals(oldAgeGroup)) {
                 oldAgeGroup = raceResult.getSkipper().getAgeGroup();
                 result = 0;
+                points = 0;
             }
-            raceResult.setResult(++result);
+            
+            if (raceResult.getPoints() == 0) {
+            	saveResults = true;
+	            raceResult.setPoints(++points);
+	            if (!isNumeric(raceResult.getPlacement())) {
+					raceResult.setPoints(skipperService.countByRegattaIdAndAgeGroup(raceResult.getSkipper().getRegatta().getId(), raceResult.getSkipper().getAgeGroup()) + penaltyPoints);
+	            }
+            }
+            
+            if (raceResult.getPoints() != 0) {
+            	raceResult.setResult(++result);
+            }
+
+        }
+        
+        if (saveResults) {
+        	resultService.saveResults(raceResults);
         }
         return raceResults;
     }
@@ -65,16 +90,20 @@ public class RaceResultController {
         log.info("result.getRace().getRegatta().getId(): " + result.getRace().getRegatta());
         Result update = resultService.findOne(id);
         
-        if (result.getSkipper() != null) {
-            log.info("result.getSkipper().getSailNumber(): " + result.getSkipper().getSailNumber());
-            Skipper skipper = skipperService.findOneBySailNumberAndRegattaId(result.getSkipper().getSailNumber(), 3);
-            update.setSkipper(skipper);
-        }
-        
-        update.setPlacement(result.getPlacement());
+//        if (result.getSkipper() != null) {
+//            log.info("result.getSkipper().getSailNumber(): " + result.getSkipper().getSailNumber());
+//            Skipper skipper = skipperService.findOneBySailNumberAndRegattaId(result.getSkipper().getSailNumber(), result.getSkipper().getRegatta().getId());
+//            update.setSkipper(skipper);
+//        }
+//        
+//        update.setPlacement(result.getPlacement());
         update.setPoints(result.getPoints());
-        update.setRace(result.getRace());
+//        update.setRace(result.getRace());
         return resultService.save(update);
     }
+    
+    public boolean isNumeric(String s) {  
+        return s.matches("[-+]?\\d*\\.?\\d+");  
+    }  
 
 }

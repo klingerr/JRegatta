@@ -1,12 +1,10 @@
 "use strict";
 
-var raceCounter = 0;
-
 angular
     .module('jregatta')
     .controller('RaceController', RaceController);
 
-function RaceController($scope, $location, $routeParams, RaceService, $mdToast) {
+function RaceController($q, $scope, $location, $routeParams, RaceService, RegattaService, $mdToast) {
     const GRID_DEFAULT_COLUMN_COUNT = 4;
 
     $scope.showSuccessToast = function (message) {
@@ -23,6 +21,16 @@ function RaceController($scope, $location, $routeParams, RaceService, $mdToast) 
             .theme("error-toast"));
     };
 
+ // get dropdown content before creating the grid
+    $scope.regatta = RegattaService.get({id: $routeParams.regattaId});
+    $q.all([
+        $scope.regatta.$promise
+    ]).then(function () {
+        //CODE AFTER RESOURCES ARE LOADED 
+        console.log("$scope.regatta: " + JSON.stringify($scope.regatta, null, 4));
+    });
+    
+    
     $scope.gridOptions = {
         enableFiltering: false,
         enableCellEditOnFocus: true,
@@ -85,7 +93,7 @@ function RaceController($scope, $location, $routeParams, RaceService, $mdToast) 
     $scope.newRace = function () {
         console.log("newRace()");
         RaceService.save(
-            {number: ++raceCounter,
+            {number: ($scope.gridApi.core.getVisibleRows().length + 1),
              regattaId: $routeParams.regattaId,
              regatta: {id: $routeParams.regattaId}},
             function (savedRace, headers) {

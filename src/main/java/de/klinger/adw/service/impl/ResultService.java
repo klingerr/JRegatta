@@ -18,8 +18,12 @@ public class ResultService {
         return resultRepository.save(result);
     }
 
-    public List<Result> getAllByRaceIdOrderByAgeGroupAndPoints(Long raceId) {
-        return resultRepository.findAllByRaceIdOrderBySkipperAgeGroupAscPointsAsc(raceId);
+    public void saveResults(List<Result> resultList) {
+    	resultRepository.save(resultList);
+    }
+    
+    public List<Result> getAllByRaceIdOrderByAgeGroupAndPlacement(Long raceId) {
+        return resultRepository.findAllByRaceIdOrderBySkipperAgeGroupDescPlacementAsc(raceId);
     }
 
     public List<Result> findAllByRaceIdOrderByPlacementAsc(Long raceId) {

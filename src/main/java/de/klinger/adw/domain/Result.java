@@ -87,9 +87,23 @@ public class Result implements Comparable<Result> {
     }
 
     @Override
-    public String toString() {
-        return "Result{" + "id=" + id + ", placement=" + placement + ", points=" + points + ", skipper=" + skipper + ", race=" + race + ", result=" + result + '}';
-    }
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Result [id=");
+		builder.append(id);
+		builder.append(", placement=");
+		builder.append(placement);
+		builder.append(", points=");
+		builder.append(points);
+		builder.append(", skipper=");
+		builder.append(skipper);
+		builder.append(", race=");
+		builder.append(race);
+		builder.append(", result=");
+		builder.append(result);
+		builder.append("]");
+		return builder.toString();
+	}
 
     @Override
     public int compareTo(Result o) {

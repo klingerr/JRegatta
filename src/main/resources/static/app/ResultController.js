@@ -30,6 +30,13 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
         //CODE AFTER RESOURCES ARE LOADED 
         $scope.gridOptions.exporterPdfHeader = {text: $scope.regatta.name + ". - Gesamtergebnis", style: 'headerStyle', alignment: 'center'};
         console.log("$scope.regatta: " + JSON.stringify($scope.regatta, null, 4));
+        console.log("$scope.regatta.buoyages: " + $scope.regatta.buoyages);
+        console.log("$scope.regatta.buoyages >= 4: " + (Number($scope.regatta.buoyages) >= 4));
+        
+        // show race 3, 4 and 5 dynamivally
+        $scope.gridOptions.columnDefs[7].visible = (Number($scope.regatta.buoyages) >= 3);
+        $scope.gridOptions.columnDefs[8].visible = (Number($scope.regatta.buoyages) >= 4);
+        $scope.gridOptions.columnDefs[9].visible = (Number($scope.regatta.buoyages) >= 5);
     });
 
     $scope.setHeaderText = function(isOffiziell) {
@@ -122,8 +129,18 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
             enableCellEdit: false,
             type: 'number'
         }, {
+        	field: 'racePoints.4',
+        	displayName: '4. Wettfahrt',
+        	enableCellEdit: false,
+        	type: 'number'
+        }, {
+        	field: 'racePoints.5',
+        	displayName: '5. Wettfahrt',
+        	enableCellEdit: false,
+        	type: 'number'
+        }, {
             field: 'finalPoints',
-            displayName: 'Gesamtpunktzahl',
+            displayName: 'Gesamtpunkte',
             enableCellEdit: true,
             type: 'number',
             sort: {
@@ -146,6 +163,10 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
         console.log("url: " + "/regattas/" + $routeParams.regattaId + "/certificates");
     };
 
+    $scope.goRaces = function() {
+    	$location.path("/regattas/" + $routeParams.regattaId + "/races");
+    };
+    
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
         gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {

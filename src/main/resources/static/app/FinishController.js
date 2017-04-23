@@ -4,7 +4,7 @@ angular
     .module('jregatta')
     .controller('FinishController', FinishController);
 
-function FinishController($q, $scope, $routeParams, RaceService, FinishService, SkipperService, RegattaService, $mdToast) {
+function FinishController($q, $scope, $routeParams, $location, RaceService, FinishService, SkipperService, SkipperRaceService, RegattaService, $mdToast) {
 
     $scope.showSuccessToast = function (message) {
         $mdToast.show($mdToast.simple()
@@ -20,8 +20,28 @@ function FinishController($q, $scope, $routeParams, RaceService, FinishService, 
             .theme("error-toast"));
     };
 
-// get dropdown content before creating the grid
-    $scope.skippers = SkipperService.query({regattaId: $routeParams.regattaId});
+    $scope.goRaces = function() {
+    	$location.path("/regattas/" + $routeParams.regattaId + "/races");
+    };
+    
+    $scope.goResults = function() {
+    	$location.path("/regattas/" + $routeParams.regattaId + "/races/" + $routeParams.raceId + "/results");
+    };
+    
+    var removeByAttr = function(arr, attr, value) {
+        var i = arr.length;
+        while(i--){
+           if( arr[i] 
+               && arr[i].hasOwnProperty(attr) 
+               && (arguments.length > 2 && arr[i][attr] === value ) ){ 
+               return arr.splice(i,1)[0];
+           }
+        }
+    };
+    
+    // get dropdown content before creating the grid
+//    $scope.skippers = SkipperService.query({regattaId: $routeParams.regattaId});
+    $scope.skippers = SkipperRaceService.query({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId});
     $scope.regatta = RegattaService.get({id: $routeParams.regattaId});
     $scope.race = RaceService.get({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId});
     $q.all([
@@ -85,12 +105,6 @@ function FinishController($q, $scope, $routeParams, RaceService, FinishService, 
     };
 
 
-//    $scope.mySort = function(a,b){
-//        if (a == b) return 0;
-//        if (a < b) return -1;
-//        return srirachaSauce;
-//    };
-    
     $scope.gridOptions.columnDefs = [
         {
             field: 'placement',
@@ -120,18 +134,42 @@ function FinishController($q, $scope, $routeParams, RaceService, FinishService, 
 
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
+        
         gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
             console.log('Edited (#'
                 + rowEntity.id + '), Column: ('
                 + colDef.name + ') New Value: ('
                 + newValue + ') Old Value: ('
                 + oldValue + ")");
-            FinishService.update({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId, resultId: rowEntity.id}, rowEntity);
-            $scope.$apply();
+            console.log('rowEntity: ' + JSON.stringify(rowEntity));
+            console.log('skippers: ' + JSON.stringify($scope.skippers));
+            
+            var skipper = removeByAttr($scope.skippers, 'sailNumber', newValue);
+            
+            console.log('skipper: ' + JSON.stringify(skipper));
+            console.log('skippers: ' + JSON.stringify($scope.skippers));
+            
+            rowEntity.skipper = skipper;
+            console.log('rowEntity: ' + JSON.stringify(rowEntity));
+            
+            if (newValue != oldValue) {
+	            FinishService.update({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId, resultId: rowEntity.id}, rowEntity,
+	            function (savedFinish, headers) {
+	                //success callback
+	                console.log("success: " + JSON.stringify(savedFinish, null, 4));
+	                $scope.showSuccessToast('Zieleinlauf wurde aktualisiert.');
+//	                $scope.finishs.push(savedFinish);
+	            },
+	            function (err) {
+	                // error callback
+	                console.log("$scope.finishCounter: " + ($scope.gridApi.core.getVisibleRows().length + 1));
+	                console.log("error: " + JSON.stringify(err, null, 4));
+	                $scope.showErrorToast('Fehler: Zieleinlauf konnte nicht aktualsiert werden!');
+	            });
+	            $scope.$apply();
+            }
         });
     };
-
-//    $scope.finishCounter = $scope.gridApi.core.getVisibleRows().length;;
 
     $scope.newFinish = function () {
         console.log("newFinish(): " + $routeParams.regattaId);
@@ -157,4 +195,5 @@ function FinishController($q, $scope, $routeParams, RaceService, FinishService, 
     $scope.toggleOfficially = function(data) {
         $scope.setHeaderText(data);
     };
+    
 }

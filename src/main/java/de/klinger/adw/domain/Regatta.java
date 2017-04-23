@@ -83,7 +83,33 @@ public class Regatta {
         this.endDate = endDate;
     }
 
-    public int getBuoyages() {
+    @Override
+	public String toString() {
+		final int maxLen = 3;
+		StringBuilder builder = new StringBuilder();
+		builder.append("Regatta [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", shortName=");
+		builder.append(shortName);
+		builder.append(", startDate=");
+		builder.append(startDate);
+		builder.append(", endDate=");
+		builder.append(endDate);
+		builder.append(", buoyages=");
+		builder.append(buoyages);
+		builder.append(", skippers=");
+		builder.append(skippers != null ? skippers.subList(0, Math.min(skippers.size(), maxLen)) : null);
+		builder.append(", races=");
+		builder.append(races != null ? races.subList(0, Math.min(races.size(), maxLen)) : null);
+		builder.append(", finished=");
+		builder.append(finished);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	public int getBuoyages() {
         return buoyages;
     }
 
@@ -115,4 +141,5 @@ public class Regatta {
         this.races = races;
     }
 
+    
 }

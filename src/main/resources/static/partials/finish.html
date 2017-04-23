@@ -1,7 +1,13 @@
+<div layout="row" style="background-color: rgba(224, 224, 224, 0.96);" layout-align="center center">
+	<h2 style="margin: 5px; color: rgb(8,123,0)">{{race.number}}. Wettfahrt - Zieldurchgang</h2>
+</div>
 
 <div layout="row" layout-align="center center">
-	<md-button ng-click="newFinish()" class="md-raised md-primary">
-	Zieldurchgang hinzufügen</md-button>
+	<md-button href="#/regatta" class="groupX left"><< Regatten</md-button>
+    <md-button ng-click="goRaces()" md-no-ink class="groupX middle md-primary">< Wettfahrten</md-button>
+    <md-button ng-click="goResults()" md-no-ink class="groupX right md-primary">Wettfarhrtergebnis ></md-button>
+	<span flex></span>
+	<md-button ng-click="newFinish()" class="md-raised md-primary">Zieldurchgang hinzufügen</md-button>
 	<span flex></span>
 	<md-switch ng-model="data.isOffiziell" class="md-primary" md-no-ink
 		aria-label="Switch 6" ng-change="toggleOfficially(data.isOffiziell)">

@@ -20,8 +20,6 @@ public class Club {
     private String name;
     private String adress;
 
-//    @OneToMany(mappedBy="club", fetch=FetchType.LAZY)
-//    private List<Skipper> skippers;
     public Long getId() {
         return id;
     }
@@ -54,11 +52,19 @@ public class Club {
         this.adress = adress;
     }
 
-//	public List<Skipper> getSkippers() {
-//		return skippers;
-//	}
-//
-//	public void setSkippers(List<Skipper> skippers) {
-//		this.skippers = skippers;
-//	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Club [id=");
+		builder.append(id);
+		builder.append(", shortName=");
+		builder.append(shortName);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", adress=");
+		builder.append(adress);
+		builder.append("]");
+		return builder.toString();
+	}
+    
 }

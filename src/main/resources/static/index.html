@@ -19,6 +19,8 @@
         <script type="text/javascript"
         src="webjars/angularjs/@angularjs.version@/angular.js"></script>
         <script type="text/javascript"
+        src="webjars/angularjs/@angularjs.version@/i18n/angular-locale_de-de.js"></script>
+        <script type="text/javascript"
         src="webjars/angularjs/@angularjs.version@/angular-route.min.js"></script>
         <script type="text/javascript"
         src="webjars/angularjs/@angularjs.version@/angular-resource.min.js"></script>
@@ -48,6 +50,7 @@
         <script type="text/javascript" src="app/RegattaService.js"></script>
         <script type="text/javascript" src="app/SkipperController.js"></script>
         <script type="text/javascript" src="app/SkipperService.js"></script>
+        <script type="text/javascript" src="app/SkipperRaceService.js"></script>
         <script type="text/javascript" src="app/ClubController.js"></script>
         <script type="text/javascript" src="app/ClubService.js"></script>
         <script type="text/javascript" src="app/RaceController.js"></script>
@@ -66,11 +69,13 @@
 
         <!-- Container #1 (see wireframe) -->
     <md-toolbar layout="row" class="no-print">
-        <img src="img/adw-logo.png" height="50" width="50"style="margin:5px"/> <h2> JRegatta <sub>v@version@</sub></h2>
+    	<a href="#/regatta" style="color: white;text-decoration: none; display: -webkit-box;">
+        	<img src="img/adw-logo.png" height="50" width="50"style="margin:5px"/> <h2> JRegatta <sub>v@version@</sub></h2>
+        </a>
     </md-toolbar>
 
     <!-- BREADCRUMB -->
-    <div ng-controller="BreadcrumbsController" class="no-print">
+    <!-- <div ng-controller="BreadcrumbsController" class="no-print">
         <ol class="breadcrumb" ng-show="route.current.breadcrumbs">
             <li 
                 ng-class="{active: $last}" 
@@ -80,7 +85,7 @@
                 </a>
             </li>
         </ol>
-    </div>
+    </div> -->
 
 	<!-- dynamic content -->
 	<div ng-view></div>
