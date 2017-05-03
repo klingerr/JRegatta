@@ -13,20 +13,14 @@
 
 /* certificate configuration */
 @font-face {
-    font-family: appleberry;
-    src: url("../font/appleberry.ttf")  format('truetype');
-}
-
-@font-face {
-    font-family: Nickainley;
-    src: url("../font/Nickainley-Normal.otf")  format('opentype');
+    font-family: Schoolbell;
+    src: url("../font/Schoolbell.ttf")  format('truetype');
 }
 
 .rotate {
-	font-family: Nickainley;
-    color: #000000;
-    font-size: 36pt;	
-    letter-spacing: 1;
+    -ms-transform: rotate(-5deg); /* IE 9 */
+    -webkit-transform: rotate(-5deg); /* Chrome, Safari, Opera */
+    transform: rotate(-5deg);
     position: absolute;
     margin-top: 650px;
     margin-left: 395px;
@@ -74,11 +68,10 @@
 */
 
 .page {
-    font-family: appleberry;
-    color: #ff0000;
-    font-size: 11pt;	
-    letter-spacing: 1;
+    font-family: Schoolbell;
     line-height: 1.1;
+    color: #087B00;
+    font-size: 45px;	
 	width: 210mm;
     min-height: 297mm;
     padding: 20mm;
@@ -86,7 +79,7 @@
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
     /*background: white;*/
-    background-image: url("../img/Urkunde2017.jpg");
+    background-image: url("../img/Urkunde2016-a4.jpg");
     background-size: 790px 1111px;
     background-repeat: no-repeat;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);

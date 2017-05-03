@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.klinger.adw.domain.AgeGroup;
+import de.klinger.adw.domain.Penalty;
 import de.klinger.adw.domain.Result;
 import de.klinger.adw.service.impl.ResultService;
 import de.klinger.adw.service.impl.SkipperService;
@@ -36,8 +37,9 @@ public class RaceResultController {
         List<Result> raceResults = resultService.getAllByRaceIdOrderByAgeGroupAndPlacement(raceId);
         log.info("raceResults: " + raceResults);
         
-        int result=0;
-        int points=0;
+        int result = 0;
+        int points = 0;
+        int defaultPenaltyPoints = 0;
         AgeGroup oldAgeGroup = null;
         boolean saveResults = false;
         for (Result raceResult : raceResults) {
@@ -45,6 +47,7 @@ public class RaceResultController {
         	System.out.println("raceResult.getSkipper().getAgeGroup(): " + raceResult.getSkipper().getAgeGroup());
             if (!raceResult.getSkipper().getAgeGroup().equals(oldAgeGroup)) {
                 oldAgeGroup = raceResult.getSkipper().getAgeGroup();
+                defaultPenaltyPoints = skipperService.countByRegattaIdAndAgeGroup(raceResult.getSkipper().getRegatta().getId(), raceResult.getSkipper().getAgeGroup()) + penaltyPoints;
                 result = 0;
                 points = 0;
             }
@@ -53,14 +56,22 @@ public class RaceResultController {
             	saveResults = true;
 	            raceResult.setPoints(++points);
 	            if (!isNumeric(raceResult.getPlacement())) {
-					raceResult.setPoints(skipperService.countByRegattaIdAndAgeGroup(raceResult.getSkipper().getRegatta().getId(), raceResult.getSkipper().getAgeGroup()) + penaltyPoints);
+					if (Penalty.SCP.name().equals(raceResult.getPlacement().toUpperCase())
+							|| Penalty.ZFP.name().equals(raceResult.getPlacement().toUpperCase())) {
+						int specialPenaltyPoints = points + (int)(Penalty.SCP.getAdditionalFee() * points);
+						if (specialPenaltyPoints > defaultPenaltyPoints) {
+							specialPenaltyPoints = defaultPenaltyPoints;
+						}
+						raceResult.setPoints(specialPenaltyPoints);
+					} else {
+						raceResult.setPoints(defaultPenaltyPoints);
+					}
 	            }
             }
             
             if (raceResult.getPoints() != 0) {
             	raceResult.setResult(++result);
             }
-
         }
         
         if (saveResults) {
