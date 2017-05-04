@@ -1,69 +1,91 @@
 package de.klinger.adw.dto;
 
-import de.klinger.adw.domain.Skipper;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import de.klinger.adw.domain.Judgement;
+import de.klinger.adw.domain.Skipper;
+
 public class RegattaResultDto implements Comparable<RegattaResultDto> {
-    private static final int VOTE_RACE_NUMBER = 1;
+	private static final int VOTE_RACE_NUMBER = 1;
 
-    
-    private Skipper skipper;
-    private Map<Integer, Integer> racePoints = new HashMap<>();
-    private int finalPlacement;
+	private Skipper skipper;
+	private Map<Integer, Integer> racePoints = new HashMap<>();
+	private Map<Integer, Judgement> raceJudgements = new HashMap<>();
+	private List<Integer> pointListWithoutWorstRace = new ArrayList<>();
+	private BigInteger placementSortCriteria;
+	private int finalPlacement;
 
-    public int getFinalPlacement() {
-        return finalPlacement;
-    }
+	public int getFinalPlacement() {
+		return finalPlacement;
+	}
 
-    public void setFinalPlacement(int finalPlacement) {
-        this.finalPlacement = finalPlacement;
-    }
+	public void setFinalPlacement(int finalPlacement) {
+		this.finalPlacement = finalPlacement;
+	}
 
-    public RegattaResultDto(Skipper skipper) {
-        this.skipper = skipper;
-    }
-    
-    public Skipper getSkipper() {
-        return skipper;
-    }
+	public RegattaResultDto(Skipper skipper) {
+		this.skipper = skipper;
+	}
 
-    public void setSkipper(Skipper skipper) {
-        this.skipper = skipper;
-    }
+	public Skipper getSkipper() {
+		return skipper;
+	}
 
-    public Map<Integer, Integer> getRacePoints() {
-        return racePoints;
-    }
+	public void setSkipper(Skipper skipper) {
+		this.skipper = skipper;
+	}
 
-    public void setRacePoints(Map<Integer, Integer> racePoints) {
-        this.racePoints = racePoints;
-    }
+	public Map<Integer, Integer> getRacePoints() {
+		return racePoints;
+	}
 
-    public Integer getFinalPoints() {
-    int finalPoints = 0;
-        for (int points : racePoints.values()) {
-            finalPoints += points;
-        }
-        return finalPoints;
-    }
+	public void setRacePoints(Map<Integer, Integer> racePoints) {
+		this.racePoints = racePoints;
+	}
 
-    @Override
-    public int compareTo(RegattaResultDto o) {
-        int ageGroupCompare = this.getSkipper().getAgeGroup().compareTo(o.getSkipper().getAgeGroup());
-        if (ageGroupCompare == 0) {
-            int finalPointsCompare = this.getFinalPoints().compareTo(o.getFinalPoints());
-            if (finalPointsCompare == 0) {
-                try {
-                    return this.getRacePoints().get(VOTE_RACE_NUMBER).compareTo(o.getRacePoints().get(VOTE_RACE_NUMBER));
-                } catch(Exception e) {
-                    return finalPointsCompare;
-                }
-            } else {
-                return finalPointsCompare;
-            }
-        }
-        return ageGroupCompare;
-    }
+	public Integer getFinalPoints() {
+		int finalPoints = 0;
+		for (int points : pointListWithoutWorstRace) {
+			finalPoints += points;
+		}
+		return finalPoints;
+	}
+
+	public List<Integer> getPointListWithoutWorstRace() {
+		return pointListWithoutWorstRace;
+	}
+
+	public void setPointListWithoutWorstRace(List<Integer> pointListWithoutWorstRace) {
+		this.pointListWithoutWorstRace = pointListWithoutWorstRace;
+	}
+
+	public Map<Integer, Judgement> getRaceJudgements() {
+		return raceJudgements;
+	}
+
+	public void setRaceJudgements(Map<Integer, Judgement> raceJudgements) {
+		this.raceJudgements = raceJudgements;
+	}
+
+	public BigInteger getPlacementSortCriteria() {
+		return placementSortCriteria;
+	}
+
+	public void setPlacementSortCriteria(BigInteger placementSortCriteria) {
+		this.placementSortCriteria = placementSortCriteria;
+	}
+
+	@Override
+	public int compareTo(RegattaResultDto o) {
+		int ageGroupCompare = this.getSkipper().getAgeGroup().compareTo(o.getSkipper().getAgeGroup());
+		if (ageGroupCompare == 0) {
+			return this.getPlacementSortCriteria().compareTo(o.getPlacementSortCriteria());
+		}
+		return ageGroupCompare;
+	}
 
 }

@@ -62,6 +62,7 @@ public class FinishController {
         }
         
         update.setPlacement(result.getPlacement());
+        update.setJudgement(result.getJudgement());
         update.setPoints(result.getPoints());
         update.setRace(result.getRace());
         return resultService.save(update);

@@ -1,5 +1,7 @@
 package de.klinger.adw.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.klinger.adw.domain.AgeGroup;
-import de.klinger.adw.domain.Penalty;
+import de.klinger.adw.domain.Judgement;
 import de.klinger.adw.domain.Result;
 import de.klinger.adw.service.impl.ResultService;
 import de.klinger.adw.service.impl.SkipperService;
@@ -22,6 +24,7 @@ import de.klinger.adw.service.impl.SkipperService;
 @RestController
 @RequestMapping("/regattas/{regattaId}/races/{raceId}/results")
 public class RaceResultController {
+	
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -34,51 +37,57 @@ public class RaceResultController {
     
     @RequestMapping(method = RequestMethod.GET)
     public List<Result> getAllByRaceId(@PathVariable Long raceId) {
-        List<Result> raceResults = resultService.getAllByRaceIdOrderByAgeGroupAndPlacement(raceId);
-        log.info("raceResults: " + raceResults);
-        
-        int result = 0;
-        int points = 0;
-        int defaultPenaltyPoints = 0;
-        AgeGroup oldAgeGroup = null;
-        boolean saveResults = false;
-        for (Result raceResult : raceResults) {
-        	System.out.println("raceResult.getSkipper(): " + raceResult.getSkipper());
-        	System.out.println("raceResult.getSkipper().getAgeGroup(): " + raceResult.getSkipper().getAgeGroup());
-            if (!raceResult.getSkipper().getAgeGroup().equals(oldAgeGroup)) {
-                oldAgeGroup = raceResult.getSkipper().getAgeGroup();
-                defaultPenaltyPoints = skipperService.countByRegattaIdAndAgeGroup(raceResult.getSkipper().getRegatta().getId(), raceResult.getSkipper().getAgeGroup()) + penaltyPoints;
-                result = 0;
-                points = 0;
-            }
-            
-            if (raceResult.getPoints() == 0) {
-            	saveResults = true;
-	            raceResult.setPoints(++points);
-	            if (!isNumeric(raceResult.getPlacement())) {
-					if (Penalty.SCP.name().equals(raceResult.getPlacement().toUpperCase())
-							|| Penalty.ZFP.name().equals(raceResult.getPlacement().toUpperCase())) {
-						int specialPenaltyPoints = points + (int)(Penalty.SCP.getAdditionalFee() * points);
-						if (specialPenaltyPoints > defaultPenaltyPoints) {
-							specialPenaltyPoints = defaultPenaltyPoints;
-						}
-						raceResult.setPoints(specialPenaltyPoints);
-					} else {
-						raceResult.setPoints(defaultPenaltyPoints);
-					}
-	            }
-            }
-            
-            if (raceResult.getPoints() != 0) {
-            	raceResult.setResult(++result);
-            }
-        }
-        
+    	List<Result> raceResults = new ArrayList<>();
+    	boolean saveResults = true;
+    	
+    	for (AgeGroup ageGroup : AgeGroup.values()) {
+    		List<Result> raceResultsByAgeGroup = resultService.getAllByRaceIdAndSkipperAgeGroupOrderByPlacement(raceId, ageGroup);
+//    		System.out.println("raceResultsByAgeGroup: " + raceResultsByAgeGroup);
+    		Collections.sort(raceResultsByAgeGroup);
+//    		System.out.println("raceResultsByAgeGroup: " + raceResultsByAgeGroup);
+    		if (!raceResultsByAgeGroup.isEmpty()) {
+	    		int defaultPenaltyPoints = skipperService.countByRegattaIdAndAgeGroup(raceResultsByAgeGroup.get(0).getSkipper().getRegatta().getId(), ageGroup) + penaltyPoints;;
+	    		saveResults = calculatePoints(raceResultsByAgeGroup, defaultPenaltyPoints);
+    		}
+    		raceResults.addAll(raceResultsByAgeGroup);
+    	}
+    	
         if (saveResults) {
         	resultService.saveResults(raceResults);
         }
         return raceResults;
     }
+
+	protected boolean calculatePoints(List<Result> raceResultsByAgeGroup, int defaultPenaltyPoints) {
+		int points = 0;
+		boolean saveResults = false;
+		for (Result result : raceResultsByAgeGroup) {
+		    if (result.getPoints() == 0) {
+		    	saveResults = true;
+
+				// vorhandener Zieleinlauf
+				if (isNumeric(result.getPlacement())) {
+					result.setPoints(++points);
+					for (Judgement judgement : Judgement.values()) {
+						if (judgement.equals(result.getJudgement())) {
+							if (judgement.isFullPenalty()) {
+								result.setPoints(defaultPenaltyPoints);
+							} else {
+								int specialPenaltyPoints = points + (int)(judgement.getAdditionalFee() * points);
+								if (specialPenaltyPoints > defaultPenaltyPoints) {
+								}
+								result.setPoints(specialPenaltyPoints);
+							}
+						}
+					}
+				} else {
+					// nicht durchs Ziel gekommen
+					result.setPoints(defaultPenaltyPoints);
+				}
+		    }
+		}
+		return saveResults;
+	}
 
     @RequestMapping(method = RequestMethod.POST)
     public Result create(@RequestBody Result result) {
@@ -101,15 +110,9 @@ public class RaceResultController {
         log.info("result.getRace().getRegatta().getId(): " + result.getRace().getRegatta());
         Result update = resultService.findOne(id);
         
-//        if (result.getSkipper() != null) {
-//            log.info("result.getSkipper().getSailNumber(): " + result.getSkipper().getSailNumber());
-//            Skipper skipper = skipperService.findOneBySailNumberAndRegattaId(result.getSkipper().getSailNumber(), result.getSkipper().getRegatta().getId());
-//            update.setSkipper(skipper);
-//        }
-//        
-//        update.setPlacement(result.getPlacement());
         update.setPoints(result.getPoints());
-//        update.setRace(result.getRace());
+        update.setJudgement(result.getJudgement());
+        
         return resultService.save(update);
     }
     

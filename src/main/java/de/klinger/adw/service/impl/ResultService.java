@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.klinger.adw.domain.AgeGroup;
 import de.klinger.adw.domain.Result;
 import de.klinger.adw.repository.ResultRepository;
 
@@ -23,7 +24,11 @@ public class ResultService {
     }
     
     public List<Result> getAllByRaceIdOrderByAgeGroupAndPlacement(Long raceId) {
-        return resultRepository.findAllByRaceIdOrderBySkipperAgeGroupDescPlacementAsc(raceId);
+    	return resultRepository.findAllByRaceIdOrderBySkipperAgeGroupDescPlacementAsc(raceId);
+    }
+    
+    public List<Result> getAllByRaceIdAndSkipperAgeGroupOrderByPlacement(Long raceId, AgeGroup ageGroup) {
+        return resultRepository.findAllByRaceIdAndSkipperAgeGroupOrderByPlacementAsc(raceId, ageGroup);
     }
 
     public List<Result> findAllByRaceIdOrderByPlacementAsc(Long raceId) {

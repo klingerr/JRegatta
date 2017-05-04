@@ -110,14 +110,6 @@ function FinishController($q, $scope, $routeParams, $location, RaceService, Fini
             field: 'placement',
             displayName: 'Zieleinlauf',
             enableCellEdit: true
-//            type: 'number'
-//            enableSorting: false,
-//            sortingAlgorithm: mySort
-//            sort: {
-//                direction: uiGridConstants.ASC,
-//                ignoreSort: true,
-//                priority: 0
-//            }
         }, {
             field: 'skipper.sailNumber',
             displayName: 'Segelnummer',
@@ -127,6 +119,10 @@ function FinishController($q, $scope, $routeParams, $location, RaceService, Fini
             editDropdownValueLabel: 'sailNumber',
             editDropdownOptionsArray: $scope.skippers,
             cellFilter: 'griddropdown:this'
+        }, {
+            field: 'judgement',
+            displayName: 'Wertung',
+            enableCellEdit: true
         }];
 
     $scope.gridOptions.data = 'finishs';
@@ -153,6 +149,10 @@ function FinishController($q, $scope, $routeParams, $location, RaceService, Fini
             console.log('rowEntity: ' + JSON.stringify(rowEntity));
             
             if (newValue != oldValue) {
+            	if (colDef.name == "judgement" && newValue == "") {
+            		rowEntity.judgement = null;
+            	}
+            	
 	            FinishService.update({regattaId: $routeParams.regattaId, raceId: $routeParams.raceId, resultId: rowEntity.id}, rowEntity,
 	            function (savedFinish, headers) {
 	                //success callback

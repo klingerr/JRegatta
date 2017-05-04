@@ -3,16 +3,12 @@
     <div class="page">
         <div class="rotate" style="white-space: pre-line;">{{formatSailnumber(certificate.skipper.sailNumber)}}</div>
         <div class="center">
-            <b>{{certificate.finalPlacement <= 3 ? certificate.finalPlacement + ". Platz" : ""}}</b> 
-            <br /> 
+            <b>{{certificate.finalPlacement <= 3 ? certificate.finalPlacement + ". Platz" : ""}}</b> <br /> 
             <span style="font-size: 35px">{{certificate.skipper.ageGroup}}</span><br /> 
-            <b>{{certificate.skipper.firstName}} {{certificate.skipper.lastName}}</b>
-            <br />
+            <b>{{certificate.skipper.firstName}} {{certificate.skipper.lastName}}</b><br />
             <span style="font-size: 35px">{{certificate.skipper.club.shortName}}</span>
         </div>
         <div class="datum">{{certificate.skipper.regatta.startDate| date:'dd.'}}/{{certificate.skipper.regatta.endDate| date:'dd. MMM yyyy'}}</div>
-<!--         <div class="wettfahrtleiter">Wettfahrtleiter</div>
-        <div class="regattaleiter">Regattaleiter</div>    
- -->    </div>
-
+        <div class="wettfahrtleiter">Wettfahrtleiter</div>
+        <div class="regattaleiter">Regattaleiter</div>    </div>
 </div>

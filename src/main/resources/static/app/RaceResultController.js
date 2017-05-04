@@ -100,7 +100,7 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
             }
         }, {
             field: 'skipper.sailNumber',
-            displayName: 'Vorname',
+            displayName: 'Segelnummer',
             enableCellEdit: false
         }, {
             field: 'skipper.firstName',
@@ -115,15 +115,19 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
             displayName: 'Verein',
             enableCellEdit: false
         }, {
-            field: 'placement',
-            displayName: 'Zieleinlauf',
-            enableCellEdit: false,
-            type: 'number',
-            sort: {
-                direction: uiGridConstants.ASC,
-                ignoreSort: true,
-                priority: 1
-            }
+        	field: 'placement',
+        	displayName: 'Zieleinlauf',
+        	enableCellEdit: false,
+        	type: 'number',
+        	sort: {
+        		direction: uiGridConstants.ASC,
+        		ignoreSort: true,
+        		priority: 1
+        	}
+        }, {
+            field: 'judgement',
+            displayName: 'Wertung',
+            enableCellEdit: true,
         }, {
             field: 'points',
             displayName: 'Punkte',

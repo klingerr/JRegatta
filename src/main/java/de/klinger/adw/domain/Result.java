@@ -2,6 +2,8 @@ package de.klinger.adw.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +27,11 @@ public class Result implements Comparable<Result> {
 
     @Column(nullable = false)
     private String placement;
-    private int points;
+	
+    @Enumerated(EnumType.STRING)
+	private Judgement judgement;
+
+	private int points;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skipper_id")
@@ -62,7 +68,15 @@ public class Result implements Comparable<Result> {
         this.placement = placement;
     }
 
-    public int getPoints() {
+    public Judgement getJudgement() {
+		return judgement;
+	}
+
+	public void setJudgement(Judgement judgement) {
+		this.judgement = judgement;
+	}
+
+	public int getPoints() {
         return points;
     }
 
@@ -93,6 +107,8 @@ public class Result implements Comparable<Result> {
 		builder.append(id);
 		builder.append(", placement=");
 		builder.append(placement);
+		builder.append(", judgement=");
+		builder.append(judgement);
 		builder.append(", points=");
 		builder.append(points);
 		builder.append(", skipper=");
@@ -105,7 +121,7 @@ public class Result implements Comparable<Result> {
 		return builder.toString();
 	}
 
-    @Override
+	@Override
     public int compareTo(Result o) {
         Integer oIntPlacement = null;
         try {

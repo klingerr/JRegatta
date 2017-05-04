@@ -33,7 +33,7 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
         console.log("$scope.regatta.buoyages: " + $scope.regatta.buoyages);
         console.log("$scope.regatta.buoyages >= 4: " + (Number($scope.regatta.buoyages) >= 4));
         
-        // show race 3, 4 and 5 dynamivally
+        // show race 3, 4 and 5 dynamically
         $scope.gridOptions.columnDefs[7].visible = (Number($scope.regatta.buoyages) >= 3);
         $scope.gridOptions.columnDefs[8].visible = (Number($scope.regatta.buoyages) >= 4);
         $scope.gridOptions.columnDefs[9].visible = (Number($scope.regatta.buoyages) >= 5);
