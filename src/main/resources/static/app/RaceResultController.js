@@ -133,11 +133,11 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
             displayName: 'Punkte',
             type: 'number',
             enableCellEdit: true
-        }, {
-            field: 'result',
-            displayName: 'Platz',
-            type: 'number',
-            enableCellEdit: false
+//        }, {
+//            field: 'result',
+//            displayName: 'Platz',
+//            type: 'number',
+//            enableCellEdit: false
         }];
 
     $scope.gridOptions.data = 'raceResults';

@@ -22,6 +22,14 @@
     src: url("../font/nickainley.ttf")  format('truetype');
 }
 
+.font {
+	font-family: Nickainley;
+    color: #000000;
+    font-size: 36pt;	
+    letter-spacing: 1;
+	line-height: 1.5;
+}
+
 .rotate {
 	font-family: Nickainley;
     color: #000000;
@@ -33,21 +41,24 @@
 }
 
 .center {
-	font-family: Nickainley;
-    color: #000000;
-    font-size: 36pt;	
+	font-family: appleberry;
+    color: #FF0000;
+    font-size: 12pt;	
+    letter-spacing: 1;
+	line-height: 1.5;
 	text-align: center;
     margin-left: auto;
-    margin-top: 280px;
+    margin-top: 475px;
     position: block;
 }
 
 
 .datum {
-    text-align: center;
+    font-size: 10pt !important;	
+	text-align: center;
     margin-left: 265px;
     position: absolute;
-    margin-top: 520px;
+    margin-top: 927px;
     font-size: 20px;
 }
 

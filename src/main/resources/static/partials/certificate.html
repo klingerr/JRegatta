@@ -1,16 +1,29 @@
 <div ng-repeat="certificate in certificates">
 
     <div class="page">
-        <div class="rotate" style="white-space: pre-line;">{{formatSailnumber(certificate.skipper.sailNumber)}}</div>
-        <div class="center">
-            <b>{{certificate.finalPlacement <= 3 ? certificate.finalPlacement + ". Platz" : ""}}</b> 
-            <br /> 
-            <span style="font-size: 35px">{{certificate.skipper.ageGroup}}</span><br /> 
-            <b>{{certificate.skipper.firstName}} {{certificate.skipper.lastName}}</b>
-            <br />
-            <span style="font-size: 35px">{{certificate.skipper.club.shortName}}</span>
-        </div>
+        <div class="rotate" style="white-space: pre-line;"></div>
         <div class="datum">{{certificate.skipper.regatta.startDate| date:'dd.'}}/{{certificate.skipper.regatta.endDate| date:'dd. MMM yyyy'}}</div>
+        <div class="center">
+            <span style="font-size: 11pt"></span>
+            
+            <b></b>
+            WIR BESCHREINIGEN HIERMIT, DASS
+            <br /> 
+            <span class="font">{{certificate.skipper.firstName}} {{certificate.skipper.lastName}}</span>
+            <br />
+            VOM VEREIN
+            <span class="font">{{certificate.skipper.club.shortName}}</span>
+            <br />
+            MIT DER SEGELNUMMER
+			<span class="font">{{formatSailnumber(certificate.skipper.sailNumber)}}</span>
+            <br />
+			IN DER <span class="font">{{certificate.skipper.ageGroup}}</span>
+            <br />
+            {{certificate.finalPlacement <= 3 ? "DEN  " : "ERFOLGREICH TEILGENOMMEN HAT."}} 
+            <span class="font">{{certificate.finalPlacement <= 3 ? certificate.finalPlacement + ". Platz" : ""}} </span> 
+            {{certificate.finalPlacement <= 3 ? " BELEGT HAT." : ""}} 
+            <br /> 
+        </div>
 <!--         <div class="wettfahrtleiter">Wettfahrtleiter</div>
         <div class="regattaleiter">Regattaleiter</div>    
  -->    </div>

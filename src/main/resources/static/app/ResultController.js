@@ -142,17 +142,23 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
             field: 'finalPoints',
             displayName: 'Gesamtpunkte',
             enableCellEdit: true,
-            type: 'number',
+            type: 'number'
+        }, {
+        	field: 'finalPlacement',
+        	displayName: 'Platz',
+        	enableCellEdit: false,
+        	type: 'number',
             sort: {
                 direction: uiGridConstants.ASC,
                 ignoreSort: true,
                 priority: 1
             }
         }, {
-            field: 'finalPlacement',
-            displayName: 'Platz',
+            field: 'placementSortCriteria',
+            displayName: 'Sortierung',
             enableCellEdit: false,
-            type: 'number'
+            type: 'number',
+            visible: false
         }];
 
     $scope.gridOptions.data = 'results';

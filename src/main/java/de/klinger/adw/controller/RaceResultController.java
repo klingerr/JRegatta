@@ -52,9 +52,9 @@ public class RaceResultController {
     		raceResults.addAll(raceResultsByAgeGroup);
     	}
     	
-        if (saveResults) {
+//        if (saveResults) {
         	resultService.saveResults(raceResults);
-        }
+//        }
         return raceResults;
     }
 
