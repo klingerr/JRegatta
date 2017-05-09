@@ -11,16 +11,15 @@
             <br /> 
             <span class="font">{{certificate.skipper.firstName}} {{certificate.skipper.lastName}}</span>
             <br />
-            VOM VEREIN
-            <span class="font">{{certificate.skipper.club.shortName}}</span>
+            MIT DER SEGELNUMMER 
+			<span class="font" style="font-size: 22pt; font-weight: 500;">{{formatSailnumber(certificate.skipper.sailNumber)}}</span>
+            VOM VEREIN &nbsp;
             <br />
-            MIT DER SEGELNUMMER
-			<span class="font">{{formatSailnumber(certificate.skipper.sailNumber)}}</span>
+            <span class="font" style="font-size: 22pt; font-weight: 500;">{{certificate.skipper.club.shortName}}</span> &nbsp;
+			IN DER &nbsp; <span class="font" style="font-size: 22pt; font-weight: 500;">{{certificate.skipper.ageGroup}}</span>
             <br />
-			IN DER <span class="font">{{certificate.skipper.ageGroup}}</span>
-            <br />
-            {{certificate.finalPlacement <= 3 ? "DEN  " : "ERFOLGREICH TEILGENOMMEN HAT."}} 
-            <span class="font">{{certificate.finalPlacement <= 3 ? certificate.finalPlacement + ". Platz" : ""}} </span> 
+            {{certificate.finalPlacement <= 3 ? "DEN " : "ERFOLGREICH TEILGENOMMEN HAT."}}  &nbsp;
+            <span class="font"> {{certificate.finalPlacement <= 3 ? certificate.finalPlacement + ".Platz" : ""}} </span>
             {{certificate.finalPlacement <= 3 ? " BELEGT HAT." : ""}} 
             <br /> 
         </div>

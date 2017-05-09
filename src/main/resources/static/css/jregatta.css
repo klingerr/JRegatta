@@ -42,13 +42,13 @@
 
 .center {
 	font-family: appleberry;
-    color: #FF0000;
+    color: #ff0000;
     font-size: 12pt;	
     letter-spacing: 1;
-	line-height: 1.5;
+	line-height: 3;
 	text-align: center;
     margin-left: auto;
-    margin-top: 475px;
+    margin-top: 465px;
     position: block;
 }
 
