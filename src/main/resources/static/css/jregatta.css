@@ -25,6 +25,7 @@
 .font {
 	font-family: Nickainley;
     color: #000000;
+	/* color:#00abbf; */ 
     font-size: 36pt;	
     letter-spacing: 1;
 	line-height: 1.5;
@@ -42,7 +43,8 @@
 
 .center {
 	font-family: appleberry;
-    color: #ff0000;
+    /* color: #ff0000; */
+    color: #de354d;
     font-size: 12pt;	
     letter-spacing: 1;
 	line-height: 3;
