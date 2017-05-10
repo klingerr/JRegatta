@@ -87,7 +87,9 @@ public class ResultController {
 			regattaResultDto.getPointListWithoutWorstRace().addAll(nonDeletablePoints);
 
 			Collections.sort(deletablePoints);
-			regattaResultDto.getPointListWithoutWorstRace().addAll(deletablePoints.subList(0, ignoreWorstRace ? deletablePoints.size() -1 : deletablePoints.size()));
+			if (!deletablePoints.isEmpty()) {
+				regattaResultDto.getPointListWithoutWorstRace().addAll(deletablePoints.subList(0, ignoreWorstRace ? deletablePoints.size() -1 : deletablePoints.size()));
+			}
 		}
 	}
 
