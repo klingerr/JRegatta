@@ -98,7 +98,7 @@ function ResultController($q, $scope, $routeParams, $location, uiGridConstants, 
             }
         }, {
             field: 'skipper.sailNumber',
-            displayName: 'Vorname',
+            displayName: 'Segelnummer',
             enableCellEdit: false
         }, {
             field: 'skipper.firstName',
