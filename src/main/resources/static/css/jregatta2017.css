@@ -1,0 +1,224 @@
+.md-button {    
+    text-transform: none !important;/*For Lower case use lowercase*/
+}
+
+/* exlcude div from print - use class="no-print" */
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
+/* certificate configuration */
+@font-face {
+    font-family: appleberry;
+    src: url("../font/appleberry.ttf")  format('truetype');
+}
+
+@font-face {
+    font-family: Nickainley;
+    src: url("../font/nickainley.ttf")  format('truetype');
+}
+
+.font {
+	font-family: Nickainley;
+    color: #000000;
+	/* color:#00abbf; */ 
+    font-size: 36pt;	
+    letter-spacing: 1;
+	line-height: 1.5;
+}
+
+.rotate {
+	font-family: Nickainley;
+    color: #000000;
+    font-size: 36pt;	
+    letter-spacing: 1;
+    position: absolute;
+    margin-top: 650px;
+    margin-left: 395px;
+}
+
+.center {
+	font-family: appleberry;
+    /* color: #ff0000; */
+    color: #de354d;
+    font-size: 12pt;	
+    letter-spacing: 1;
+	line-height: 3;
+	text-align: center;
+    margin-left: auto;
+    margin-top: 465px;
+    position: block;
+}
+
+
+.datum {
+    font-size: 10pt !important;	
+	text-align: center;
+    margin-left: 265px;
+    position: absolute;
+    margin-top: 927px;
+    font-size: 20px;
+}
+
+.wettfahrtleiter {
+    position: absolute;
+    margin-top: 530px;
+    margin-left: 70px;
+    font-size: 16px;
+}
+
+.regattaleiter {
+    position: absolute;
+    margin-top: 530px;
+    margin-left: 460px;
+    font-size: 16px;
+}
+
+/**************** A4 - Print *****************/
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+/* bootstrap sets fontcolor in print mode to black
+@media print{*{text-shadow:none !important;color:#000 !important;background:transparent !important;box-shadow:none !important;}
+*/
+
+.page {
+    font-family: appleberry;
+    color: #ff0000;
+    font-size: 11pt;	
+    letter-spacing: 1;
+    line-height: 1.1;
+	width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 10mm auto;
+    border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    /*background: white;*/
+    background-image: url("../img/Urkunde2017.jpg");
+    background-size: 790px 1111px;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.subpage {
+    padding: 1cm;
+    /*border: 5px red solid;*/
+    height: 257mm;
+    /*outline: 2cm #FFEAEA solid;*/
+}
+
+@page {
+    size: A4;
+    margin: 0;
+}
+
+
+@media print {
+   * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+   }
+	
+	html, body {
+        width: 210mm;
+        height: 297mm;        
+    }
+
+    .page {
+    	color: #087B00;
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+}
+
+
+/* toast colors */
+md-toast.md-success-toast-theme .md-toast-content {
+    background-color: lightblue;
+}
+
+md-toast.md-error-toast-theme .m    d-toast-content {
+    background-color: red;
+}
+
+
+/* workaround for header column height */
+.ui-grid-header {
+    height: 25px;
+    max-height: 25px;
+}
+
+.grid {
+/*  width: 90%;
+  height: 90%;*/
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.ui-grid-cell-contents{
+  display: flex;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
+  font-family: "Roboto", sans-serif;
+  color: rgba(0, 0, 0, 0.87);
+}
+.ui-grid-row-selected > [ui-grid-row] > .ui-grid-cell {
+  background-color: #f2f2f2 !important;
+}
+.ui-grid-viewport{
+  overflow: auto!important;
+}
+.ui-grid-icon-angle-down{
+  display:none;
+}
+
+
+/* grouping Nnavigation buttons */
+.groupX {
+    font-size: 16px;
+    margin: 20px 0;
+    padding: 3px 15px 3px 15px;
+    color: rgb(49, 46, 46);
+    background-color: rgba(224, 224, 224, 0.96);
+    text-transform: none;
+    font-weight: 400;
+    min-width:100px;
+}
+
+.md-button.left {
+    border-radius: 10px 0 0 10px;
+}
+
+.md-button.middle {
+    border-radius: 0;
+    border-left: 1px solid rgba(230, 230, 230, 0.96);
+    border-right: 1px solid rgba(230, 230, 230, 0.96);
+}
+
+.md-button.right {
+    border-radius: 0 10px 10px 0;
+}
+
+.md-button:not([disabled]):hover {
+    background-color: rgba(193, 193, 193, 0.96);
+    color: rgba(44, 65, 164, 0.96);
+    transition: 0.3s;
+}
