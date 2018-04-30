@@ -44,13 +44,13 @@
 .center {
 	font-family: appleberry;
     /* color: #ff0000; */
-    color: #de354d;
+    color: #F7A600;
     font-size: 12pt;	
     letter-spacing: 1;
 	line-height: 3;
 	text-align: center;
     margin-left: auto;
-    margin-top: 465px;
+    margin-top: 275px;
     position: block;
 }
 
@@ -58,9 +58,9 @@
 .datum {
     font-size: 10pt !important;	
 	text-align: center;
-    margin-left: 265px;
+    margin-left: 267px;
     position: absolute;
-    margin-top: 927px;
+    margin-top: 875px;
     font-size: 20px;
 }
 
@@ -91,7 +91,7 @@
 
 .page {
     font-family: appleberry;
-    color: #ff0000;
+    color: #F7A600;
     font-size: 11pt;	
     letter-spacing: 1;
     line-height: 1.1;
@@ -102,7 +102,7 @@
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
     /*background: white;*/
-    background-image: url("../img/Urkunde2017.jpg");
+    background-image: url("../img/Urkunde2018.jpg");
     background-size: 790px 1111px;
     background-repeat: no-repeat;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
