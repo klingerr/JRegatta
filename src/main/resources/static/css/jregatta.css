@@ -44,7 +44,7 @@
 .center {
 	font-family: appleberry;
     /* color: #ff0000; */
-    color: #F7A600;
+    color: #f7db00;
     font-size: 12pt;	
     letter-spacing: 1;
 	line-height: 3;
@@ -60,7 +60,7 @@
 	text-align: center;
     margin-left: 267px;
     position: absolute;
-    margin-top: 875px;
+    margin-top: 895px;
     font-size: 20px;
 }
 
@@ -91,7 +91,7 @@
 
 .page {
     font-family: appleberry;
-    color: #F7A600;
+    color: #f7db00;
     font-size: 11pt;	
     letter-spacing: 1;
     line-height: 1.1;
@@ -133,7 +133,7 @@
     }
 
     .page {
-    	color: #087B00;
+    	/* color: #087B00; */
         margin: 0;
         border: initial;
         border-radius: initial;
