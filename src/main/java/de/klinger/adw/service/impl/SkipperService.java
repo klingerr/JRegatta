@@ -31,6 +31,10 @@ public class SkipperService {
     	return skipperRepository.countByRegattaIdAndAgeGroup(regattaId, ageGroup);
     }
     
+    public Integer countByRegattaId(Long regattaId) {
+    	return skipperRepository.countByRegattaId(regattaId);
+    }
+    
     public void delete(String id) {
         skipperRepository.delete(new Long(id));
     }

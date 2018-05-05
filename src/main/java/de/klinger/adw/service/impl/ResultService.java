@@ -28,7 +28,11 @@ public class ResultService {
     }
     
     public List<Result> getAllByRaceIdAndSkipperAgeGroupOrderByPlacement(Long raceId, AgeGroup ageGroup) {
-        return resultRepository.findAllByRaceIdAndSkipperAgeGroupOrderByPlacementAsc(raceId, ageGroup);
+    	return resultRepository.findAllByRaceIdAndSkipperAgeGroupOrderByPlacementAsc(raceId, ageGroup);
+    }
+    
+    public List<Result> getAllByRaceIdOrderByPlacement(Long raceId) {
+        return resultRepository.findAllByRaceIdOrderByPlacementAsc(raceId);
     }
 
     public List<Result> findAllByRaceIdOrderByPlacementAsc(Long raceId) {

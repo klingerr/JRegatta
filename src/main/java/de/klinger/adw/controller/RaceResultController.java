@@ -35,33 +35,59 @@ public class RaceResultController {
     @Value("${result.penaltyPoints}")
     private Integer penaltyPoints = 1;
     
+	@Value("${result.calcWithAgeGroup}")
+	private boolean calcWithAgeGroup = true;
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Result> getAllByRaceId(@PathVariable Long raceId) {
-    	List<Result> raceResults = new ArrayList<>();
-    	boolean saveResults = true;
+    	List<Result> raceResults = null;
     	
+//    	System.out.println("calcWithAgeGroup: " + calcWithAgeGroup);
+    	if (calcWithAgeGroup) {
+    		raceResults = calcPointsWithAgeGroup(raceId);
+    	} else {
+    		raceResults = calcPointsWithoutAgeGroup(raceId);
+    	}
+    	
+        resultService.saveResults(raceResults);
+        return raceResults;
+    }
+
+    private List<Result> calcPointsWithAgeGroup(Long raceId) {
+    	boolean saveResults;
+    	List<Result> raceResults = new ArrayList<>();
     	for (AgeGroup ageGroup : AgeGroup.values()) {
     		List<Result> raceResultsByAgeGroup = resultService.getAllByRaceIdAndSkipperAgeGroupOrderByPlacement(raceId, ageGroup);
 //    		System.out.println("raceResultsByAgeGroup: " + raceResultsByAgeGroup);
     		Collections.sort(raceResultsByAgeGroup);
 //    		System.out.println("raceResultsByAgeGroup: " + raceResultsByAgeGroup);
     		if (!raceResultsByAgeGroup.isEmpty()) {
-	    		int defaultPenaltyPoints = skipperService.countByRegattaIdAndAgeGroup(raceResultsByAgeGroup.get(0).getSkipper().getRegatta().getId(), ageGroup) + penaltyPoints;;
-	    		saveResults = calculatePoints(raceResultsByAgeGroup, defaultPenaltyPoints);
+    			int defaultPenaltyPoints = skipperService.countByRegattaIdAndAgeGroup(raceResultsByAgeGroup.get(0).getSkipper().getRegatta().getId(), ageGroup) + penaltyPoints;;
+    			saveResults = calculatePoints(raceResultsByAgeGroup, defaultPenaltyPoints);
     		}
     		raceResults.addAll(raceResultsByAgeGroup);
     	}
-    	
-//        if (saveResults) {
-        	resultService.saveResults(raceResults);
-//        }
-        return raceResults;
+    	return raceResults;
     }
+    
+	private List<Result> calcPointsWithoutAgeGroup(Long raceId) {
+		boolean saveResults;
+		List<Result> raceResults = resultService.getAllByRaceIdOrderByPlacement(raceId);
+//    		System.out.println("raceResultsByAgeGroup: " + raceResultsByAgeGroup);
+		Collections.sort(raceResults);
+//    		System.out.println("raceResultsByAgeGroup: " + raceResultsByAgeGroup);
+		if (!raceResults.isEmpty()) {
+    		int defaultPenaltyPoints = skipperService.countByRegattaId(raceResults.get(0).getSkipper().getRegatta().getId()) + penaltyPoints;;
+    		saveResults = calculatePoints(raceResults, defaultPenaltyPoints);
+		}
+		return raceResults;
+	}
 
-	protected boolean calculatePoints(List<Result> raceResultsByAgeGroup, int defaultPenaltyPoints) {
+	protected boolean calculatePoints(List<Result> raceResults, int defaultPenaltyPoints) {
 		int points = 0;
 		boolean saveResults = false;
-		for (Result result : raceResultsByAgeGroup) {
+		for (Result result : raceResults) {
+//			System.out.println("result.getPoints(): " + result.getPoints());
 		    if (result.getPoints() == 0) {
 		    	saveResults = true;
 

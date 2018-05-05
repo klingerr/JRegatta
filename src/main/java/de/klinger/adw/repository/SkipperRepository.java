@@ -16,6 +16,7 @@ public interface SkipperRepository extends CrudRepository<Skipper, Long> {
     List<Skipper> findAllByRegattaIdOrderBySailNumberAsc(Long id);
     List<Skipper> findAllByRegattaIdOrderByClubAscLastNameAscFirstNameAsc(Long id);
 
+    Integer countByRegattaId(Long regattaId);
     Integer countByRegattaIdAndAgeGroup(Long regattaId, AgeGroup ageGroup);
 
     @Query(" SELECT s " + 
