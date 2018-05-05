@@ -128,6 +128,7 @@ function RaceResultController($q, $scope, $routeParams, $location, uiGridConstan
             field: 'judgement',
             displayName: 'Wertung',
             enableCellEdit: true,
+            visible: false
         }, {
             field: 'points',
             displayName: 'Punkte',
